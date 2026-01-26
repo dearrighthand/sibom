@@ -1,0 +1,11 @@
+@theme {
+  --color-brand-primary: #FF8B7D;
+  --color-brand-secondary: #7D9D85;
+  --color-brand-accent: #FFD166;
+  --color-brand-bg: #FDFCFB;
+  --color-brand-text-main: #2D2D2D;
+  --color-brand-text-sub: #666666;
+  
+  /* Font Override */
+  --font-sans: 'Pretendard', sans-serif;
+}

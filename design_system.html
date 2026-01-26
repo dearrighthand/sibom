@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시봄(SIBOM) 디자인 시스템</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #FF8B7D;
+            --secondary: #7D9D85;
+            --accent: #FFD166;
+            --bg: #FDFCFB;
+            --text-main: #2D2D2D;
+            --text-sub: #666666;
+            --border: #E5E5E5;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 시니어 특화 커스텀 스타일 */
+        .senior-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            border-bottom: 4px solid var(--primary);
+        }
+
+        /* 터치 영역 최적화 */
+        input,
+        button {
+            min-height: 56px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- GNB (Global Navigation Bar) -->
+    <nav
+        class="sticky top-0 z-50 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center shadow-sm">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-[#FF8B7D] rounded-xl flex items-center justify-center shadow-inner">
+                <i data-lucide="heart" class="text-white fill-current w-6 h-6"></i>
+            </div>
+            <span class="text-2xl font-black tracking-tight text-[#FF8B7D]">시봄 <span
+                    class="text-gray-400 font-light">SIBOM</span></span>
+        </div>
+
+        <div class="hidden md:flex gap-8">
+            <button onclick="showTab('colors')" id="btn-colors"
+                class="nav-link active capitalize text-lg font-bold px-2 py-1 transition-all">브랜드 컬러</button>
+            <button onclick="showTab('typography')" id="btn-typography"
+                class="nav-link capitalize text-lg font-bold px-2 py-1 transition-all text-gray-400 hover:text-gray-600">타이포그래피</button>
+            <button onclick="showTab('components')" id="btn-components"
+                class="nav-link capitalize text-lg font-bold px-2 py-1 transition-all text-gray-400 hover:text-gray-600">컴포넌트</button>
+            <button onclick="showTab('example')" id="btn-example"
+                class="nav-link capitalize text-lg font-bold px-2 py-1 transition-all text-gray-400 hover:text-gray-600">실제
+                적용 예시</button>
+        </div>
+
+        <button
+            class="flex items-center gap-2 px-6 py-3 rounded-full transition-all active:scale-95 text-[#666666] hover:bg-gray-100 text-lg font-medium">
+            <i data-lucide="settings" class="w-6 h-6"></i> 설정
+        </button>
+    </nav>
+
+    <main class="max-w-5xl mx-auto p-8 pb-32">
+
+        <!-- COLORS SECTION -->
+        <section id="colors" class="tab-content active">
+            <h2 class="text-2xl font-bold leading-snug mb-6 pb-2 border-b-2 border-[#FF8B7D] inline-block">브랜드 컬러 팔레트
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="space-y-4">
+                    <div
+                        class="h-40 bg-[#FF8B7D] rounded-3xl senior-shadow flex items-end p-6 text-white font-bold text-xl">
+                        Blooming Peach</div>
+                    <p class="text-base font-normal text-[#2D2D2D]">#FF8B7D<br />메인 컬러: 따뜻함과 설렘</p>
+                </div>
+                <div class="space-y-4">
+                    <div
+                        class="h-40 bg-[#7D9D85] rounded-3xl senior-shadow flex items-end p-6 text-white font-bold text-xl">
+                        Sage Green</div>
+                    <p class="text-base font-normal text-[#2D2D2D]">#7D9D85<br />보조 컬러: 안정감과 신뢰</p>
+                </div>
+                <div class="space-y-4">
+                    <div
+                        class="h-40 bg-[#FFD166] rounded-3xl senior-shadow flex items-end p-6 text-[#2D2D2D] font-bold text-xl">
+                        Golden Sunset</div>
+                    <p class="text-base font-normal text-[#2D2D2D]">#FFD166<br />강조 컬러: 활력과 에너지</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TYPOGRAPHY SECTION -->
+        <section id="typography" class="tab-content">
+            <h2 class="text-2xl font-bold leading-snug mb-6 pb-2 border-b-2 border-[#FF8B7D] inline-block">시니어 특화 타이포그래피
+            </h2>
+            <div class="bg-white p-10 rounded-3xl border border-gray-100 space-y-12 senior-shadow">
+                <div>
+                    <p class="text-sm font-normal text-gray-500 mb-2">H1 - 페이지 타이틀 (32px)</p>
+                    <h1 class="text-3xl font-bold leading-tight">은퇴 후 제2의 인연을 찾으시나요?</h1>
+                </div>
+                <div>
+                    <p class="text-sm font-normal text-gray-500 mb-2">H2 - 섹션 타이틀 / 강조 문구 (24px)</p>
+                    <h2 class="text-2xl font-bold leading-snug">김영철 님과 잘 어울리는 분들이에요</h2>
+                </div>
+                <div>
+                    <p class="text-sm font-normal text-gray-500 mb-2">Body Large - 강조 텍스트 (18px)</p>
+                    <p class="text-lg font-medium">본인 인증이 완료된 안전한 회원만 소개해 드립니다.</p>
+                </div>
+                <div>
+                    <p class="text-sm font-normal text-gray-500 mb-2">Body Main - 상세 설명 (16px)</p>
+                    <p class="text-base font-normal">산책과 등산을 좋아하며, 주말에는 함께 전시회를 보러 갈 친구를 찾고 있습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPONENTS SECTION -->
+        <section id="components" class="tab-content">
+            <div class="space-y-16">
+                <div>
+                    <h2 class="text-2xl font-bold leading-snug mb-6 pb-2 border-b-2 border-[#FF8B7D] inline-block">버튼
+                        시스템</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <button
+                            class="bg-[#FF8B7D] text-white hover:bg-[#ff7a6a] w-full flex items-center justify-center gap-2 px-8 py-4 rounded-full transition-all active:scale-95 shadow-md text-lg font-medium">
+                            대화 시작하기 (기본)
+                        </button>
+                        <button
+                            class="bg-[#7D9D85] text-white hover:bg-[#6b8c73] w-full flex items-center justify-center gap-2 px-8 py-4 rounded-full transition-all active:scale-95 shadow-md text-lg font-medium">
+                            인연 찾기 (보조)
+                        </button>
+                        <button
+                            class="bg-white border-2 border-[#FF8B7D] text-[#FF8B7D] hover:bg-orange-50 w-full flex items-center justify-center gap-2 px-8 py-4 rounded-full transition-all active:scale-95 shadow-md text-lg font-medium">
+                            프로필 수정하기
+                        </button>
+                        <button
+                            class="bg-transparent text-[#666666] hover:bg-gray-100 flex items-center justify-center gap-2 px-8 py-4 rounded-full transition-all active:scale-95 text-lg font-medium">
+                            <i data-lucide="arrow-left" class="w-6 h-6"></i> 뒤로 가기
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl font-bold leading-snug mb-6 pb-2 border-b-2 border-[#FF8B7D] inline-block">입력 폼
+                        디자인</h2>
+                    <div class="space-y-6 max-w-md">
+                        <div class="space-y-2">
+                            <label class="text-lg font-medium block">성함</label>
+                            <input type="text" placeholder="성함을 입력해주세요"
+                                class="w-full px-6 py-4 rounded-2xl border-2 border-gray-200 focus:border-[#FF8B7D] outline-none text-xl transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-lg font-medium block">주요 관심사 (중복 선택)</label>
+                            <div class="flex flex-wrap gap-3">
+                                <button
+                                    class="px-5 py-2 rounded-full border-2 border-gray-200 hover:border-[#FF8B7D] hover:text-[#FF8B7D] font-bold text-lg transition-colors">산책</button>
+                                <button
+                                    class="px-5 py-2 rounded-full border-2 border-[#FF8B7D] text-[#FF8B7D] font-bold text-lg">등산</button>
+                                <button
+                                    class="px-5 py-2 rounded-full border-2 border-gray-200 hover:border-[#FF8B7D] hover:text-[#FF8B7D] font-bold text-lg transition-colors">골프</button>
+                                <button
+                                    class="px-5 py-2 rounded-full border-2 border-gray-200 hover:border-[#FF8B7D] hover:text-[#FF8B7D] font-bold text-lg transition-colors">요리</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXAMPLE SECTION -->
+        <section id="example" class="tab-content">
+            <h2 class="text-2xl font-bold leading-snug mb-6 pb-2 border-b-2 border-[#FF8B7D] inline-block">추천 인연 카드 예시
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- User Card -->
+                <div
+                    class="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 group transition-transform hover:-translate-y-1">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1544120190-27583f22744c?q=80&w=800&auto=format&fit=crop"
+                            alt="이정숙" class="w-full h-full object-cover">
+                        <div class="absolute bottom-4 left-4 flex gap-2">
+                            <span class="bg-black/50 text-white px-3 py-1 rounded-full text-sm backdrop-blur-sm">신원
+                                인증됨</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold leading-snug">이정숙 (63세)</h3>
+                        <p class="text-base font-normal text-[#666666] mt-2">은퇴 후 서예를 배우고 있는 활동적인 여성입니다.</p>
+
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span
+                                class="bg-[#7D9D85]/10 text-[#7D9D85] px-3 py-1 rounded-lg font-bold flex items-center gap-1">
+                                <i data-lucide="map-pin" class="w-4 h-4"></i> 경기 분당
+                            </span>
+                            <span
+                                class="bg-[#FFD166]/10 text-[#B8860B] px-3 py-1 rounded-lg font-bold flex items-center gap-1">
+                                <i data-lucide="calendar" class="w-4 h-4"></i> 주말 산책 가능
+                            </span>
+                        </div>
+                        <div class="mt-8">
+                            <button
+                                class="bg-[#FF8B7D] text-white hover:bg-[#ff7a6a] w-full flex items-center justify-center gap-2 px-8 py-4 rounded-full transition-all active:scale-95 shadow-md text-lg font-medium">
+                                <i data-lucide="message-circle" class="w-6 h-6"></i> 대화 신청하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Information Box -->
+                <div
+                    class="bg-[#7D9D85]/10 rounded-3xl p-8 flex flex-col justify-center border-2 border-dashed border-[#7D9D85]">
+                    <div class="w-16 h-16 bg-[#7D9D85] rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                        <i data-lucide="check-circle-2" class="text-white w-10 h-10"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold leading-snug">안전한 인연을 위해</h3>
+                    <p class="text-base font-normal text-[#666666] mt-4 leading-relaxed">
+                        시봄(SIBOM)은 모든 회원의 본인 인증을 의무화하고 있습니다. <br />
+                        안전한 대화 환경을 위해 개인 연락처는 서로 신뢰가 쌓인 뒤 공유해 주세요.
+                    </p>
+                    <div class="mt-8">
+                        <button
+                            class="bg-white border-2 border-[#FF8B7D] text-[#FF8B7D] hover:bg-orange-50 px-8 py-3 rounded-full transition-all active:scale-95 shadow-md text-lg font-medium">
+                            보안 정책 자세히 보기
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 모바일 하단 탭 바 (UX 핵심) -->
+    <div
+        class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-8 py-4 md:hidden flex justify-between items-center z-50">
+        <div class="flex flex-col items-center text-[#FF8B7D]">
+            <i data-lucide="home" class="w-7 h-7"></i>
+            <span class="text-xs font-bold mt-1">홈</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <i data-lucide="search" class="w-7 h-7"></i>
+            <span class="text-xs font-bold mt-1">인연찾기</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <i data-lucide="message-circle" class="w-7 h-7"></i>
+            <span class="text-xs font-bold mt-1">대화</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <i data-lucide="user" class="w-7 h-7"></i>
+            <span class="text-xs font-bold mt-1">내정보</span>
+        </div>
+    </div>
+
+    <script>
+        // Lucide 아이콘 초기화
+        lucide.createIcons();
+
+        // 탭 전환 로직
+        function showTab(tabId) {
+            // 모든 탭 컨텐츠 숨기기
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // 모든 네비게이션 버튼 비활성화
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                link.classList.add('text-gray-400');
+            });
+
+            // 선택한 탭 보이기
+            document.getElementById(tabId).classList.add('active');
+
+            // 선택한 버튼 활성화
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.add('active');
+            activeBtn.classList.remove('text-gray-400');
+        }
+    </script>
+</body>
+
+</html>
