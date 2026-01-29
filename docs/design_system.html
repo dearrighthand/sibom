@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시봄(SIBOM) 디자인 시스템</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #FF8B7D;
+            --secondary: #7D9D85;
+            --accent: #FFD166;
+            --bg: #FDFCFB;
+            --text-main: #2D2D2D;
+            --text-sub: #666666;
+            --border: #E5E5E5;
+            --success: #7D9D85;
+            --error: #EF4444;
+            --info: #3B82F6;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 시니어 특화 커스텀 스타일 */
+        .senior-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            border-bottom: 4px solid var(--primary);
+        }
+
+        /* 터치 영역 최적화 */
+        input,
+        button,
+        select {
+            min-height: 56px;
+        }
+
+        /* 인증번호 박스 스타일 */
+        .otp-input {
+            width: 50px;
+            height: 64px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: white;
+        }
+
+        .otp-input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        /* 커스텀 라디오 & 체크박스 */
+        .custom-radio:checked+label .radio-dot {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .custom-checkbox:checked+label .check-box {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        /* Toast 애니메이션 */
+        #toast-container {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .toast {
+            animation: slideDown 0.3s ease-out;
+            pointer-events: auto;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .toast.hiding {
+            animation: fadeOut 0.3s ease-in forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Select 커스텀 화살표 */
+        .custom-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23666666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1.5rem center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="flex flex-col gap-3 items-center w-full max-w-sm px-4"></div>
+
+    <!-- GNB (Global Navigation Bar) -->
+    <nav
+        class="sticky top-0 z-50 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center shadow-sm">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-[#FF8B7D] rounded-xl flex items-center justify-center shadow-inner">
+                <i data-lucide="heart" class="text-white fill-current w-6 h-6"></i>
+            </div>
+            <span class="text-2xl font-black tracking-tight text-[#FF8B7D]">시봄 <span
+                    class="text-gray-400 font-light">SIBOM</span></span>
+        </div>
+
+        <div class="hidden md:flex gap-8">
+            <button onclick="showTab('colors')" id="btn-colors"
+                class="nav-link active capitalize text-lg font-bold px-2 py-1 transition-all">브랜드 컬러</button>
+            <button onclick="showTab('typography')" id="btn-typography"
+                class="nav-link capitalize text-lg font-bold px-2 py-1 transition-all text-gray-400 hover:text-gray-600">타이포그래피</button>
+            <button onclick="showTab('components')" id="btn-components"
+                class="nav-link capitalize text-lg font-bold px-2 py-1 transition-all text-gray-400 hover:text-gray-600">컴포넌트</button>
+            <button onclick="showTab('example')" id="btn-example"
+                class="nav-link capitalize text-lg font-bold px-2 py-1 transition-all text-gray-400 hover:text-gray-600">실제
+                적용 예시</button>
+        </div>
+
+        <button
+            class="flex items-center gap-2 px-6 py-3 rounded-full transition-all active:scale-95 text-[#666666] hover:bg-gray-100 text-lg font-medium">
+            <i data-lucide="settings" class="w-6 h-6"></i> 설정
+        </button>
+    </nav>
+
+    <main class="max-w-5xl mx-auto p-8 pb-32">
+
+        <!-- COLORS SECTION -->
+        <section id="colors" class="tab-content active">
+            <h2 class="text-2xl font-bold leading-snug mb-6 pb-2 border-b-2 border-[#FF8B7D] inline-block">브랜드 컬러 팔레트
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="space-y-4">
+                    <div
+                        class="h-40 bg-[#FF8B7D] rounded-3xl senior-shadow flex items-end p-6 text-white font-bold text-xl">
+                        Blooming Peach</div>
+                    <p class="text-base font-normal text-[#2D2D2D]">#FF8B7D<br />메인 컬러: 따뜻함과 설렘</p>
+                </div>
+                <div class="space-y-4">
+                    <div
+                        class="h-40 bg-[#7D9D85] rounded-3xl senior-shadow flex items-end p-6 text-white font-bold text-xl">
+                        Sage Green</div>
+                    <p class="text-base font-normal text-[#2D2D2D]">#7D9D85<br />보조 컬러: 안정감과 신뢰</p>
+                </div>
+                <div class="space-y-4">
+                    <div
+                        class="h-40 bg-[#FFD166] rounded-3xl senior-shadow flex items-end p-6 text-[#2D2D2D] font-bold text-xl">
+                        Golden Sunset</div>
+                    <p class="text-base font-normal text-[#2D2D2D]">#FFD166<br />강조 컬러: 활력과 에너지</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TYPOGRAPHY SECTION -->
+        <section id="typography" class="tab-content">
+            <h2 class="text-2xl font-bold leading-snug mb-6 pb-2 border-b-2 border-[#FF8B7D] inline-block">시니어 특화 타이포그래피
+            </h2>
+            <div class="bg-white p-10 rounded-3xl border border-gray-100 space-y-12 senior-shadow">
+                <div>
+                    <p class="text-sm font-normal text-gray-500 mb-2">H1 - 페이지 타이틀 (32px)</p>
+                    <h1 class="text-3xl font-bold leading-tight">은퇴 후 제2의 인연을 찾으시나요?</h1>
+                </div>
+                <div>
+                    <p class="text-sm font-normal text-gray-500 mb-2">H2 - 섹션 타이틀 / 강조 문구 (24px)</p>
+                    <h2 class="text-2xl font-bold leading-snug">김영철 님과 잘 어울리는 분들이에요</h2>
+                </div>
+                <div>
+                    <p class="text-sm font-normal text-gray-500 mb-2">Body Large - 강조 텍스트 (18px)</p>
+                    <p class="text-lg font-medium">본인 인증이 완료된 안전한 회원만 소개해 드립니다.</p>
+                </div>
+                <div>
+                    <p class="text-sm font-normal text-gray-500 mb-2">Body Main - 상세 설명 (16px)</p>
+                    <p class="text-base font-normal">산책과 등산을 좋아하며, 주말에는 함께 전시회를 보러 갈 친구를 찾고 있습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPONENTS SECTION -->
+        <section id="components" class="tab-content">
+            <div class="space-y-16">
+                <!-- Icon System -->
+                <div>
+                    <h2 class="text-2xl font-bold leading-snug mb-6 pb-2 border-b-2 border-[#FF8B7D] inline-block">서비스
+                        핵심 아이콘</h2>
+                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-6">
+                        <div
+                            class="bg-white p-6 rounded-3xl border border-gray-100 flex flex-col items-center gap-3 senior-shadow">
+                            <i data-lucide="arrow-left" class="w-10 h-10 text-[#2D2D2D]"></i>
+                            <span class="text-base font-bold">뒤로가기</span>
+                        </div>
+                        <div
+                            class="bg-white p-6 rounded-3xl border border-gray-100 flex flex-col items-center gap-3 senior-shadow">
+                            <i data-lucide="bell" class="w-10 h-10 text-[#FF8B7D]"></i>
+                            <span class="text-base font-bold">알림</span>
+                        </div>
+                        <div
+                            class="bg-white p-6 rounded-3xl border border-gray-100 flex flex-col items-center gap-3 senior-shadow">
+                            <i data-lucide="shield-check" class="w-10 h-10 text-[#7D9D85]"></i>
+                            <span class="text-base font-bold">안전인증</span>
+                        </div>
+                        <div
+                            class="bg-white p-6 rounded-3xl border border-gray-100 flex flex-col items-center gap-3 senior-shadow">
+                            <i data-lucide="camera" class="w-10 h-10 text-gray-400"></i>
+                            <span class="text-base font-bold">사진등록</span>
+                        </div>
+                        <div
+                            class="bg-white p-6 rounded-3xl border border-gray-100 flex flex-col items-center gap-3 senior-shadow">
+                            <i data-lucide="message-square" class="w-10 h-10 text-[#3B82F6]"></i>
+                            <span class="text-base font-bold">1:1 대화</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Select with Bottom Sheet (Image f452de Reference) -->
+                <div>
+                    <h2 class="text-2xl font-bold leading-snug mb-6 pb-2 border-b-2 border-[#FF8B7D] inline-block">바텀
+                        시트형 선택 (Select)</h2>
+                    <p class="text-sm font-normal text-gray-500 mb-6">입력란 터치 시 화면 하단에서 선택지가 올라옵니다.</p>
+                    <div class="grid grid-cols-3 gap-4 max-w-xl">
+                        <div onclick="openBottomSheet('생년월일 선택', 'date')"
+                            class="bg-white p-5 rounded-3xl border-2 border-gray-100 cursor-pointer hover:border-[#FF8B7D] transition-all senior-shadow">
+                            <span class="text-gray-400 text-sm block mb-1">년도</span>
+                            <span class="text-2xl font-bold">1958<span class="text-sm font-normal ml-1">년</span></span>
+                        </div>
+                        <div onclick="openBottomSheet('월 선택', 'month')"
+                            class="bg-white p-5 rounded-3xl border-2 border-gray-100 cursor-pointer hover:border-[#FF8B7D] transition-all senior-shadow">
+                            <span class="text-gray-400 text-sm block mb-1">월</span>
+                            <span class="text-2xl font-bold">5<span class="text-sm font-normal ml-1">월</span></span>
+                        </div>
+                        <div onclick="openBottomSheet('일 선택', 'day')"
+                            class="bg-white p-5 rounded-3xl border-2 border-gray-100 cursor-pointer hover:border-[#FF8B7D] transition-all senior-shadow">
+                            <span class="text-gray-400 text-sm block mb-1">일</span>
+                            <span class="text-2xl font-bold">12<span class="text-sm font-normal ml-1">일</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Button Style Checkboxes (Image f45012 Reference) -->
+                <div>
+                    <h2 class="text-2xl font-bold leading-snug mb-6 pb-2 border-b-2 border-[#FF8B7D] inline-block">버튼형
+                        체크박스 (Grid)</h2>
+                    <p class="text-sm font-normal text-gray-500 mb-6">아이콘과 텍스트가 결합된 큰 카드 형태의 다중 선택입니다.</p>
+                    <div class="grid grid-cols-2 gap-4 max-w-xl">
+                        <input type="checkbox" id="int-1" class="checkbox-card hidden">
+                        <label for="int-1"
+                            class="flex flex-col items-center justify-center p-8 rounded-3xl border-2 border-gray-100 bg-white cursor-pointer transition-all senior-shadow text-center">
+                            <span class="text-4xl mb-3">🚶</span>
+                            <span class="text-xl font-bold">산책/등산</span>
+                        </label>
+
+                        <input type="checkbox" id="int-2" class="checkbox-card hidden" checked>
+                        <label for="int-2"
+                            class="flex flex-col items-center justify-center p-8 rounded-3xl border-2 border-gray-100 bg-white cursor-pointer transition-all senior-shadow text-center">
+                            <span class="text-4xl mb-3">🎵</span>
+                            <span class="text-xl font-bold">음악감상</span>
+                        </label>
+
+                        <input type="checkbox" id="int-3" class="checkbox-card hidden" checked>
+                        <label for="int-3"
+                            class="flex flex-col items-center justify-center p-8 rounded-3xl border-2 border-gray-100 bg-white cursor-pointer transition-all senior-shadow text-center">
+                            <span class="text-4xl mb-3">👶</span>
+                            <span class="text-xl font-bold">손주 돌보기</span>
+                        </label>
+
+                        <input type="checkbox" id="int-4" class="checkbox-card hidden">
+                        <label for="int-4"
+                            class="flex flex-col items-center justify-center p-8 rounded-3xl border-2 border-gray-100 bg-white cursor-pointer transition-all senior-shadow text-center">
+                            <span class="text-4xl mb-3">🎨</span>
+                            <span class="text-xl font-bold">미술/전시</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- List Style Radio (Image f44f75 Reference) -->
+                <div>
+                    <h2 class="text-2xl font-bold leading-snug mb-6 pb-2 border-b-2 border-[#FF8B7D] inline-block">리스트형
+                        라디오 버튼</h2>
+                    <p class="text-sm font-normal text-gray-500 mb-6">명확한 설명과 아이콘이 포함된 행 단위 단일 선택입니다.</p>
+                    <div class="space-y-4 max-w-xl">
+                        <div>
+                            <input type="radio" name="meet-type" id="type-1" class="radio-list-item hidden" checked>
+                            <label for="type-1"
+                                class="flex items-center justify-between p-6 rounded-3xl border-2 border-gray-100 bg-white cursor-pointer transition-all senior-shadow">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center">
+                                        <i data-lucide="music" class="w-6 h-6 text-gray-400"></i>
+                                    </div>
+                                    <span class="text-xl font-bold">같이 취미를 즐길 친구</span>
+                                </div>
+                                <div
+                                    class="radio-circle w-7 h-7 rounded-full border-2 border-gray-200 flex items-center justify-center transition-all">
+                                </div>
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" name="meet-type" id="type-2" class="radio-list-item hidden">
+                            <label for="type-2"
+                                class="flex items-center justify-between p-6 rounded-3xl border-2 border-gray-100 bg-white cursor-pointer transition-all senior-shadow">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center">
+                                        <i data-lucide="message-circle" class="w-6 h-6 text-gray-400"></i>
+                                    </div>
+                                    <span class="text-xl font-bold">대화를 나눌 수 있는 동반자</span>
+                                </div>
+                                <div
+                                    class="radio-circle w-7 h-7 rounded-full border-2 border-gray-200 flex items-center justify-center transition-all">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- EXAMPLE SECTION -->
+        <section id="example" class="tab-content">
+            <h2 class="text-2xl font-bold leading-snug mb-6 pb-2 border-b-2 border-[#FF8B7D] inline-block">실제 적용 예시</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                <!-- User Card -->
+                <div
+                    class="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 group transition-transform hover:-translate-y-1">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1544120190-27583f22744c?q=80&w=800&auto=format&fit=crop"
+                            alt="이정숙" class="w-full h-full object-cover">
+                        <div class="absolute bottom-4 left-4 flex gap-2">
+                            <span class="bg-black/50 text-white px-3 py-1 rounded-full text-sm backdrop-blur-sm">신원
+                                인증됨</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold leading-snug">이정숙 (63세)</h3>
+                        <p class="text-base font-normal text-[#666666] mt-2">은퇴 후 서예를 배우고 있는 활동적인 여성입니다.</p>
+
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span
+                                class="bg-[#7D9D85]/10 text-[#7D9D85] px-3 py-1 rounded-lg font-bold flex items-center gap-1">
+                                <i data-lucide="map-pin" class="w-4 h-4"></i> 경기 분당
+                            </span>
+                            <span
+                                class="bg-[#FFD166]/10 text-[#B8860B] px-3 py-1 rounded-lg font-bold flex items-center gap-1">
+                                <i data-lucide="calendar" class="w-4 h-4"></i> 주말 산책 가능
+                            </span>
+                        </div>
+                        <div class="mt-8">
+                            <button
+                                class="bg-[#FF8B7D] text-white hover:bg-[#ff7a6a] w-full flex items-center justify-center gap-2 px-8 py-4 rounded-full transition-all active:scale-95 shadow-md text-lg font-medium">
+                                <i data-lucide="message-circle" class="w-6 h-6"></i> 대화 신청하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phone Verification Example -->
+                <div class="bg-white rounded-3xl p-8 shadow-lg border border-gray-100">
+                    <div class="flex items-center gap-4 mb-8">
+                        <button class="text-gray-400 hover:text-[#2D2D2D]"><i data-lucide="arrow-left"
+                                class="w-8 h-8"></i></button>
+                        <h3 class="text-2xl font-bold leading-snug">본인 인증</h3>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-xl font-bold mb-4">휴대폰 번호를 인증해 주세요</p>
+                            <input type="text" value="010-1234-5678"
+                                class="w-full px-6 py-4 rounded-2xl border-2 border-[#FF8B7D] outline-none text-2xl font-bold tracking-wider mb-4">
+                            <button
+                                class="bg-[#FF8B7D] text-white w-full py-4 rounded-full text-xl font-bold senior-shadow">인증번호
+                                받기</button>
+                        </div>
+
+                        <div class="pt-8 border-t-2 border-dashed border-gray-100">
+                            <div class="flex justify-between items-end mb-4">
+                                <p class="text-lg font-medium text-[#666666]">인증번호 입력</p>
+                                <p class="text-xl font-bold text-red-500">3분 00초 남음</p>
+                            </div>
+                            <div class="flex justify-between gap-2">
+                                <input type="text" class="otp-input border-[#FF8B7D]" value="5">
+                                <input type="text" class="otp-input" placeholder="-">
+                                <input type="text" class="otp-input" placeholder="-">
+                                <input type="text" class="otp-input" placeholder="-">
+                                <input type="text" class="otp-input" placeholder="-">
+                                <input type="text" class="otp-input" placeholder="-">
+                            </div>
+                        </div>
+
+                        <button
+                            class="bg-[#7D9D85] text-white w-full py-5 rounded-full text-2xl font-bold senior-shadow mt-4">인증
+                            완료</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 모바일 하단 탭 바 (UX 핵심) -->
+    <div
+        class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-8 py-4 md:hidden flex justify-between items-center z-50">
+        <div class="flex flex-col items-center text-[#FF8B7D]">
+            <i data-lucide="home" class="w-7 h-7"></i>
+            <span class="text-xs font-bold mt-1">홈</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <i data-lucide="search" class="w-7 h-7"></i>
+            <span class="text-xs font-bold mt-1">인연찾기</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <i data-lucide="message-circle" class="w-7 h-7"></i>
+            <span class="text-xs font-bold mt-1">대화</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <i data-lucide="user" class="w-7 h-7"></i>
+            <span class="text-xs font-bold mt-1">내정보</span>
+        </div>
+    </div>
+
+    <script>
+        // Lucide 아이콘 초기화
+        lucide.createIcons();
+
+        // 탭 전환 로직
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                link.classList.add('text-gray-400');
+            });
+            document.getElementById(tabId).classList.add('active');
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.add('active');
+            activeBtn.classList.remove('text-gray-400');
+        }
+
+        // Toast 알림 시스템
+        function triggerToast(type, message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+
+            const bgColor = type === 'success' ? 'bg-[#7D9D85]' : 'bg-red-500';
+            const iconName = type === 'success' ? 'check-circle' : 'alert-circle';
+
+            toast.className = `${bgColor} text-white px-8 py-5 rounded-3xl senior-shadow flex items-center gap-4 min-w-[320px] toast mb-2`;
+            toast.innerHTML = `
+                <i data-lucide="${iconName}" class="w-8 h-8"></i>
+                <span class="text-xl font-bold">${message}</span>
+            `;
+
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            // 3초 후 제거
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>
