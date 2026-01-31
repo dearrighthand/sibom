@@ -4,16 +4,16 @@ import { FAQ, Prisma } from '@prisma/client';
 
 @Injectable()
 export class FaqsService {
-    constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
-    async create(data: Prisma.FAQCreateInput): Promise<FAQ> {
-        return this.prisma.fAQ.create({ data });
-    }
+  async create(data: Prisma.FAQCreateInput): Promise<FAQ> {
+    return this.prisma.fAQ.create({ data });
+  }
 
-    async findAll(): Promise<FAQ[]> {
-        return this.prisma.fAQ.findMany({
-            where: { isVisible: true },
-            orderBy: { order: 'asc' },
-        });
-    }
+  async findAll(): Promise<FAQ[]> {
+    return this.prisma.fAQ.findMany({
+      where: { isVisible: true },
+      orderBy: { order: 'asc' },
+    });
+  }
 }

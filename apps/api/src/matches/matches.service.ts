@@ -4,9 +4,9 @@ import { Match, Prisma } from '@prisma/client';
 
 @Injectable()
 export class MatchesService {
-    constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
-    async create(data: Prisma.MatchCreateInput): Promise<Match> {
-        return this.prisma.match.create({ data });
-    }
+  async create(data: Prisma.MatchCreateInput): Promise<Match> {
+    return this.prisma.match.create({ data });
+  }
 }

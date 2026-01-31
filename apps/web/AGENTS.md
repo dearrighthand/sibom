@@ -1,14 +1,17 @@
 # Project Context & Operations
 
 ## Business Goal
+
 **시봄(SIBOM)**은 60대 이상 액티브 시니어를 대상으로 하는 프리미엄 데이팅 서비스입니다. 단순한 만남을 넘어 '정서적 동반자'를 찾는 것에 집중하며, 시니어의 디지털 문해력을 고려한 고대비/대형 UI와 철저한 신원 인증을 통한 신뢰 구축을 핵심 가치로 합니다.
 
 ## Key Features:
+
 - 안심 매칭: AI 기반 성향/관심사 분석 및 본인 인증 기반 사용자 연결.
 - 시니어 친화 UI: 최소 18px 이상의 폰트, 바텀 시트 기반 선택 시스템.
 - 느린 호흡의 대화: AI 대화 가이드를 통한 어색함 해소 및 정서적 교감 지원.
 
 ## Tech Stack
+
 - Monorepo: Turborepo
 - Frontend: Next.js (App Router), Tailwind CSS, Shadcn UI
 - Backend: Node.js, Nest.js, Prisma

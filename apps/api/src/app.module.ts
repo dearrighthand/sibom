@@ -9,8 +9,11 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { MeetingProposalsModule } from './meeting-proposals/meeting-proposals.module';
 import { FaqsModule } from './faqs/faqs.module';
 import { InquiriesModule } from './inquiries/inquiries.module';
+import { LocationsModule } from './locations/locations.module';
+import { AiModule } from './ai/ai.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UploadsModule } from './uploads/uploads.module';
 
 @Module({
   imports: [
@@ -24,8 +27,11 @@ import { AppService } from './app.service';
     MeetingProposalsModule,
     FaqsModule,
     InquiriesModule,
+    LocationsModule,
+    AiModule,
+    UploadsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

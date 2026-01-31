@@ -4,9 +4,9 @@ import { Message, Prisma } from '@prisma/client';
 
 @Injectable()
 export class MessagesService {
-    constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
-    async create(data: Prisma.MessageCreateInput): Promise<Message> {
-        return this.prisma.message.create({ data });
-    }
+  async create(data: Prisma.MessageCreateInput): Promise<Message> {
+    return this.prisma.message.create({ data });
+  }
 }

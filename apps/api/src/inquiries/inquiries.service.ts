@@ -4,9 +4,9 @@ import { Inquiry, Prisma } from '@prisma/client';
 
 @Injectable()
 export class InquiriesService {
-    constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
-    async create(data: Prisma.InquiryCreateInput): Promise<Inquiry> {
-        return this.prisma.inquiry.create({ data });
-    }
+  async create(data: Prisma.InquiryCreateInput): Promise<Inquiry> {
+    return this.prisma.inquiry.create({ data });
+  }
 }
