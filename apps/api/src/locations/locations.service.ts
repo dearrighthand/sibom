@@ -1,5 +1,16 @@
 import { Injectable, Logger } from '@nestjs/common';
 
+export interface LocationItem {
+  code: string;
+  name: string;
+}
+
+interface LocationApiResponse {
+  resultCode: string;
+  resultMessage: string;
+  data: LocationItem[];
+}
+
 @Injectable()
 export class LocationsService {
   private readonly logger = new Logger(LocationsService.name);
@@ -14,7 +25,7 @@ export class LocationsService {
     { code: '41', name: '경기도' },
   ];
 
-  private readonly MOCK_DISTRICTS = {
+  private readonly MOCK_DISTRICTS: Record<string, LocationItem[]> = {
     '11': [
       { code: '11680', name: '강남구' },
       { code: '11650', name: '서초구' },
@@ -29,11 +40,10 @@ export class LocationsService {
     ],
   };
 
-  async getProvinces() {
+  async getProvinces(): Promise<LocationItem[]> {
     try {
       if (!this.API_KEY) throw new Error('No API Key');
 
-      // GET /api/hj/list.do?degree=20250101
       const url = `${this.ENDPOINT}/list.do?degree=20250101`;
 
       const response = await fetch(url, {
@@ -50,31 +60,29 @@ export class LocationsService {
         throw new Error(`API Error: ${response.status}`);
       }
 
-      const data = await response.json();
+      const data = (await response.json()) as LocationApiResponse;
 
-      // API returns { resultCode: "0000", resultMessage: "Success", data: [...] }
       if (data.resultCode === '0000' && Array.isArray(data.data)) {
         return data.data;
       }
 
-      // If response format is unexpected
       this.logger.warn(
         `API returned unexpected format: ${JSON.stringify(data)}`,
       );
       return this.MOCK_PROVINCES;
     } catch (error) {
+      const err = error as Error;
       this.logger.warn(
-        `Failed to fetch provinces from API: ${error.message}. Using fallback data.`,
+        `Failed to fetch provinces from API: ${err.message}. Using fallback data.`,
       );
       return this.MOCK_PROVINCES;
     }
   }
 
-  async getDistricts(provinceCode: string) {
+  async getDistricts(provinceCode: string): Promise<LocationItem[]> {
     try {
       if (!this.API_KEY) throw new Error('No API Key');
 
-      // GET /api/hj/list/{highCode}.do?degree=20250101
       const url = `${this.ENDPOINT}/list/${provinceCode}.do?degree=20250101`;
 
       const response = await fetch(url, {
@@ -91,7 +99,7 @@ export class LocationsService {
         throw new Error(`API Error: ${response.status}`);
       }
 
-      const data = await response.json();
+      const data = (await response.json()) as LocationApiResponse;
 
       if (data.resultCode === '0000' && Array.isArray(data.data)) {
         return data.data;
@@ -99,15 +107,14 @@ export class LocationsService {
 
       return this.getFallbackDistricts(provinceCode);
     } catch (error) {
-      this.logger.warn(`Failed to fetch districts: ${error.message}`);
+      const err = error as Error;
+      this.logger.warn(`Failed to fetch districts: ${err.message}`);
       return this.getFallbackDistricts(provinceCode);
     }
   }
 
   private getFallbackDistricts(provinceCode: string) {
-    const districts =
-      this.MOCK_DISTRICTS[provinceCode as keyof typeof this.MOCK_DISTRICTS] ||
-      [];
+    const districts = this.MOCK_DISTRICTS[provinceCode] || [];
     if (districts.length === 0 && provinceCode) {
       // Generic mock for others
       return [{ code: `${provinceCode}001`, name: '일반구' }];

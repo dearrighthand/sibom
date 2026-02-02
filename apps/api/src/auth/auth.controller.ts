@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Request,
-  Post,
-  UseGuards,
-  Body,
-  Get,
-  ConflictException,
-} from '@nestjs/common';
+import { Controller, Post, Body, ConflictException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
 import { PhoneVerificationService } from './phone-verification.service';
@@ -27,7 +19,7 @@ export class AuthController {
   ) {}
 
   @Post('login')
-  async login(@Body() req) {
+  async login(@Body() req: { email: string; password: string }) {
     // In a real app, use LocalAuthGuard. Here assuming `req` contains email/password
     // But wait, `login` service expects a user object (result of validation).
     // Let's assume validation happens here for simplicity or use a Guard.
@@ -36,11 +28,13 @@ export class AuthController {
     if (!user) {
       return { message: 'Invalid credentials' }; // Or throw Unauthorized
     }
-    return this.authService.login(user);
+    return this.authService.login(user as import('@prisma/client').User);
   }
 
   @Post('register')
-  async register(@Body() createUserDto: any) {
+  async register(
+    @Body() createUserDto: Parameters<AuthService['register']>[0],
+  ) {
     return this.authService.register(createUserDto);
   }
 

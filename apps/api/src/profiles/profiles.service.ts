@@ -15,4 +15,14 @@ export class ProfilesService {
       where: { userId },
     });
   }
+
+  async update(
+    userId: string,
+    data: Prisma.ProfileUpdateInput,
+  ): Promise<Profile> {
+    return this.prisma.profile.update({
+      where: { userId },
+      data,
+    });
+  }
 }

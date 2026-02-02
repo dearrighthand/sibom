@@ -24,6 +24,7 @@ enum MatchStatus {
   PENDING
   ACCEPTED
   REJECTED
+  CANCELLED
 }
 
 enum MessageType {
@@ -49,12 +50,19 @@ model User {
   sentMessages     Message[] @relation("Sender")
   receivedMessages Message[] @relation("Receiver")
 
+  blockedUsers    Block[] @relation("Blocker")
+  blockedBy       Block[] @relation("Blocked")
+  reportsSent     Report[] @relation("Reporter")
+  reportsReceived Report[] @relation("Reported")
+
   subscription Subscription?
   inquiries    Inquiry[]
 
   sentProposals     MeetingProposal[] @relation("ProposalSender")
   receivedProposals MeetingProposal[] @relation("ProposalReceiver")
   meetingProposals  MeetingProposal[]
+
+  notifications     Notification[]
 }
 
 model Profile {
@@ -223,4 +231,58 @@ model PhoneVerification {
 
   @@index([phone, status]) // 휴대폰 번호로 조회 최적화
   @@index([expiresAt]) // 만료된 레코드 정리용
+}
+
+enum NotificationType {
+  MATCH
+  MESSAGE
+  SYSTEM
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id])
+  
+  type      NotificationType
+  content   String
+  metadata  Json?            // e.g. { senderId: "..." }
+  isRead    Boolean          @default(false)
+
+  createdAt DateTime         @default(now())
+}
+
+model DailyRecommendation {
+  id        String   @id @default(uuid())
+  userId    String
+  date      String   // YYYY-MM-DD
+  
+  recommendedIds String[] // IDs of profiles shown today
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([userId, date])
+}
+
+model Block {
+  id        String   @id @default(uuid())
+  blockerId String
+  blocker   User     @relation("Blocker", fields: [blockerId], references: [id])
+  blockedId String
+  blocked   User     @relation("Blocked", fields: [blockedId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([blockerId, blockedId])
+}
+
+model Report {
+  id         String   @id @default(uuid())
+  reporterId String
+  reporter   User     @relation("Reporter", fields: [reporterId], references: [id])
+  targetId   String
+  target     User     @relation("Reported", fields: [targetId], references: [id])
+  reason     String   @db.Text
+  status     String   @default("PENDING") // PENDING, RESOLVED
+  createdAt  DateTime @default(now())
 }

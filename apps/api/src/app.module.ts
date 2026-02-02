@@ -14,6 +14,7 @@ import { AiModule } from './ai/ai.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UploadsModule } from './uploads/uploads.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { UploadsModule } from './uploads/uploads.module';
     LocationsModule,
     AiModule,
     UploadsModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

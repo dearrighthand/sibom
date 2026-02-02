@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  UnauthorizedException,
-  ConflictException,
-} from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -14,26 +10,41 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, pass: string): Promise<any> {
+  async validateUser(
+    email: string,
+    pass: string,
+  ): Promise<Omit<import('@prisma/client').User, 'password'> | null> {
     const user = await this.usersService.findOne(email);
     if (user && user.password && (await bcrypt.compare(pass, user.password))) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = user;
       return result;
     }
     return null;
   }
 
-  async login(user: any) {
+  async login(user: import('@prisma/client').User) {
     const payload = { username: user.email, sub: user.id };
-    return {
+    return Promise.resolve({
       access_token: this.jwtService.sign(payload),
-    };
+      user,
+    });
   }
 
-  async register(data: any) {
-    // data structure expected:
-    // { phone, name, birthYear, gender, location, intro, hobbies, meetingType, profileImage }
-
+  async register(data: {
+    phone: string;
+    email?: string;
+    password?: string;
+    name: string;
+    birthYear: number;
+    gender: string;
+    locMain: { name: string };
+    locSub: { name: string };
+    intro?: string;
+    hobbies?: string[];
+    meetingType?: string;
+    profileImage?: string;
+  }) {
     // Check if user exists by phone
     const existingUser = await this.usersService.findOneByPhone(data.phone);
     if (existingUser) {
@@ -54,15 +65,15 @@ export class AuthService {
 
     const user = await this.usersService.create({
       phone: data.phone,
-      email: data.email, // Add email
-      password: hashedPassword, // Add hashed password
+      email: data.email,
+      password: hashedPassword,
       role: 'USER',
       profile: {
         create: {
           name: data.name,
           birthYear: data.birthYear,
-          gender: data.gender?.toUpperCase(),
-          location: `${data.locMain?.name} ${data.locSub?.name}`,
+          gender: data.gender.toUpperCase() as import('@prisma/client').Gender,
+          location: `${data.locMain.name} ${data.locSub.name}`,
           bio: data.intro,
           interests: data.hobbies,
           meetingType: data.meetingType,
