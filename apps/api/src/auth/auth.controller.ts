@@ -1,14 +1,17 @@
-import { Controller, Post, Body, ConflictException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Patch,
+  Body,
+  ConflictException,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
 import { PhoneVerificationService } from './phone-verification.service';
 import { SendVerificationCodeDto } from './dto/send-verification-code.dto';
 import { VerifyCodeDto } from './dto/verify-code.dto';
 import { CheckEmailDto } from './dto/check-email.dto';
-
-// import { AuthGuard } from '@nestjs/passport'; // We'll add LocalAuthGuard later if needed, or just manual logic for now
-// For simplicity in this iteration, we might use manual validation in the service or just pass DTOs.
-// But usually one uses LocalStrategy for login. Let's keep it simple: POST /auth/login accepts body.
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -65,6 +68,12 @@ export class AuthController {
       verifyCodeDto.code,
     );
     return { verified: isVerified };
+  }
+
+  @Patch('password')
+  async changePassword(@Body() changePasswordDto: ChangePasswordDto) {
+    await this.authService.changePassword(changePasswordDto);
+    return { message: 'Password changed successfully' };
   }
 
   // Example protected route

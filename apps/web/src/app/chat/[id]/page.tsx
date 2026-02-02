@@ -74,10 +74,42 @@ export default function ChatRoomPage() {
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
+  // Profanity/inappropriate language filter
+  const PROFANITY_LIST = [
+    // Common Korean profanity
+    '시발', '씨발', '씨빨', '시빨', '씨바', '시바',
+    '병신', '븅신', '빙신',
+    '지랄', '찐따', '찐다',
+    '개새끼', '개색끼', '개세끼', '개쉐끼',
+    '미친놈', '미친년', '미친새끼',
+    '죽어', '뒤져', '꺼져',
+    '년', '놈', // When used offensively
+    '새끼', '색끼', '쉐끼',
+    '썅', '좆', '자지', '보지',
+    'ㅅㅂ', 'ㅂㅅ', 'ㅈㄹ', 'ㅆㅂ',
+    '18', '18놈', '18년',
+    '닥쳐', '입닥쳐',
+    '븅딱', '에미', '애미', '애비', '에비',
+  ];
+
+  const containsProfanity = (text: string): boolean => {
+    const normalizedText = text.toLowerCase().replace(/\s/g, '');
+    return PROFANITY_LIST.some((word) => normalizedText.includes(word));
+  };
+
   const handleSendMessage = async () => {
     if (!inputText.trim() || !matchId) return;
     const userId = localStorage.getItem('userId');
     if (!userId) return;
+
+    // Check for profanity
+    if (containsProfanity(inputText)) {
+      await alert(
+        '부적절한 표현 감지',
+        '비속어나 욕설이 포함된 메시지는 보낼 수 없어요.\n서로 존중하는 대화를 부탁드려요. 💚'
+      );
+      return;
+    }
 
     try {
         const content = inputText;

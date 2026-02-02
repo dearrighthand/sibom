@@ -47,6 +47,7 @@ export class MatchesService {
       (interestCodes && interestCodes.length > 0);
 
     let targetIds: string[] = [];
+    let cachedReasons: Record<string, string> = {};
 
     // 2. DAILY RECOMMENDATION LOGIC (Only if NOT filtering)
     if (!isFiltering) {
@@ -61,6 +62,13 @@ export class MatchesService {
 
       if (dailyRec) {
         targetIds = dailyRec.recommendedIds;
+        // Load cached AI reasons
+        if (dailyRec.metadata && typeof dailyRec.metadata === 'object') {
+          cachedReasons = dailyRec.metadata as Record<string, string>;
+        }
+        console.log(
+          `[Cache HIT] Using cached recommendations for ${userId} on ${todayDate}`,
+        );
       }
     }
 
@@ -110,22 +118,36 @@ export class MatchesService {
         };
       }
 
-      const candidates = await this.prisma.profile.findMany({
+      // Fetch a larger pool of candidates for randomization
+      const allCandidates = await this.prisma.profile.findMany({
         where: whereClause,
-        take: isFiltering ? 20 : 6, // Fetch more if filtering
+        take: 50, // Fetch larger pool to enable random selection
       });
 
-      console.log(`Found ${candidates.length} candidates with filters:`, {
-        ageMin,
-        ageMax,
-        distance,
-        interestCodes,
-      });
+      // Shuffle candidates randomly using Fisher-Yates algorithm
+      const shuffledCandidates = [...allCandidates];
+      for (let i = shuffledCandidates.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledCandidates[i], shuffledCandidates[j]] = [
+          shuffledCandidates[j],
+          shuffledCandidates[i],
+        ];
+      }
+
+      // Take required number from shuffled list
+      const candidates = shuffledCandidates.slice(0, isFiltering ? 20 : 9);
+
+      console.log(
+        `Found ${allCandidates.length} total candidates, selected ${candidates.length} randomly with filters:`,
+        {
+          ageMin,
+          ageMax,
+          distance,
+          interestCodes,
+        },
+      );
 
       targetIds = candidates.map((c) => c.userId);
-
-      // Standard daily rec saving only if strict no-filter
-      // If filtering, we just return these results dynamically without caching heavily
     }
 
     if (targetIds.length === 0) {
@@ -178,31 +200,68 @@ export class MatchesService {
       `Rule-based Score Duration: ${(scoreEndTime - startTime).toFixed(0)}ms`,
     );
 
-    // 5. AI 배치 호출 (1회만) - 매칭 이유 생성 (skipAi가 false일 때만)
-    let reasons: Record<string, string> = {};
+    // 5. AI 배치 호출 - 캐시 미스 시에만 호출
+    let reasons: Record<string, string> = cachedReasons;
 
-    if (!skipAi) {
+    // Check if we have cached reasons for all profiles
+    const missingReasonIds = scoredProfiles
+      .filter((p) => !reasons[p.userId])
+      .map((p) => p.userId);
+
+    if (!skipAi && missingReasonIds.length > 0) {
       console.log('AI Batch Call Start:', new Date().toISOString());
       const aiStartTime = performance.now();
 
-      const candidatesForAI = scoredProfiles.map((p) => ({
-        userId: p.userId,
-        name: p.name,
-        bio: p.bio,
-        interests: p.interests,
-        location: p.location,
-      }));
+      const candidatesForAI = scoredProfiles
+        .filter((p) => missingReasonIds.includes(p.userId))
+        .map((p) => ({
+          userId: p.userId,
+          name: p.name,
+          bio: p.bio,
+          interests: p.interests,
+          location: p.location,
+        }));
 
-      reasons = await this.aiService.generateMatchReasonsBatch(
+      const newReasons = await this.aiService.generateMatchReasonsBatch(
         userProfileForAI,
         candidatesForAI,
       );
+
+      // Merge new reasons with cached
+      reasons = { ...reasons, ...newReasons };
 
       const aiEndTime = performance.now();
       console.log('AI Batch Call End:', new Date().toISOString());
       console.log(
         `AI Batch Duration: ${(aiEndTime - aiStartTime).toFixed(0)}ms`,
       );
+
+      // Save to DailyRecommendation cache if not filtering
+      if (!isFiltering) {
+        await this.prisma.dailyRecommendation.upsert({
+          where: {
+            userId_date: {
+              userId,
+              date: todayDate,
+            },
+          },
+          update: {
+            recommendedIds: targetIds,
+            metadata: reasons,
+          },
+          create: {
+            userId,
+            date: todayDate,
+            recommendedIds: targetIds,
+            metadata: reasons,
+          },
+        });
+        console.log(
+          `[Cache SAVE] Saved recommendations for ${userId} on ${todayDate}`,
+        );
+      }
+    } else if (Object.keys(cachedReasons).length > 0) {
+      console.log('Using cached AI reasons, skipping AI call.');
     } else {
       console.log('Skipping AI generation as requested.');
     }

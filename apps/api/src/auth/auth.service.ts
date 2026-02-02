@@ -1,4 +1,9 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -87,5 +92,22 @@ export class AuthService {
       access_token: this.jwtService.sign(payload),
       user,
     };
+  }
+
+  async changePassword(
+    data: import('./dto/change-password.dto').ChangePasswordDto,
+  ) {
+    const user = await this.usersService.findById(data.userId);
+    if (!user || !user.password) {
+      throw new NotFoundException('User not found');
+    }
+
+    const isMatch = await bcrypt.compare(data.currentPassword, user.password);
+    if (!isMatch) {
+      throw new UnauthorizedException('Current password does not match');
+    }
+
+    const hashedNewPassword = await bcrypt.hash(data.newPassword, 10);
+    return this.usersService.updatePassword(data.userId, hashedNewPassword);
   }
 }

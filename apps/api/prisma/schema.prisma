@@ -63,7 +63,27 @@ model User {
   meetingProposals  MeetingProposal[]
 
   notifications     Notification[]
+  setting           Setting?
 }
+
+model Setting {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Notifications
+  notifyLike      Boolean @default(true)
+  notifyMessage   Boolean @default(true)
+  notifyMarketing Boolean @default(false)
+
+  // Display
+  fontSize        Int    @default(2) // 1: Small, 2: Medium, 3: Large, 4: XL
+  brightnessMode  String @default("auto") // "auto", "manual"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 
 model Profile {
   id     String @id @default(uuid())
@@ -258,6 +278,7 @@ model DailyRecommendation {
   date      String   // YYYY-MM-DD
   
   recommendedIds String[] // IDs of profiles shown today
+  metadata       Json?    // AI-generated match reasons: { [userId]: reasonText }
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

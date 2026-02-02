@@ -64,7 +64,9 @@ export default function MainPage() {
          const endTime = performance.now();
          console.log(`[Gemini Response Time] ${(endTime - startTime).toFixed(0)} ms`);
          
-         setProfiles(recommendations);
+         // Shuffle profiles randomly and show only 3 at a time
+         const shuffledProfiles = [...recommendations].sort(() => Math.random() - 0.5);
+         setProfiles(shuffledProfiles.slice(0, 3));
          setUserName(userProfile.name);
          
        } catch (err: unknown) {

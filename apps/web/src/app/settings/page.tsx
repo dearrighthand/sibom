@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { Switch } from '@/components/ui/Switch';
 import { Slider } from '@/components/ui/Slider';
 import { useDialog } from '@/hooks/useDialog';
+import { api } from '@/lib/api';
 
 import { TopNavigation } from '@/components/layout/TopNavigation';
 import { FooterNavigation } from '@/components/layout/FooterNavigation';
@@ -23,6 +24,44 @@ export default function SettingsPage() {
   // Display State
   const [fontSize, setFontSize] = useState(2); // 1: Small, 2: Medium, 3: Large, 4: XL
   const [brightnessMode, setBrightnessMode] = useState<'auto' | 'manual'>('auto');
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchSettings();
+  }, []);
+
+  const fetchSettings = async () => {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      router.push('/login');
+      return;
+    }
+
+    try {
+      const settings = await api.get<any>(`/settings?userId=${userId}`);
+      setNotifyLike(settings.notifyLike);
+      setNotifyMessage(settings.notifyMessage);
+      setNotifyMarketing(settings.notifyMarketing);
+      setFontSize(settings.fontSize);
+      setBrightnessMode(settings.brightnessMode);
+    } catch (err) {
+      console.error('Failed to fetch settings:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const updateSetting = async (key: string, value: any) => {
+    const userId = localStorage.getItem('userId');
+    if (!userId) return;
+
+    try {
+      await api.patch(`/settings?userId=${userId}`, { [key]: value });
+    } catch (err) {
+      console.error(`Failed to update setting ${key}:`, err);
+    }
+  };
 
   // Font Size Label Helper
   const getFontSizeLabel = (val: number) => {
@@ -59,11 +98,34 @@ export default function SettingsPage() {
     );
 
     if (isConfirmed) {
-      // API call would go here
-      localStorage.clear();
-      await openAlert('탈퇴 완료', '회원 탈퇴가 완료되었습니다. 이용해 주셔서 감사합니다.');
-      router.push('/');
+      const userId = localStorage.getItem('userId');
+      if (!userId) return;
+
+      try {
+        await api.delete(`/settings/account?userId=${userId}`);
+        localStorage.clear();
+        await openAlert('탈퇴 완료', '회원 탈퇴가 완료되었습니다. 이용해 주셔서 감사합니다.');
+        router.push('/');
+      } catch (err) {
+        console.error('Failed to delete account:', err);
+        await openAlert('오류', '탈퇴 처리 중 오류가 발생했습니다.');
+      }
     }
+  };
+
+  const handleToggle = (key: string, value: boolean, setter: (v: boolean) => void) => {
+    setter(value);
+    updateSetting(key, value);
+  };
+
+  const handleSliderChange = (val: number) => {
+    setFontSize(val);
+    updateSetting('fontSize', val);
+  };
+
+  const handleBrightnessChange = (mode: 'auto' | 'manual') => {
+    setBrightnessMode(mode);
+    updateSetting('brightnessMode', mode);
   };
 
   return (
@@ -82,143 +144,144 @@ export default function SettingsPage() {
       </header>
 
       <main className="flex-1 max-w-3xl mx-auto p-6 space-y-8 w-full">
-        
-        {/* Notification Settings */}
-        <section className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-          <h2 className="text-xl font-bold text-[#2D2D2D] mb-6">알림 설정</h2>
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <span className="text-lg font-medium text-[#2D2D2D]">새 호감 알림</span>
-              <Switch checked={notifyLike} onCheckedChange={setNotifyLike} />
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-lg font-medium text-[#2D2D2D]">새 메시지 알림</span>
-              <Switch checked={notifyMessage} onCheckedChange={setNotifyMessage} />
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-lg font-medium text-[#2D2D2D]">마케팅 알림</span>
-              <Switch checked={notifyMarketing} onCheckedChange={setNotifyMarketing} />
-            </div>
+        {isLoading ? (
+          <div className="flex justify-center items-center py-20">
+            <div className="w-10 h-10 border-4 border-[#FF8B7D] border-t-transparent rounded-full animate-spin"></div>
           </div>
-        </section>
-
-        {/* Display Settings */}
-        <section className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-          <h2 className="text-xl font-bold text-[#2D2D2D] mb-6">화면 설정</h2>
-          
-          <div className="mb-8">
-            <div className="flex justify-between items-end mb-4">
-              <span className="text-lg font-medium text-[#2D2D2D]">글자 크기</span>
-              <span className="text-lg font-bold text-[#FF8B7D]">{getFontSizeLabel(fontSize)}</span>
-            </div>
-            <div className="px-2">
-                <Slider 
-                    min={1} 
-                    max={4} 
-                    value={fontSize} 
-                    onChange={setFontSize} 
-                />
-                <div className="flex justify-between mt-2 text-sm text-[#999999] font-medium">
-                    <span>가</span>
-                    <span className="text-lg">가</span>
-                    <span className="text-xl">가</span>
-                    <span className="text-2xl">가</span>
+        ) : (
+          <>
+            {/* Notification Settings */}
+            <section className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+              <h2 className="text-xl font-bold text-[#2D2D2D] mb-6">알림 설정</h2>
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-lg font-medium text-[#2D2D2D]">새 호감 알림</span>
+                  <Switch checked={notifyLike} onCheckedChange={(v) => handleToggle('notifyLike', v, setNotifyLike)} />
                 </div>
-            </div>
-          </div>
-
-          <div>
-             <span className="text-lg font-medium text-[#2D2D2D] block mb-4">화면 밝기</span>
-             <div className="flex bg-gray-50 rounded-2xl p-1.5 border border-gray-100">
-                <button
-                    onClick={() => setBrightnessMode('auto')}
-                    className={`flex-1 py-3.5 rounded-xl text-lg font-bold transition-all ${
-                        brightnessMode === 'auto' 
-                        ? 'bg-white text-[#2D2D2D] shadow-sm ring-1 ring-black/5' 
-                        : 'text-[#999999] hover:text-[#666666]'
-                    }`}
-                >
-                    자동
-                </button>
-                <button
-                    onClick={() => setBrightnessMode('manual')}
-                    className={`flex-1 py-3.5 rounded-xl text-lg font-bold transition-all ${
-                        brightnessMode === 'manual' 
-                        ? 'bg-white text-[#2D2D2D] shadow-sm ring-1 ring-black/5' 
-                        : 'text-[#999999] hover:text-[#666666]'
-                    }`}
-                >
-                    수동
-                </button>
-             </div>
-          </div>
-        </section>
-
-        {/* Account Management */}
-        <section className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-          <h2 className="text-xl font-bold text-[#2D2D2D] mb-4">계정 관리</h2>
-          <div className="space-y-1">
-             <button className="w-full flex items-center justify-between py-4 text-left group">
-                <span className="text-lg font-medium text-[#2D2D2D] group-hover:text-[#FF8B7D] transition-colors">비밀번호 변경</span>
-                <ChevronRight className="w-6 h-6 text-gray-300 group-hover:text-[#FF8B7D]" />
-             </button>
-             <div className="h-[1px] bg-gray-50" />
-             <button className="w-full flex items-center justify-between py-4 text-left group">
-                <span className="text-lg font-medium text-[#2D2D2D] group-hover:text-[#FF8B7D] transition-colors">휴대폰 번호 변경</span>
-                <ChevronRight className="w-6 h-6 text-gray-300 group-hover:text-[#FF8B7D]" />
-             </button>
-             <div className="h-[1px] bg-gray-50" />
-             <button 
-                onClick={handleLogout}
-                className="w-full flex items-center justify-between py-4 text-left group"
-             >
-                <span className="text-lg font-medium text-[#2D2D2D] group-hover:text-[#FF8B7D] transition-colors">로그아웃</span>
-                <ChevronRight className="w-6 h-6 text-gray-300 group-hover:text-[#FF8B7D]" />
-             </button>
-             <div className="h-[1px] bg-gray-50" />
-             <button 
-                onClick={handleDeleteAccount}
-                className="w-full flex items-center justify-between py-4 text-left group"
-             >
-                <span className="text-lg font-medium text-red-500">계정 탈퇴</span>
-                <ChevronRight className="w-6 h-6 text-red-300" />
-             </button>
-          </div>
-        </section>
-
-        {/* Customer Support */}
-        <section className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-          <h2 className="text-xl font-bold text-[#2D2D2D] mb-4">고객 지원</h2>
-          <div className="space-y-1">
-            <button className="w-full flex items-center justify-between py-4 text-left group">
-                <span className="text-lg font-medium text-[#2D2D2D] group-hover:text-[#FF8B7D] transition-colors">자주 묻는 질문 (FAQ)</span>
-                <ChevronRight className="w-6 h-6 text-gray-300 group-hover:text-[#FF8B7D]" />
-             </button>
-             <div className="h-[1px] bg-gray-50" />
-             <button className="w-full flex items-center justify-between py-4 text-left group">
-                <div className="flex items-center gap-2">
-                    <span className="text-lg font-medium text-[#2D2D2D] group-hover:text-[#FF8B7D] transition-colors">1:1 문의하기</span>
-                    <span className="bg-[#FAE100] text-[#3c1e1e] text-xs px-2 py-0.5 rounded font-bold">Kakao</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-lg font-medium text-[#2D2D2D]">새 메시지 알림</span>
+                  <Switch checked={notifyMessage} onCheckedChange={(v) => handleToggle('notifyMessage', v, setNotifyMessage)} />
                 </div>
-                <ChevronRight className="w-6 h-6 text-gray-300 group-hover:text-[#FF8B7D]" />
-             </button>
-             <div className="h-[1px] bg-gray-50" />
-             <Link href="/terms" className="w-full flex items-center justify-between py-4 text-left group">
-                <span className="text-lg font-medium text-[#666666] group-hover:text-[#FF8B7D] transition-colors">서비스 이용약관</span>
-                <ChevronRight className="w-6 h-6 text-gray-300 group-hover:text-[#FF8B7D]" />
-             </Link>
-             <Link href="/privacy" className="w-full flex items-center justify-between py-4 text-left group">
-                <span className="text-lg font-medium text-[#666666] group-hover:text-[#FF8B7D] transition-colors">개인정보 처리방침</span>
-                <ChevronRight className="w-6 h-6 text-gray-300 group-hover:text-[#FF8B7D]" />
-             </Link>
-          </div>
-        </section>
+                <div className="flex items-center justify-between">
+                  <span className="text-lg font-medium text-[#2D2D2D]">마케팅 알림</span>
+                  <Switch checked={notifyMarketing} onCheckedChange={(v) => handleToggle('notifyMarketing', v, setNotifyMarketing)} />
+                </div>
+              </div>
+            </section>
 
-        {/* Version Info */}
-        <div className="text-center py-6">
-            <p className="text-[#999999] text-sm">현재 버전 1.0.0</p>
-        </div>
+            {/* Display Settings */}
+            <section className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+              <h2 className="text-xl font-bold text-[#2D2D2D] mb-6">화면 설정</h2>
+              
+              <div className="mb-8">
+                <div className="flex justify-between items-end mb-4">
+                  <span className="text-lg font-medium text-[#2D2D2D]">글자 크기</span>
+                  <span className="text-lg font-bold text-[#FF8B7D]">{getFontSizeLabel(fontSize)}</span>
+                </div>
+                <div className="px-2">
+                    <Slider 
+                        min={1} 
+                        max={4} 
+                        value={fontSize} 
+                        onChange={handleSliderChange} 
+                    />
+                    <div className="flex justify-between mt-2 text-sm text-[#999999] font-medium">
+                        <span>가</span>
+                        <span className="text-lg">가</span>
+                        <span className="text-xl">가</span>
+                        <span className="text-2xl">가</span>
+                    </div>
+                </div>
+              </div>
 
+              <div>
+                 <span className="text-lg font-medium text-[#2D2D2D] block mb-4">화면 밝기</span>
+                 <div className="flex bg-gray-50 rounded-2xl p-1.5 border border-gray-100">
+                    <button
+                        onClick={() => handleBrightnessChange('auto')}
+                        className={`flex-1 py-3.5 rounded-xl text-lg font-bold transition-all ${
+                            brightnessMode === 'auto' 
+                            ? 'bg-white text-[#2D2D2D] shadow-sm ring-1 ring-black/5' 
+                            : 'text-[#999999] hover:text-[#666666]'
+                        }`}
+                    >
+                        자동
+                    </button>
+                    <button
+                        onClick={() => handleBrightnessChange('manual')}
+                        className={`flex-1 py-3.5 rounded-xl text-lg font-bold transition-all ${
+                            brightnessMode === 'manual' 
+                            ? 'bg-white text-[#2D2D2D] shadow-sm ring-1 ring-black/5' 
+                            : 'text-[#999999] hover:text-[#666666]'
+                        }`}
+                    >
+                        수동
+                    </button>
+                 </div>
+              </div>
+            </section>
+
+            {/* Account Management */}
+            <section className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+              <h2 className="text-xl font-bold text-[#2D2D2D] mb-4">계정 관리</h2>
+              <div className="space-y-1">
+                 <Link href="/settings/password" className="w-full flex items-center justify-between py-4 text-left group">
+                    <span className="text-lg font-medium text-[#2D2D2D] group-hover:text-[#FF8B7D] transition-colors">비밀번호 변경</span>
+                    <ChevronRight className="w-6 h-6 text-gray-300 group-hover:text-[#FF8B7D]" />
+                 </Link>
+                 <div className="h-[1px] bg-gray-50" />
+                 <button 
+                    onClick={handleLogout}
+                    className="w-full flex items-center justify-between py-4 text-left group"
+                 >
+                    <span className="text-lg font-medium text-[#2D2D2D] group-hover:text-[#FF8B7D] transition-colors">로그아웃</span>
+                    <ChevronRight className="w-6 h-6 text-gray-300 group-hover:text-[#FF8B7D]" />
+                 </button>
+                 <div className="h-[1px] bg-gray-50" />
+                 <button 
+                    onClick={handleDeleteAccount}
+                    className="w-full flex items-center justify-between py-4 text-left group"
+                 >
+                    <span className="text-lg font-medium text-red-500">계정 탈퇴</span>
+                    <ChevronRight className="w-6 h-6 text-red-300" />
+                 </button>
+              </div>
+            </section>
+
+            {/* Customer Support */}
+            <section className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+              <h2 className="text-xl font-bold text-[#2D2D2D] mb-4">고객 지원</h2>
+              <div className="space-y-1">
+                <Link href="/settings/faq" className="w-full flex items-center justify-between py-4 text-left group">
+                    <span className="text-lg font-medium text-[#2D2D2D] group-hover:text-[#FF8B7D] transition-colors">자주 묻는 질문 (FAQ)</span>
+                    <ChevronRight className="w-6 h-6 text-gray-300 group-hover:text-[#FF8B7D]" />
+                 </Link>
+                 <div className="h-[1px] bg-gray-50" />
+                 <button className="w-full flex items-center justify-between py-4 text-left group">
+                    <div className="flex items-center gap-2">
+                        <span className="text-lg font-medium text-[#2D2D2D] group-hover:text-[#FF8B7D] transition-colors">1:1 문의하기</span>
+                        <span className="bg-[#FAE100] text-[#3c1e1e] text-xs px-2 py-0.5 rounded font-bold">Kakao</span>
+                    </div>
+                    <ChevronRight className="w-6 h-6 text-gray-300 group-hover:text-[#FF8B7D]" />
+                 </button>
+                 <div className="h-[1px] bg-gray-50" />
+                 <Link href="/terms" className="w-full flex items-center justify-between py-4 text-left group">
+                    <span className="text-lg font-medium text-[#666666] group-hover:text-[#FF8B7D] transition-colors">서비스 이용약관</span>
+                    <ChevronRight className="w-6 h-6 text-gray-300 group-hover:text-[#FF8B7D]" />
+                 </Link>
+                 <Link href="/privacy" className="w-full flex items-center justify-between py-4 text-left group">
+                    <span className="text-lg font-medium text-[#666666] group-hover:text-[#FF8B7D] transition-colors">개인정보 처리방침</span>
+                    <ChevronRight className="w-6 h-6 text-gray-300 group-hover:text-[#FF8B7D]" />
+                 </Link>
+              </div>
+            </section>
+
+            {/* Version Info */}
+            <div className="text-center py-6">
+                <p className="text-[#999999] text-sm">현재 버전 1.0.0</p>
+            </div>
+          </>
+        )}
       </main>
 
       <FooterNavigation />
