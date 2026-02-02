@@ -17,9 +17,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  experimental: {
-    allowedDevOrigins: ['172.30.1.67:3000', '172.30.1.67:3001'],
-  } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
 };
 
 export default nextConfig;
