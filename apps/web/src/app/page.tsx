@@ -1,8 +1,21 @@
+'use client';
+
+import { useEffect } from 'react';
 import Image from 'next/image';
 import { MessageCircle, Phone } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      router.push('/main');
+    }
+  }, [router]);
+
   return (
     <div className="relative min-h-screen w-full overflow-hidden font-sans">
       {/* Background Image */}

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Match Success Celebration - SIBOM</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&amp;family=Noto+Sans:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff8c80",
+                        "background-light": "#f8f6f5",
+                        "background-dark": "#23110f",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom Confetti Animation */
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            top: -10%;
+            z-index: 50;
+            pointer-events: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased overflow-hidden h-screen w-screen relative">
+<!-- Mock Background Content (The List Screen that gets blurred) -->
+<div class="absolute inset-0 z-0 overflow-y-auto">
+<!-- Header -->
+<header class="flex items-center justify-between p-4 bg-white dark:bg-[#181110] border-b border-gray-100 dark:border-gray-800">
+<h1 class="text-2xl font-bold text-[#181110] dark:text-white">추천 인연</h1>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-[#181110] dark:text-white">notifications</span>
+<span class="material-symbols-outlined text-[#181110] dark:text-white">tune</span>
+</div>
+</header>
+<!-- Grid of Profiles -->
+<div class="grid grid-cols-2 gap-3 p-4 pb-24">
+<!-- Profile Card 1 -->
+<div class="flex flex-col gap-2">
+<div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-xl relative" data-alt="portrait of a smiling senior man outdoors" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBbvw1kZms7HRNVHEoloyGL1cx1e8xNY3t-gbirQBkUF26DHtIAjDoQyZiHjaE3cadUm0_2ptUknieLQvKcXB_f0LZtMbLwnFSb_mzAP44e566Xe0OAJmZRtHEMu5OgGZNuEdyyjqkLbxwM_2dg583DUylzDn4TeJq4LtVdZNwgAOLLeePo5RmN6O8kBueAc-YSZvlXJOQJBF5QIYBkUqAJiNCogNfP4F1Vs1kHIMG3ttvpisXJi8EXnLI6meWHB-DNgHa-0OfzLof4");'>
+<div class="absolute bottom-2 left-2 bg-black/40 backdrop-blur-sm px-2 py-1 rounded-lg text-white text-xs font-bold">서울, 68세</div>
+</div>
+<div class="px-1">
+<h3 class="font-bold text-[#181110] dark:text-white text-lg">김철수</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">등산과 독서를 좋아해요</p>
+</div>
+</div>
+<!-- Profile Card 2 -->
+<div class="flex flex-col gap-2">
+<div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-xl relative" data-alt="portrait of a elegant senior woman in a garden" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhkFuvrvlZhlcNJinRLbU-lXHN6UUihkOgJpRF7bCR3Q2V9ZxHSXzTL0XH_e87zOKCoMyLoin9Fhm5b5nFvgEfaYKJFwW4TzwPtcyl19VJmXuTL6KNFlyXVfqy7al315tCS_4IT1xLH_7LLyFAKUWzepHldWUZ38nmmCPj_eTbCiirI0Qm3VFeSA_q3ZyUQOKtgW_YFFyYI5PFkyi29M8s9tjdlMQkE6-gD80qv_I7WjYJjETVje7dXPq2Q1tosBDlv5-pBnHSEI2S");'>
+<div class="absolute bottom-2 left-2 bg-black/40 backdrop-blur-sm px-2 py-1 rounded-lg text-white text-xs font-bold">부산, 65세</div>
+</div>
+<div class="px-1">
+<h3 class="font-bold text-[#181110] dark:text-white text-lg">박영희</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">차 한잔의 여유</p>
+</div>
+</div>
+<!-- Profile Card 3 -->
+<div class="flex flex-col gap-2">
+<div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-xl relative" data-alt="portrait of a active senior man playing golf" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBJc3Cj-65yZ0a3p7D4cD_zY26LByqfNLWbCrlvcI_zg7SPsg8hug8Wsg5GBL002C9exLJwCf0KXuEAi-fW9Dcp7_H5kL__K3UZy-jLGzkBJUVQxTcHu6KFZOhR3LRuPWkGllogGBQpBqZnOCYqVuf_MaMWATjs6MZsImDBXchlWdQWNUuZWO6buTkl5DKwnalB6jDqQmqrC-i9XWOgs9VeLmEt2j5d3qUXsS13XPksNF0PP-RfIcTgKhG2_UjIzTobxUvQycFeLO9F");'>
+<div class="absolute bottom-2 left-2 bg-black/40 backdrop-blur-sm px-2 py-1 rounded-lg text-white text-xs font-bold">경기, 70세</div>
+</div>
+<div class="px-1">
+<h3 class="font-bold text-[#181110] dark:text-white text-lg">이민호</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">매일 아침 조깅</p>
+</div>
+</div>
+<!-- Profile Card 4 -->
+<div class="flex flex-col gap-2">
+<div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-xl relative" data-alt="portrait of a kind grandmother knitting" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAbHwwvVv1nrPyWbb8uWdLe13Krjc32MwCBb36_s-5QgtjVhjbvkVVKSz4cmsD3A36jEmPQ7GZvrpdNcajtEquf0NrnWyZimh32TT06dw23BslFJqyFX7p-tKuR-POR0VxLAhK3TIIbpVGZJxgFgMtlmF6MOH1o9S1iHotvZldI6YT7LgyilkJuVG5ZglHbCg7cAUdsrqVaN2bVh20Nvd_gAZntMx9fjOg8gnpmY7Sqnp6pgqssC6f9PhXMxPy0vFILOhaQq-CfH5vi");'>
+<div class="absolute bottom-2 left-2 bg-black/40 backdrop-blur-sm px-2 py-1 rounded-lg text-white text-xs font-bold">대구, 66세</div>
+</div>
+<div class="px-1">
+<h3 class="font-bold text-[#181110] dark:text-white text-lg">최수진</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">맛있는 요리 함께해요</p>
+</div>
+</div>
+</div>
+<!-- Bottom Nav -->
+<nav class="fixed bottom-0 w-full bg-white dark:bg-[#181110] border-t border-gray-100 dark:border-gray-800 pb-6 pt-3 px-6 flex justify-between items-center z-10">
+<div class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined">favorite</span>
+<span class="text-xs font-medium">추천</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="text-xs font-medium">대화</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500">
+<span class="material-symbols-outlined">person</span>
+<span class="text-xs font-medium">내 정보</span>
+</div>
+</nav>
+</div>
+<!-- The Overlay Layer -->
+<div class="absolute inset-0 z-40 bg-white/60 dark:bg-black/60 backdrop-blur-md flex flex-col items-center justify-end sm:justify-center animate-fade-in">
+<!-- Dismiss Button -->
+<div class="absolute top-4 right-4 z-50">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white/80 dark:bg-black/40 hover:bg-white dark:hover:bg-black/60 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[#181110] dark:text-white" style="font-size: 24px;">close</span>
+</button>
+</div>
+<!-- Confetti Animation Elements (Simulated with div blocks for the demo) -->
+<div class="confetti bg-primary left-[10%] animate-[fall_3s_linear_infinite]" style="animation-delay: 0s;"></div>
+<div class="confetti bg-[#FFD700] left-[20%] animate-[fall_2.5s_linear_infinite]" style="animation-delay: 1s;"></div>
+<div class="confetti bg-[#FF8B7D] left-[30%] animate-[fall_3.2s_linear_infinite]" style="animation-delay: 0.5s;"></div>
+<div class="confetti bg-[#a7f3d0] left-[50%] animate-[fall_2.8s_linear_infinite]" style="animation-delay: 1.5s;"></div>
+<div class="confetti bg-primary left-[60%] animate-[fall_3.5s_linear_infinite]" style="animation-delay: 0.2s;"></div>
+<div class="confetti bg-[#FFD700] left-[80%] animate-[fall_2.2s_linear_infinite]" style="animation-delay: 1.2s;"></div>
+<div class="confetti bg-[#FF8B7D] left-[90%] animate-[fall_3s_linear_infinite]" style="animation-delay: 0.7s;"></div>
+<!-- Main Content Card -->
+<div class="w-full max-w-md bg-white dark:bg-[#2A201E] rounded-t-[2rem] sm:rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-6 pb-10 flex flex-col items-center relative overflow-hidden">
+<!-- Soft Gradient Background Decoration -->
+<div class="absolute top-0 left-0 w-full h-48 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none"></div>
+<!-- Mascot Image Area -->
+<div class="mt-8 mb-6 relative z-10 w-full flex justify-center">
+<!-- Using a cute 3D rendered character placeholder -->
+<div class="w-40 h-40 relative">
+<!-- Halo effect behind mascot -->
+<div class="absolute inset-0 bg-primary/20 blur-2xl rounded-full scale-125 animate-pulse"></div>
+<!-- Mascot -->
+<div class="w-full h-full bg-center bg-contain bg-no-repeat drop-shadow-lg transform transition hover:scale-105 duration-300" data-alt="cute 3d character mascot 'In-yeon-i' celebrating with hands up and hearts" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDlIM4d4XlS6puBm3jkL45uXRu89vvLu-Rh7kx-qTNTtprwphP4jtuL3lgvpsMC7Lnu-UmJXCrjHwfYmB3iixdD9IwGuk5pBCuoowuYLC5vZaVWPO_tHf0Qmgw55wNAFxfdFixnoPiQz3YnwVnOc8_cFUETCAkGoMJ9Moo-QlnSA-6lD5b_h8c6z0ERGxAxfDRlFYyRS88b5owHh56qvsWti_tKXVac6kJUzVHFSfyK9-ADCdGCDFYokEZw0FnqzMWCMZyEMQgYlVtM");'>
+</div>
+</div>
+</div>
+<!-- Text Content -->
+<div class="text-center w-full px-2 z-10">
+<h2 class="text-[#181110] dark:text-white tracking-tight text-[28px] font-bold leading-tight mb-3">
+                    축하합니다!
+                </h2>
+<p class="text-[#4A4A4A] dark:text-[#E0E0E0] text-lg sm:text-xl font-medium leading-snug break-keep">
+<span class="text-primary font-bold">이정숙</span>님과 대화를<br/>시작해보세요 💕
+                </p>
+</div>
+<!-- Profile Avatars (Optional visual reinforcement of the match) -->
+<div class="flex items-center justify-center gap-4 mt-6 mb-8 z-10">
+<div class="w-14 h-14 rounded-full border-2 border-white dark:border-[#2A201E] shadow-md bg-cover bg-center" data-alt="User's profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAGfMsJYV9I-sMvsxezLz6j3i7xYVHGJl9zOegRkawolgke-l0En0JDLMHuY5idVvKnou4TqghWTwMBpOjBVPaqd0FwSWFXir4zuqESZdS9Maus2yeyaxKxCZfIsNYeK-efnjUuBLLPCFPnGsngEd52vtbui7tfxqvBAEfhO8DcLAf2HvZd_Z13uc7lsykwJlEWJwmgpreNbAFlMHT8m-91QShvjSW33WGhUrdgnTJLm7bw3VjBmZOwuIKJA3D9LL00QLFnMunOQYsi");'>
+</div>
+<div class="flex items-center justify-center w-8 h-8 rounded-full bg-primary/20 text-primary">
+<span class="material-symbols-outlined text-xl font-bold">close</span> <!-- X icon rotated 45deg usually means match, using close for simplicity but styled as 'x' or 'heart' -->
+</div>
+<div class="w-14 h-14 rounded-full border-2 border-primary shadow-[0_0_15px_rgba(255,140,128,0.4)] bg-cover bg-center" data-alt="Matched partner's profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDi0Xbx9h2mSvf1yPHob-oDmfEqB5DvX8fI-xJIZK-GuVOboW-S_Lw32DMIgFmZUqpK-eNv9qOuYwsPM4WO-v6eaEwUhH8M5ZEDp4Xf7faWIZhORwCjaPJoOr-eO9q2LQ0dr6Pw34cjSBQu2h6i22LggOWK7mHX_icwEJGvXJhDLpbhVdNUHGkszeo4fT3OR3zSmov3dVnl131XJitwOcYFGBU78lfEJlM3o7ghtU-HviQty4BwTjyi6QMRi3JSitcZHcozxh8SceHd");'>
+<div class="absolute -bottom-1 -right-1 bg-primary w-5 h-5 rounded-full flex items-center justify-center border-2 border-white dark:border-[#2A201E]">
+<span class="material-symbols-outlined text-white text-[12px]">favorite</span>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<div class="w-full mt-2 z-10">
+<button class="w-full cursor-pointer items-center justify-center overflow-hidden rounded-full h-14 bg-primary hover:bg-[#ff7a6b] active:scale-[0.98] transition-all duration-200 text-white text-lg font-bold leading-normal tracking-[0.015em] shadow-[0_4px_14px_0_rgba(255,140,128,0.39)] flex gap-2">
+<span class="material-symbols-outlined">chat</span>
+<span>대화 시작하기</span>
+</button>
+<button class="w-full mt-3 py-2 text-gray-400 dark:text-gray-500 text-sm font-medium hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                    나중에 하기
+                </button>
+</div>
+</div>
+</div>
+</body></html>

@@ -99,9 +99,9 @@ export default function PhotoPage() {
             {/* Triangle tick */}
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[12px] border-b-white"></div>
             <p className="text-[#2D2D2D] text-lg font-medium leading-relaxed">
-              "본인의 최근 사진을 올려주세요.
+              &quot;본인의 최근 사진을 올려주세요.
               <br />
-              <span className="font-bold text-[#FF8B7D]">얼굴이 잘 보이는</span> 사진이 좋아요!"
+              <span className="font-bold text-[#FF8B7D]">얼굴이 잘 보이는</span> 사진이 좋아요!&quot;
             </p>
           </div>
         </div>

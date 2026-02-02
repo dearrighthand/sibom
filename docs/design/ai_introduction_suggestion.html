@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Introduction Suggestion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;family=Noto+Sans+KR:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff8c80",
+                        "background-light": "#f8f6f5",
+                        "background-dark": "#23110f",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "Noto Sans KR", "sans-serif"],
+                        "sans": ["Plus Jakarta Sans", "Noto Sans KR", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 font-display min-h-screen flex flex-col overflow-hidden selection:bg-primary/30">
+<!-- Top App Bar -->
+<header class="flex items-center justify-between px-4 py-3 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200/50 dark:border-gray-800/50">
+<button aria-label="Go back" class="flex items-center justify-center w-12 h-12 rounded-full hover:bg-gray-200/50 dark:hover:bg-gray-800 transition-colors">
+<span class="material-symbols-outlined text-[#181110] dark:text-white" style="font-size: 28px;">chevron_left</span>
+</button>
+<h1 class="text-xl font-bold text-[#181110] dark:text-white tracking-tight">자기소개 작성</h1>
+<div aria-hidden="true" class="w-12"></div> <!-- Spacer for optical centering -->
+</header>
+<!-- Main Content: Chat Interface -->
+<main class="flex-1 overflow-y-auto px-5 pt-6 pb-48 w-full max-w-xl mx-auto flex flex-col gap-8 scroll-smooth">
+<!-- User Bubble -->
+<div class="flex flex-col items-end w-full">
+<span class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-2 mr-2">나 (Me)</span>
+<div class="bg-primary text-[#23110f] px-6 py-4 rounded-[2rem] rounded-tr-sm text-lg font-medium leading-relaxed max-w-[85%] shadow-sm relative group">
+                저는 조용하고 차분한 성격입니다
+            </div>
+</div>
+<!-- AI Response -->
+<div class="flex flex-col items-start w-full animate-fade-in">
+<div class="flex items-end gap-3 w-full">
+<!-- Avatar -->
+<div aria-hidden="true" class="w-12 h-12 rounded-full bg-[#FFEAE6] shrink-0 border-2 border-white dark:border-gray-700 shadow-sm overflow-hidden relative">
+<!-- Using a flower/nature abstract image to represent the gentle 'In-yeon-i' persona -->
+<img alt="" class="w-full h-full object-cover" data-alt="Soft pink flower avatar representing the AI assistant In-yeon-i" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpaa_I_feSxA8V9lsEQKTwyNtJnBmJUIxFUoUK4g_OHSvK6zAeJHOuQxZcB2MR47D5ahYB0GsaAEuokPkctCG8P16SIdU_3Yd_Er5VZyVJSaD96DwcUlK_ets8Rp5_3kZeudQM_-yVfWHbqCqCmXOAkIDQYOcKdlsyy-W4M_Wskf9FgNBGgi9exY7pQOPiKmlVIbCP3gCRt0kdmXwbHSty7ULZuizXZspVkAp9zgwfJ2_9_QozSjFVDakW5pnbof8brOV_gp1gP8oA"/>
+</div>
+<div class="flex flex-col gap-2 flex-1 min-w-0">
+<span class="text-sm text-primary font-bold ml-2">인연이 (In-yeon-i)</span>
+<!-- Bubble Container -->
+<div class="bg-white dark:bg-gray-800 rounded-[2rem] rounded-tl-sm p-5 shadow-sm border border-gray-100 dark:border-gray-700/50">
+<p class="text-gray-600 dark:text-gray-300 text-lg mb-4 font-medium">이렇게 적어보는 건 어떨까요?</p>
+<!-- Suggestion Card -->
+<div class="bg-background-light dark:bg-gray-900/50 p-6 rounded-2xl border-l-4 border-primary relative overflow-hidden">
+<p class="text-[#181110] dark:text-white text-[1.35rem] leading-[1.6] font-bold">
+                                "저는 책 읽기와 산책을 즐기는 차분한 성격입니다. 대화를 나누며 깊이 있는 관계를 만들어가고 싶습니다."
+                            </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Fixed Action Footer -->
+<footer class="fixed bottom-0 left-0 w-full bg-white/95 dark:bg-background-dark/95 backdrop-blur-xl border-t border-gray-100 dark:border-gray-800/50 p-6 z-40">
+<div class="max-w-xl mx-auto flex flex-col gap-3">
+<button class="w-full h-16 bg-primary hover:bg-[#ff7a6b] active:scale-[0.98] transition-all rounded-full flex items-center justify-center shadow-lg shadow-primary/20 cursor-pointer group">
+<span class="text-[#23110f] text-xl font-bold tracking-tight flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 24px; font-weight: 600;">check</span>
+                    이대로 쓸래요
+                </span>
+</button>
+<button class="w-full h-16 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 active:bg-gray-300 transition-colors rounded-full flex items-center justify-center cursor-pointer">
+<span class="text-gray-600 dark:text-gray-300 text-lg font-bold flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 22px;">refresh</span>
+                    다시 만들기
+                </span>
+</button>
+</div>
+</footer>
+</body></html>

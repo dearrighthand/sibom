@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Check, X, ThumbsUp, ArrowRight } from 'lucide-react';
+import { X, ThumbsUp, ArrowRight } from 'lucide-react';
 import { useRegistrationStore } from '../../../stores/useRegistrationStore';
 
 export default function CompletePage() {
@@ -71,9 +71,10 @@ export default function CompletePage() {
         // Clear store on success
         store.reset();
         setIsLoading(false);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error('Registration Error:', err);
-        setError(err.message || 'An error occurred during registration.');
+        const errorMessage = err instanceof Error ? err.message : 'An error occurred during registration.';
+        setError(errorMessage);
         setIsLoading(false);
         // Allow retry by resetting the ref
         hasStarted.current = false;

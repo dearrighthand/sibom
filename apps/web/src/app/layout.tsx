@@ -5,6 +5,9 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'SIBOM - 50대 이후, 새로운 인연',
   description: '50대 이후, 새로운 인연을 만나보세요',
+  icons: {
+    icon: '/images/favicon.ico',
+  },
 };
 
 export default function RootLayout({

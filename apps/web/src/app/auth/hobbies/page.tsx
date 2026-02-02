@@ -10,7 +10,7 @@ import { HOBBY_CODES } from '../../../constants/hobbies';
 
 export default function HobbiesPage() {
   const router = useRouter();
-  const { hobbies, setHobbies, name } = useRegistrationStore();
+  const { hobbies, setHobbies } = useRegistrationStore();
   const [selectedHobbies, setSelectedHobbies] = useState<string[]>(hobbies || []);
 
   const toggleHobby = (code: string) => {

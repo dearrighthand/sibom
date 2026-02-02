@@ -73,6 +73,7 @@
 - 비즈니스 로직을 UI 컴포넌트 내부에 직접 작성하지 않는다. (Custom Hooks 활용)
 - 팝업이나 모달을 남발하지 않는다. 대신 디자인 시스템의 **바텀 시트(Bottom Sheet)**를 우선 사용한다.
 - hardcode API URLs. Use environment variables.
+- Using `fetch` or `axios` directly in components. Always use the `api` object from `@/lib/api`.
 
 ## MCP Tools Usage
 

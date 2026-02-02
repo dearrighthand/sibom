@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Check } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { useDialog } from '../../../hooks/useDialog';
 import { useRegistrationStore } from '../../../stores/useRegistrationStore';
 

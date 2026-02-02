@@ -38,7 +38,7 @@ const profileSchema = z.object({
 type ProfileFormData = z.infer<typeof profileSchema>;
 
 export default function ProfileCreationPage() {
-  const { alert } = useDialog();
+  const {} = useDialog();
   const [provinces, setProvinces] = useState<LocationItem[]>([]);
   const [districts, setDistricts] = useState<LocationItem[]>([]);
   const [activeSheet, setActiveSheet] = useState<'date' | 'locMain' | 'locSub' | null>(null);
@@ -131,7 +131,7 @@ export default function ProfileCreationPage() {
       fetchDistricts();
       // Only reset if it's different from store (prevent reset on initial load if store has value)
       if (selectedProvince.code !== locMain?.code) {
-        setValue('locSub', null as any);
+        setValue('locSub', null as unknown as ProfileFormData['locSub']);
       }
     } else {
       setDistricts([]);
@@ -139,7 +139,6 @@ export default function ProfileCreationPage() {
   }, [selectedProvince?.code, setValue, locMain]);
 
   const router = useRouter();
-  // ... (ensure useRouter is imported)
 
   const onSubmit = (data: ProfileFormData) => {
     console.log('Saving to store:', data);

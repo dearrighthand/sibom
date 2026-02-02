@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SIBOM Welcome Screen Variant 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#ff8c80",
+              "kakao": "#FEE500",
+              "kakao-text": "#371D1E",
+            },
+            fontFamily: {
+              "display": ["Be Vietnam Pro", "Noto Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+            spacing: {
+              '14': '3.5rem',}
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(667px, 100dvh);}
+</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-black text-white antialiased overflow-hidden selection:bg-primary selection:text-white">
+<div class="relative flex h-screen w-full flex-col mx-auto max-w-md bg-gray-900 shadow-2xl overflow-hidden">
+<div class="absolute inset-0 w-full h-full z-0">
+<div class="w-full h-full bg-cover bg-center bg-no-repeat transform scale-105" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDEnLBUYPCugNHSbE7fdZMKlY1mVQwfpxjo4WZX4laYLaFcq5HJcvVlO-gwwRSpYia-7y0kQeTbOOCw4zSvqSVg1lSzprCl9yhQhgub_TqD4dEhLlJ6LLINlJM8IWOVagbXwhJj0e6fKNgWcLMyGwvi2YmmoBGQdXIPN2nFOw782JD3Hp7Qx1xmhWDetbWuzKPtTGm7160esoY2tAwNrVShvO07bMrd9Q_g9txSGFse1NKPWlQ41JHowaPoc2detD9GkbnG1_aM0GIX");'>
+</div>
+</div>
+<div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent via-40% to-black/80 z-0"></div>
+<div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none z-0"></div>
+<div class="relative z-10 flex flex-col flex-grow h-full justify-between px-6 pt-12 pb-8">
+<div class="flex flex-col items-center mt-4 opacity-0 animate-[fadeIn_0.6s_ease-out_forwards]">
+<div class="flex items-center gap-2 mb-6 drop-shadow-md">
+<span class="material-symbols-outlined text-white text-3xl" style="font-variation-settings: 'FILL' 1, 'wght' 700;">favorite</span>
+<h4 class="text-white text-xl font-bold tracking-[0.15em] uppercase">SIBOM</h4>
+</div>
+<h1 class="text-white text-[28px] font-bold leading-snug text-center drop-shadow-lg">
+                60대 이후,<br/>
+                새로운 인연을 만나보세요
+            </h1>
+</div>
+<div class="flex-grow"></div>
+<div class="w-full flex flex-col items-center gap-4 opacity-0 animate-[slideUp_0.6s_ease-out_0.3s_forwards]">
+<button class="group flex w-full h-[56px] cursor-pointer items-center justify-center rounded-full bg-kakao text-kakao-text shadow-lg hover:bg-[#ffe812] transition-all active:scale-[0.98]">
+<div class="mr-3 flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px] fill-current" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+</div>
+<span class="text-[17px] font-bold">카카오톡으로 시작하기</span>
+</button>
+<button class="group flex w-full h-[56px] cursor-pointer items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white shadow-lg hover:bg-white/20 transition-all active:scale-[0.98]">
+<div class="mr-3 flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">call</span>
+</div>
+<span class="text-[17px] font-bold">휴대폰 번호로 시작하기</span>
+</button>
+<div class="mt-2">
+<button class="text-sm text-white/80 font-medium hover:text-white transition-colors py-2 px-4">
+                    이미 가입하셨나요? <span class="underline underline-offset-4 decoration-white/50">로그인</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+</body></html>

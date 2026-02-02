@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SIBOM - Meeting Place Recommendations</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#ff8c80",
+              "background-light": "#f8f6f5",
+              "background-dark": "#23110f",
+              "surface-light": "#ffffff",
+              "surface-dark": "#2d1614",
+              "text-main": "#181110",
+              "text-sub": "#8d635e",
+            },
+            fontFamily: {
+              "display": ["Lexend", "Noto Sans KR", "sans-serif"],
+              "sans": ["Noto Sans KR", "sans-serif"],
+            },
+            borderRadius: {
+              "DEFAULT": "1rem", 
+              "lg": "1.5rem", 
+              "xl": "2rem", 
+              "full": "9999px"
+            },
+            boxShadow: {
+              'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif; /* Primary for Korean text */
+        }
+        .font-display {
+            font-family: 'Lexend', 'Noto Sans KR', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white antialiased transition-colors duration-200">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto shadow-2xl bg-background-light dark:bg-background-dark">
+<!-- Top App Bar -->
+<div class="sticky top-0 z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm p-4 pb-2 border-b border-black/5 dark:border-white/5">
+<div class="flex items-center justify-between">
+<button aria-label="Go back" class="text-text-main dark:text-white flex size-12 shrink-0 items-center justify-center rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[28px]">arrow_back_ios_new</span>
+</button>
+<h2 class="text-text-main dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12">중간에서 만나요</h2>
+</div>
+</div>
+<!-- Scrollable Content -->
+<main class="flex-1 flex flex-col pb-8">
+<!-- Map Section -->
+<div class="px-4 py-4">
+<div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-soft border border-black/5 dark:border-white/5 bg-gray-100">
+<!-- Map Background Image -->
+<div class="absolute inset-0 bg-center bg-cover opacity-80" data-alt="Map of Seoul showing Gangnam area streets" data-location="Seoul, South Korea" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBjVWyJvRLi20ohGKTd0zWlJx0eWwurLFl3xV4Z44XswZzLqolkIQvmy6o_59_nF3_Gqg7pXdcGdZXJZnlr1BeGVRfNHhiCGoe3P_VKgbEv_7N2wJsQkDf-zhIGFwwQXZVGn4282cOBA3kzmInh-nnGjjQO74ETMTI0lEGHV7YhcP-_Qprqnx6ESuQB_bM9zwDLVuvR9XNhFm6eF3TfPXh2Kd7HdDE1gK3Lqo5KY50qvD3oJumVhosViKQ44f7MiPsHkNVT7MXwDiHx");'>
+</div>
+<!-- Overlay Gradient for Readability -->
+<div class="absolute inset-0 bg-white/20 dark:bg-black/30"></div>
+<!-- Map Elements: User A, User B, Midpoint -->
+<div class="absolute inset-0 p-8 flex items-center justify-center">
+<!-- Connecting Line -->
+<div class="absolute w-[60%] h-1 bg-primary/50 border-t-2 border-dashed border-white/80 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0"></div>
+<!-- User A Marker (Left) -->
+<div class="absolute left-[15%] top-[40%] flex flex-col items-center gap-1 z-10">
+<div class="w-12 h-12 rounded-full border-2 border-white bg-gray-200 shadow-md overflow-hidden relative">
+<div class="w-full h-full bg-cover bg-center" data-alt="Portrait of an elderly man smiling" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCYZKx_1TBwn2JBEPpDwkmTne3_emHcyxmkkc3ch-I3BXdlhajmf3wwqVjR0rA3Dhlea_0EOhUpNKjDY8Dolr6T2k-ai7h5I4_5Y3rgdWDXhPxc6HBu7aluamul1FfA9waJ7jjrZzBngyGOxvVSiveuOovEBp--mVzZZaxt1LiDMFDiRPb3exBUND3lbkQrpsG5bYs9vrxwcjWFt_mIL4MUPzBY-zspa567UrWLdDVdv88TE769tu0Tl3wjCFwYpwi4yuIxdeb11zlK");'></div>
+</div>
+<span class="bg-white dark:bg-surface-dark px-2 py-0.5 rounded-full text-xs font-bold shadow-sm">나</span>
+</div>
+<!-- Midpoint Heart (Center) -->
+<div class="relative z-20 animate-bounce" style="animation-duration: 2s;">
+<div class="flex items-center justify-center w-14 h-14 bg-primary text-white rounded-full shadow-lg border-4 border-white dark:border-surface-dark">
+<span class="material-symbols-outlined text-[32px] fill-1">favorite</span>
+</div>
+<div class="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white dark:bg-surface-dark px-3 py-1 rounded-full shadow-md">
+<span class="text-primary font-bold text-sm">중간 지점</span>
+</div>
+</div>
+<!-- User B Marker (Right) -->
+<div class="absolute right-[15%] top-[40%] flex flex-col items-center gap-1 z-10">
+<div class="w-12 h-12 rounded-full border-2 border-white bg-gray-200 shadow-md overflow-hidden relative">
+<div class="w-full h-full bg-cover bg-center" data-alt="Portrait of an elderly woman smiling" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB2kqppCPNMA4Iio4sSgCx8co_AJoKZoNKdYFyh50iM0pTptcuBAl8uFCacLuhI8CmuUFI_pnCbdKiAswH3aSV7Fe-VWiN3nxWC3-KMnhdCSlJ6JaObBjGAc4NGBgRV0TCT07Jmsk0ro_3u_IwRGl2wN4dplIW5lm_CDA5HYmfYoFNvKEAqYPvHLiAGPKF_tpXgxi7V6fzT0P7PcqeidsYBvGb6Vqfgv08wxA6fZkUxvvkL94NPt1dNLRiGtMfZl9hQqpyzOwRh0fp7");'></div>
+</div>
+<span class="bg-white dark:bg-surface-dark px-2 py-0.5 rounded-full text-xs font-bold shadow-sm">영희님</span>
+</div>
+</div>
+</div>
+</div>
+<div class="h-2"></div>
+<!-- List Header -->
+<div class="px-4 pb-2">
+<h2 class="text-text-main dark:text-white text-[22px] font-bold leading-tight flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">location_on</span>
+                    추천 장소 리스트
+                </h2>
+<p class="text-text-sub dark:text-gray-400 text-sm mt-1 pl-8">중간 지점에서 가까운 편안한 장소들이에요</p>
+</div>
+<!-- Cards Container -->
+<div class="flex flex-col gap-4 px-4 mt-2">
+<!-- Card 1: Cafe -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-5 shadow-soft border border-transparent hover:border-primary/20 transition-all group">
+<!-- Top section with image and key info -->
+<div class="flex gap-4">
+<div class="w-24 h-24 shrink-0 bg-gray-200 rounded-lg overflow-hidden relative shadow-inner">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Cozy interior of a Starbucks cafe with warm lighting" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCDu0lPRGbujzp-3qkumCLX-ASYOVToPXLfQetI1zDv5HHjgagLgo783vl3u64hV0N3aiDY5vKFQ5znLGhbeM_0fhtv-dQl7CdAfvte-hDe5xH5I0-9gczZZIEI9rZx4m4z1DHpUzu_8ZQOzk-OJADWE6yZ_NLEZgXA5v94MUxD8nxZx7Ict3P-aqyofo9NlRJ6vDoZCDpJTaWHHttlU8wmrkYiZOXp1wAP3PPpHNrzpqzc_kIaif-XGLOw6j0WnqYPL53YQh7iAHYX");'>
+</div>
+</div>
+<div class="flex-1 flex flex-col justify-between py-0.5">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="text-text-main dark:text-white text-xl font-bold leading-tight mb-1">스타벅스 강남점</h3>
+<span class="bg-primary/10 text-primary text-xs font-bold px-2 py-1 rounded-md">카페</span>
+</div>
+<p class="text-text-sub dark:text-gray-400 text-sm font-medium line-clamp-1">서울 강남구 테헤란로 123</p>
+</div>
+<!-- Key Feature Tag -->
+<div class="flex flex-wrap gap-2 mt-2">
+<span class="inline-flex items-center gap-1 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-2 py-1 rounded-md text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">directions_walk</span>
+                                    두 분 모두 도보 15분
+                                </span>
+</div>
+</div>
+</div>
+<!-- Description & Features -->
+<div class="mt-4 pt-3 border-t border-gray-100 dark:border-white/5 flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+<span class="text-xs bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 px-2.5 py-1 rounded-full whitespace-nowrap">☕ 조용하고 넓은 공간</span>
+<span class="text-xs bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 px-2.5 py-1 rounded-full whitespace-nowrap">🛗 엘리베이터 있음</span>
+<span class="text-xs bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 px-2.5 py-1 rounded-full whitespace-nowrap">✨ 밝은 조명</span>
+</div>
+<!-- Action Button -->
+<button class="w-full mt-4 bg-primary hover:bg-red-400 active:bg-red-500 text-white font-bold h-12 rounded-full flex items-center justify-center gap-2 transition-colors shadow-sm text-lg">
+<span>이 장소로 제안하기</span>
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+<!-- Card 2: Restaurant -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-5 shadow-soft border border-transparent hover:border-primary/20 transition-all group">
+<!-- Top section with image and key info -->
+<div class="flex gap-4">
+<div class="w-24 h-24 shrink-0 bg-gray-200 rounded-lg overflow-hidden relative shadow-inner">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Traditional Korean food table setting with various side dishes" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCHUMNguvBZn3-GF3MUYGqL7xJO9MOfJkRziKcZbDQZfGeOHvwvREbCia4rpTgLNM2mp7I123taSGilByW1jtj5dLidJMdXKCr8qnU1ZrXV4Y2in1D82nle4FnkEl_o8DwEERwJ9Vihx_xgD8UsCpJepGWKDWWWY7OC9NlRTxiT6x5n0J5VoRY0Q2q7CpM_mIFfwUc4B9DJh_SMzphBcgiyMUoFTJivijys_Qgq_lekmANMyqwTHwomi76EpmZTz9cePBnjSR4zbLJJ");'>
+</div>
+</div>
+<div class="flex-1 flex flex-col justify-between py-0.5">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="text-text-main dark:text-white text-xl font-bold leading-tight mb-1">청담 한정식</h3>
+<span class="bg-primary/10 text-primary text-xs font-bold px-2 py-1 rounded-md">식당</span>
+</div>
+<p class="text-text-sub dark:text-gray-400 text-sm font-medium line-clamp-1">서울 강남구 도산대로 456</p>
+</div>
+<!-- Key Feature Tag -->
+<div class="flex flex-wrap gap-2 mt-2">
+<span class="inline-flex items-center gap-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-2 py-1 rounded-md text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">directions_car</span>
+                                    두 분 모두 차량 10분
+                                </span>
+</div>
+</div>
+</div>
+<!-- Description & Features -->
+<div class="mt-4 pt-3 border-t border-gray-100 dark:border-white/5 flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+<span class="text-xs bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 px-2.5 py-1 rounded-full whitespace-nowrap">🚪 프라이빗 룸 보유</span>
+<span class="text-xs bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 px-2.5 py-1 rounded-full whitespace-nowrap">🅿️ 발렛파킹 가능</span>
+<span class="text-xs bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 px-2.5 py-1 rounded-full whitespace-nowrap">🍲 건강한 메뉴</span>
+</div>
+<!-- Action Button -->
+<button class="w-full mt-4 bg-primary hover:bg-red-400 active:bg-red-500 text-white font-bold h-12 rounded-full flex items-center justify-center gap-2 transition-colors shadow-sm text-lg">
+<span>이 장소로 제안하기</span>
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+<!-- Helper Text -->
+<div class="py-6 px-2 text-center">
+<p class="text-text-sub dark:text-gray-500 text-sm">
+                        원하시는 장소가 없나요?<br/>
+<a class="text-primary font-bold underline underline-offset-4 decoration-primary/30 mt-1 inline-block" href="#">직접 장소 검색하기</a>
+</p>
+</div>
+</div>
+</main>
+</div>
+</body></html>

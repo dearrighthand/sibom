@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface DatePickerWheelProps {
   value: { year: number | null; month: number | null; day: number | null };
@@ -27,6 +27,7 @@ function ScrollColumn({
 }) {
   const listRef = useRef<HTMLUListElement>(null);
   const isScrolling = useRef(false);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Sync Scroll Position with selectedValue changes
   useEffect(() => {
@@ -51,10 +52,10 @@ function ScrollColumn({
     isScrolling.current = true;
 
     // Clear timeout if exists
-    if ((window as any).scrollTimeout) clearTimeout((window as any).scrollTimeout);
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
 
     // Set timeout to clear scrolling flag
-    (window as any).scrollTimeout = setTimeout(() => {
+    scrollTimeoutRef.current = setTimeout(() => {
       isScrolling.current = false;
     }, 150);
 
@@ -93,8 +94,6 @@ function ScrollColumn({
 }
 
 export function DatePickerWheel({ value, onChange, years, months, days }: DatePickerWheelProps) {
-  const defaultYear = years[Math.floor(years.length / 2)];
-
   // Internal state to track scrolling values before "Done" is implicit in parent logic,
   // but here we just emit changes immediately.
 

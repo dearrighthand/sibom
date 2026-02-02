@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     cv: any;
   }
 }
@@ -24,7 +25,9 @@ export default function IdentityVerificationPage() {
   // Check if OpenCV is already loaded (e.g. from previous navigation)
   useEffect(() => {
     if (typeof window !== 'undefined' && window.cv) {
-      setIsOpenCvReady(true);
+      setTimeout(() => {
+        setIsOpenCvReady(true);
+      }, 0);
     }
   }, []);
 
@@ -84,13 +87,13 @@ export default function IdentityVerificationPage() {
 
       // Apply Gaussian Blur (Mosaic effect) to detection regions
       // Face
-      let faceRoi = dst.roi(faceRect);
+      const faceRoi = dst.roi(faceRect);
       cv.GaussianBlur(faceRoi, faceRoi, new cv.Size(45, 45), 0);
       cv.GaussianBlur(faceRoi, faceRoi, new cv.Size(45, 45), 0); // Apply twice for stronger effect
       faceRoi.delete();
 
       // ID Number
-      let idRoi = dst.roi(idNumRect);
+      const idRoi = dst.roi(idNumRect);
       cv.GaussianBlur(idRoi, idRoi, new cv.Size(45, 45), 0);
       cv.GaussianBlur(idRoi, idRoi, new cv.Size(45, 45), 0);
       idRoi.delete();
@@ -185,6 +188,7 @@ export default function IdentityVerificationPage() {
         {/* Main Visual / Processed Result */}
         <div className="w-full aspect-[4/3] bg-[#F5F7F9] rounded-3xl flex items-center justify-center mb-12 shadow-inner relative overflow-hidden group">
           {/* Hidden Image Source for OpenCV */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img ref={imgRef} style={{ display: 'none' }} onLoad={processImage} alt="source" />
 
           {isAnalyzing ? (

@@ -1,7 +1,6 @@
 'use client';
 
 import React, { createContext, useState, useCallback, ReactNode } from 'react';
-import globalDialog from '../components/GlobalDialog';
 import { GlobalDialog } from '../components/GlobalDialog';
 
 type DialogType = 'alert' | 'confirm';
