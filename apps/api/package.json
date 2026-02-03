@@ -31,7 +31,7 @@
     "@nestjs/swagger": "^11.2.5",
     "@prisma/adapter-pg": "6.19.1",
     "@prisma/client": "6.19.1",
-    "@sibom/shared": "*",
+    "@sibom/shared": "workspace:*",
     "@types/multer": "^2.0.0",
     "@types/uuid": "^10.0.0",
     "bcrypt": "^6.0.0",
