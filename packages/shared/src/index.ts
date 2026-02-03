@@ -1,1 +1,1 @@
-export * from './constants/hobbies.js';
+export { HOBBY_CODES, HOBBY_MAPPING } from './constants/hobbies.js';
