@@ -35,10 +35,10 @@ export default function Home() {
         {/* Header / Logo */}
         <div className="mt-8 flex flex-col items-center gap-2">
           <Image
-            src="/images/logo.png"
+            src="/images/logo-full.png"
             alt="SIBOM"
-            width={540}
-            height={294}
+            width={600}
+            height={240}
             priority
             className="h-40 w-auto object-contain brightness-0 invert"
           />
@@ -56,7 +56,20 @@ export default function Home() {
         {/* Action Buttons */}
         <div className="flex w-full max-w-md flex-col gap-4">
           {/* KakaoTalk Button */}
-          <button className="flex min-h-[56px] w-full items-center justify-center gap-3 rounded-full bg-[#FFE812] px-6 py-4 text-[#3C1E1E] shadow-lg transition-transform active:scale-95">
+          {/* KakaoTalk Button */}
+          <button 
+            onClick={() => {
+              const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
+              const REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI || 'http://localhost:3000/auth/kakao/callback';
+              if (!REST_API_KEY) {
+                alert('카카오 클라이언트 ID가 설정되지 않았습니다.');
+                return;
+              }
+              const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+              window.location.href = kakaoURL;
+            }}
+            className="flex min-h-[56px] w-full items-center justify-center gap-3 rounded-full bg-[#FFE812] px-6 py-4 text-[#3C1E1E] shadow-lg transition-transform active:scale-95"
+          >
             <MessageCircle className="h-6 w-6 fill-[#3C1E1E] text-[#3C1E1E]" />
             <span className="text-lg font-bold">카카오톡으로 시작하기</span>
           </button>

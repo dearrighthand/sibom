@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { X, ThumbsUp, ArrowRight } from 'lucide-react';
 import { useRegistrationStore } from '../../../stores/useRegistrationStore';
+import { api } from '@/lib/api';
 
 export default function CompletePage() {
   const hasStarted = useRef(false);
@@ -43,25 +44,15 @@ export default function CompletePage() {
           throw new Error('Phone number is missing. Please restart registration.');
         }
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(registerData),
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Registration failed');
-        }
-
-        const data = await response.json();
+        const data = await api.post<{ access_token: string; user: { id: string } }>('/auth/register', registerData);
         console.log('Registration Success:', data);
 
-        // Save token
+        // Save token and user ID
         if (data.access_token) {
           localStorage.setItem('accessToken', data.access_token);
+        }
+        if (data.user?.id) {
+          localStorage.setItem('userId', data.user.id);
         }
 
         // Capture data for display before resetting store
@@ -71,9 +62,9 @@ export default function CompletePage() {
         // Clear store on success
         store.reset();
         setIsLoading(false);
-      } catch (err: unknown) {
+      } catch (err: any) {
         console.error('Registration Error:', err);
-        const errorMessage = err instanceof Error ? err.message : 'An error occurred during registration.';
+        const errorMessage = err.response?.data?.message || (err instanceof Error ? err.message : 'An error occurred during registration.');
         setError(errorMessage);
         setIsLoading(false);
         // Allow retry by resetting the ref
@@ -87,7 +78,7 @@ export default function CompletePage() {
   const handleClose = () => {
     // Clear store if needed?
     // For now just redirect
-    router.push('/');
+    router.push('/main');
   };
 
   if (isLoading) {

@@ -12,6 +12,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRegistrationStore } from '../../../stores/useRegistrationStore';
+import { api } from '@/lib/api';
 
 // Mock Data for Date
 const CURRENT_YEAR = new Date().getFullYear();
@@ -100,11 +101,9 @@ export default function ProfileCreationPage() {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/locations/provinces`);
-        if (res.ok) {
-          const data = await res.json();
-          setProvinces(data);
-        }
+
+        const data = await api.get<LocationItem[]>('/locations/provinces');
+        setProvinces(data);
       } catch (e) {
         console.error('Failed to fetch provinces', e);
       }
@@ -117,13 +116,9 @@ export default function ProfileCreationPage() {
     if (selectedProvince?.code) {
       const fetchDistricts = async () => {
         try {
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/locations/districts?provinceCode=${selectedProvince.code}`,
-          );
-          if (res.ok) {
-            const data = await res.json();
-            setDistricts(data);
-          }
+
+          const data = await api.get<LocationItem[]>(`/locations/districts?provinceCode=${selectedProvince.code}`);
+          setDistricts(data);
         } catch (e) {
           console.error('Failed to fetch districts', e);
         }
@@ -266,15 +261,8 @@ export default function ProfileCreationPage() {
                       if (email && !errors.email) {
                         setIsCheckingEmail(true);
                         try {
-                          const res = await fetch(
-                            `${process.env.NEXT_PUBLIC_API_URL}/auth/email/check`,
-                            {
-                              method: 'POST',
-                              headers: { 'Content-Type': 'application/json' },
-                              body: JSON.stringify({ email }),
-                            },
-                          );
-                          const data = await res.json();
+
+                          const data = await api.post<{ exists: boolean }>('/auth/email/check', { email });
                           if (data.exists) {
                             setError('email', {
                               type: 'manual',

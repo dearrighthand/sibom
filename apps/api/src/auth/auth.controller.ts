@@ -13,13 +13,23 @@ import { VerifyCodeDto } from './dto/verify-code.dto';
 import { CheckEmailDto } from './dto/check-email.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 
+import { KakaoAuthService } from './kakao-auth.service';
+
 @Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
     private phoneVerificationService: PhoneVerificationService,
     private usersService: UsersService,
+    private kakaoAuthService: KakaoAuthService,
   ) {}
+
+  @Post('kakao')
+  async kakaoLogin(@Body() body: { code: string }) {
+    const accessToken = await this.kakaoAuthService.getAccessToken(body.code);
+    const kakaoUser = await this.kakaoAuthService.getUserInfo(accessToken);
+    return this.authService.loginWithKakao(kakaoUser);
+  }
 
   @Post('login')
   async login(@Body() req: { email: string; password: string }) {

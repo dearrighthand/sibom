@@ -25,17 +25,10 @@ export function TopNavigation() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 flex h-14 w-full items-center justify-between bg-white px-4 shadow-sm">
+    <header className="sticky top-0 z-50 flex h-16 w-full items-center justify-between bg-white px-4 shadow-sm">
       {/* Logo Area */}
       <Link href="/main" className="flex items-center">
-        <Image
-          src="/images/logo-nobg.png"
-          alt="SIBOM"
-          width={300}
-          height={162}
-          priority
-          className="h-[20px] w-auto object-contain"
-        />
+        <span className="text-2xl font-black tracking-tight text-[#FF8B7D]">SIBOM</span>
       </Link>
 
       {/* Right Actions */}

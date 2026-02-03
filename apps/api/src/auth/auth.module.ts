@@ -7,6 +7,8 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthController } from './auth.controller';
 import { PhoneVerificationService } from './phone-verification.service';
 
+import { KakaoAuthService } from './kakao-auth.service';
+
 @Module({
   imports: [
     UsersModule,
@@ -16,7 +18,7 @@ import { PhoneVerificationService } from './phone-verification.service';
       signOptions: { expiresIn: '60m' },
     }),
   ],
-  providers: [AuthService, JwtStrategy, PhoneVerificationService],
+  providers: [AuthService, JwtStrategy, PhoneVerificationService, KakaoAuthService],
   controllers: [AuthController],
   exports: [AuthService],
 })

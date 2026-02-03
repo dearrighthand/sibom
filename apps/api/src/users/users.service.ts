@@ -18,6 +18,12 @@ export class UsersService {
     });
   }
 
+  async findOneByKakaoId(kakaoId: string): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: { kakaoId },
+    });
+  }
+
   async findById(id: string): Promise<User | null> {
     return this.prisma.user.findUnique({
       where: { id },

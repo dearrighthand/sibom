@@ -49,6 +49,7 @@ export class AuthService {
     hobbies?: string[];
     meetingType?: string;
     profileImage?: string;
+    kakaoId?: string;
   }) {
     // Check if user exists by phone
     const existingUser = await this.usersService.findOneByPhone(data.phone);
@@ -72,6 +73,7 @@ export class AuthService {
       phone: data.phone,
       email: data.email,
       password: hashedPassword,
+      kakaoId: data.kakaoId,
       role: 'USER',
       profile: {
         create: {
@@ -109,5 +111,41 @@ export class AuthService {
 
     const hashedNewPassword = await bcrypt.hash(data.newPassword, 10);
     return this.usersService.updatePassword(data.userId, hashedNewPassword);
+  }
+
+  async loginWithKakao(kakaoUser: any) {
+    const { id, kakao_account } = kakaoUser;
+    const email = kakao_account?.email;
+    const kakaoId = id.toString();
+
+    // Check if user exists by kakaoId
+    let user = await this.usersService.findOneByKakaoId(kakaoId);
+
+    // If not found by kakaoId, try finding by email (if exists) and link it
+    if (!user && email) {
+      user = await this.usersService.findOne(email);
+      // If found by email, we could potentially link kakaoId here, 
+      // but simpler for now is to treat as 'registered' and return login
+      // However, linking is better. For now, let's just return if user exists.
+    }
+
+    if (user) {
+      // User exists, log them in
+      const payload = { username: user.id, sub: user.id };
+      return {
+        isRegistered: true,
+        access_token: this.jwtService.sign(payload),
+        user,
+      };
+    }
+
+    // User does not exist, return info for registration
+    return {
+      isRegistered: false,
+      kakaoId,
+      email,
+      name: kakao_account?.profile?.nickname,
+      profileImage: kakao_account?.profile?.profile_image_url,
+    };
   }
 }

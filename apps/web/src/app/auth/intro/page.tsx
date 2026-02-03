@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { ArrowLeft, Sparkles, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useRegistrationStore } from '../../../stores/useRegistrationStore';
+import { api } from '@/lib/api';
 
 export default function IntroPage() {
   const router = useRouter();
@@ -40,17 +41,12 @@ export default function IntroPage() {
 
       setIsRefining(true);
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ai/refine`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: introText }),
-        });
 
-        if (res.ok) {
-          const data = await res.json();
-          setChatHistory((prev) => [...prev, { role: 'ai', text: data.result }]);
-          setRefineCount((prev) => prev + 1);
-        }
+        const data = await api.post<{ result: string }>('/ai/refine', { text: introText });
+
+        setChatHistory((prev) => [...prev, { role: 'ai', text: data.result }]);
+        setRefineCount((prev) => prev + 1);
+
       } catch (e) {
         console.error('AI Refine failed', e);
       } finally {

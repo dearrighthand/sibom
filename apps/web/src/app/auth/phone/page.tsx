@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { useDialog } from '../../../hooks/useDialog';
 import { useRegistrationStore } from '../../../stores/useRegistrationStore';
+import { api } from '@/lib/api';
 
 export default function PhoneAuthPage() {
   const { setPhoneNumber } = useRegistrationStore();
@@ -65,27 +66,18 @@ export default function PhoneAuthPage() {
     if (isPhoneValid) {
       try {
         const cleanedPhone = phoneNumber.replace(/-/g, '');
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/phone/send`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ phone: cleanedPhone }),
-        });
-
-        if (!response.ok) {
-          if (response.status === 409) {
-            alert('가입된 번호', '이미 가입된 휴대폰 번호입니다.');
-            return;
-          }
-          throw new Error('Failed to send verification code');
-        }
-
+        await api.post('/auth/phone/send', { phone: cleanedPhone });
+        
+        // Success handling
         setShowOtp(true);
         setTimer(180); // Reset timer
         alert('인증번호가 발송되었습니다.', '문자메시지를 확인해 주세요.');
-      } catch (error) {
+      } catch (error: any) {
         console.error(error);
+        if (error.response?.status === 409) {
+             alert('가입된 번호', '이미 가입된 휴대폰 번호입니다.');
+             return;
+        }
         alert('발송 실패', '인증번호 발송에 실패했습니다.\n다시 시도해주세요.');
       }
     }
@@ -96,18 +88,9 @@ export default function PhoneAuthPage() {
       try {
         const cleanedPhone = phoneNumber.replace(/-/g, '');
         const code = otp.join('');
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/phone/verify`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ phone: cleanedPhone, code }),
-        });
+        await api.post('/auth/phone/verify', { phone: cleanedPhone, code });
 
-        if (!response.ok) {
-          const data = await response.json();
-          throw new Error(data.message || 'Verification failed');
-        }
+        // Success handling
 
         await alert('인증 완료', '본인 인증이 완료되었습니다.');
         setPhoneNumber(cleanedPhone); // Save to store

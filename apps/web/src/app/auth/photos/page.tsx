@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { ArrowLeft, Image as ImageIcon, Camera, CheckCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useRegistrationStore } from '../../../stores/useRegistrationStore';
+import { api } from '@/lib/api';
 
 export default function PhotoPage() {
   const router = useRouter();
@@ -31,16 +32,12 @@ export default function PhotoPage() {
         const formData = new FormData();
         formData.append('file', file);
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/uploads`, {
-          method: 'POST',
-          body: formData,
+        const  data = await api.post<{ url: string }>('/uploads', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         });
-
-        if (!response.ok) {
-          throw new Error('Upload failed');
-        }
-
-        const data = await response.json();
+        
         setProfileImage(data.url); // Save URL to store
       } catch (error) {
         console.error('Upload Error:', error);

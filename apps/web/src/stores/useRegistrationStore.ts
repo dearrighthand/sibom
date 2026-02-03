@@ -33,7 +33,11 @@ interface RegistrationState {
   profileImage: string | null;
 
   // Phone Number (Hidden step, collected at start)
+  // Phone Number (Hidden step, collected at start)
   phoneNumber: string | null;
+
+  // Kakao Info
+  kakaoId?: string;
 
   // Actions
   setProfileData: (data: Partial<RegistrationState>) => void;
@@ -44,6 +48,7 @@ interface RegistrationState {
   setPhoneNumber: (phone: string) => void;
   setEmail: (email: string) => void;
   setPassword: (password: string) => void;
+  setKakaoId: (id: string) => void;
   reset: () => void;
 }
 
@@ -62,6 +67,7 @@ export const useRegistrationStore = create<RegistrationState>()(
       meetingType: null,
       profileImage: null,
       phoneNumber: null,
+      kakaoId: undefined,
 
       setProfileData: (data) => set((state) => ({ ...state, ...data })),
       setIntro: (text) => set({ intro: text }),
@@ -71,6 +77,7 @@ export const useRegistrationStore = create<RegistrationState>()(
       setPhoneNumber: (phone) => set({ phoneNumber: phone }),
       setEmail: (email) => set({ email }),
       setPassword: (password) => set({ password }),
+      setKakaoId: (id) => set({ kakaoId: id }),
       reset: () =>
         set({
           name: '',
@@ -87,6 +94,7 @@ export const useRegistrationStore = create<RegistrationState>()(
           phoneNumber: null,
           email: undefined,
           password: undefined,
+          kakaoId: undefined,
         }),
     }),
     {

@@ -44,12 +44,12 @@ export default function LoginPage() {
       <div className="mb-12 flex flex-col items-center gap-2">
         <div className="flex flex-col items-center">
             <Image
-                src="/images/logo.png"
+                src="/images/logo-full.png"
                 alt="SIBOM"
                 width={360}
-                height={196}
+                height={144}
                 priority
-                className="h-auto w-80 object-contain"
+                className="h-40 w-auto object-contain"
             />
         </div>
       </div>
@@ -58,7 +58,16 @@ export default function LoginPage() {
       <div className="w-full max-w-sm mb-12">
         <button
           type="button"
-          onClick={() => alert('카카오 로그인 (구현 예정)')}
+          onClick={() => {
+            const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
+            const REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI || 'http://localhost:3000/auth/kakao/callback';
+            if (!REST_API_KEY) {
+              alert('카카오 클라이언트 ID가 설정되지 않았습니다.');
+              return;
+            }
+            const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+            window.location.href = kakaoURL;
+          }}
           className="flex min-h-[56px] w-full items-center justify-center gap-3 rounded-xl bg-[#FFE812] px-6 py-4 text-[#3C1E1E] shadow-sm transition-transform active:scale-95 hover:bg-[#FDD835]"
         >
           <MessageCircle className="h-6 w-6 fill-[#3C1E1E] text-[#3C1E1E]" />
@@ -120,7 +129,7 @@ export default function LoginPage() {
             <span className="text-gray-500 hover:text-gray-800">비밀번호 찾기</span>
         </Link>
         <span className="h-4 w-px bg-gray-300"></span>
-        <Link href="/auth/signup">
+        <Link href="/auth/phone">
             <span className="font-semibold text-[#FF8B7D] hover:underline">회원가입</span>
         </Link>
       </div>
