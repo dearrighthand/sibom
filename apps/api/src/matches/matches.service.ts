@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Match, Prisma } from '@prisma/client';
 import { AiService } from '../ai/ai.service'; // Import AiService
@@ -404,7 +404,7 @@ export class MatchesService {
     });
 
     if (dailyLikeCount >= 3) {
-      throw new Error('DAILY_LIKE_LIMIT_EXCEEDED');
+      throw new BadRequestException('DAILY_LIKE_LIMIT_EXCEEDED');
     }
 
     // 3. Create new Like (PENDING) - I'm initiating first
