@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { DialogProvider } from '../context/DialogContext';
+import { AppInitializer } from '../components/AppInitializer';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -18,7 +19,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="antialiased font-sans">
-        <DialogProvider>{children}</DialogProvider>
+        <DialogProvider>
+            <AppInitializer />
+            {children}
+        </DialogProvider>
       </body>
     </html>
   );

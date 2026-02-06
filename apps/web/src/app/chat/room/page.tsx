@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useState, useEffect, useRef, useCallback, Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import { ChevronLeft, MoreVertical, Send, Sparkles, X, Flag, Ban, LogOut } from 'lucide-react';
 import { format } from 'date-fns';
@@ -28,8 +28,9 @@ interface ChatData {
   messages: Message[];
 }
 
-export default function ChatRoomPage() {
-  const { id: matchId } = useParams();
+function ChatRoomContent() {
+  const searchParams = useSearchParams();
+  const matchId = searchParams.get('id');
   const router = useRouter();
   const { alert, confirm } = useDialog();
   const [data, setData] = useState<ChatData | null>(null);
@@ -231,7 +232,7 @@ export default function ChatRoomPage() {
     }
   };
 
-  if (!data && messages.length === 0) {
+  if ((!data && messages.length === 0) || !matchId) {
       return <div className="min-h-screen flex items-center justify-center">로딩중...</div>;
   }
 
@@ -523,5 +524,13 @@ export default function ChatRoomPage() {
           </div>
       )}
     </div>
+  );
+}
+
+export default function ChatRoomPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">로딩중...</div>}>
+      <ChatRoomContent />
+    </Suspense>
   );
 }

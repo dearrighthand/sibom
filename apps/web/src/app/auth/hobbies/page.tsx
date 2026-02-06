@@ -34,7 +34,7 @@ export default function HobbiesPage() {
   return (
     <div className="min-h-screen bg-[#FDFCFB] font-sans pb-32">
       {/* Top Navigation */}
-      <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-gray-200 px-6 py-4 flex items-center justify-between shadow-sm">
+      <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-gray-200 px-6 pb-4 pt-[calc(1rem+env(safe-area-inset-top))] flex items-center justify-between shadow-sm">
         <Link
           href="/auth/intro"
           className="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors"

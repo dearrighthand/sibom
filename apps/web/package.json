@@ -6,9 +6,20 @@
     "dev": "next dev",
     "build": "NEXT_PRIVATE_SKIP_SWC_PATCHING=true next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "static": "next build",
+    "generate:assets": "npx capacitor-assets generate",
+    "build:android": "pnpm run static && npx cap sync android",
+    "open:android": "npx cap open android",
+    "deploy:android": "pnpm run build:android && npm run open:android"
   },
   "dependencies": {
+    "@capacitor/android": "^8.0.2",
+    "@capacitor/cli": "^8.0.2",
+    "@capacitor/core": "^8.0.2",
+    "@capacitor/push-notifications": "^8.0.0",
+    "@capacitor/splash-screen": "^8.0.0",
+    "@capacitor/status-bar": "^8.0.0",
     "@hookform/resolvers": "^5.2.2",
     "@react-spring/web": "^10.0.3",
     "@sibom/shared": "workspace:*",
@@ -29,6 +40,7 @@
     "zustand": "^5.0.10"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

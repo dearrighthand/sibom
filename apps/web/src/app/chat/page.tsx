@@ -84,7 +84,7 @@ export default function ChatListPage() {
                 {rooms.map(room => (
                     <div 
                         key={room.id}
-                        onClick={() => router.push(`/chat/${room.id}`)}
+                        onClick={() => router.push(`/chat/room?id=${room.id}`)}
                         className="px-6 py-5 flex items-center gap-4 hover:bg-gray-50 active:bg-gray-100 cursor-pointer transition-colors"
                     >
                         {/* Profile Image (60x60) */}
