@@ -22,7 +22,7 @@ export function FooterNavigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-8 py-4 flex justify-between items-center z-50 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+    <nav className="fixed bottom-[60px] left-0 right-0 bg-white border-t border-gray-200 px-8 py-4 flex justify-between items-center z-50 pb-[calc(1rem+env(safe-area-inset-bottom))]">
       {navItems.map((item) => {
         const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
         const Icon = item.icon;

@@ -29,7 +29,7 @@ export default function HomeDashboard() {
           await AdMob.showBanner({
             adId: adUnitId,
             position: BannerAdPosition.BOTTOM_CENTER,
-            margin: 160, 
+            margin: 0, 
             adSize: BannerAdSize.ADAPTIVE_BANNER, 
           });
         } catch (err) {
@@ -77,7 +77,7 @@ export default function HomeDashboard() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FDFCFB] pb-32">
+    <div className="flex flex-col min-h-screen bg-[#FDFCFB] pb-40">
       <TopNavigation />
       
       <main className="flex-1 px-4 py-6 space-y-8">
