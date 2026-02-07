@@ -153,21 +153,23 @@ export default function CustomMatchPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FDFCFB] pb-24 font-sans pt-[env(safe-area-inset-top)]">
-      <header className="sticky top-0 z-50 flex h-14 w-full items-center justify-between bg-white px-4 shadow-sm">
-        <div className="flex items-center gap-3">
-            <button 
-                onClick={() => router.back()}
-                className="text-gray-700 hover:text-gray-900"
-            >
-                <ChevronLeft className="h-6 w-6" />
-            </button>
-            <h1 className="text-lg font-bold text-[#2D2D2D]">관심사로 인연 찾기</h1>
+    <div className="flex flex-col min-h-screen bg-[#FDFCFB] pb-24 font-sans">
+      <header className="sticky top-0 z-50 w-full bg-white shadow-sm pt-[env(safe-area-inset-top)]">
+        <div className="flex h-14 w-full items-center justify-between px-4">
+          <div className="flex items-center gap-3">
+              <button 
+                  onClick={() => router.back()}
+                  className="text-gray-700 hover:text-gray-900"
+              >
+                  <ChevronLeft className="h-6 w-6" />
+              </button>
+              <h1 className="text-lg font-bold text-[#2D2D2D]">관심사로 인연 찾기</h1>
+          </div>
         </div>
       </header>
 
       {/* Filter Header - Always visible at top */}
-      <div className="sticky top-14 z-20 bg-[#FDFCFB]/90 backdrop-blur-sm px-4 py-3 border-b border-gray-100">
+      <div className="sticky top-[calc(3.5rem+env(safe-area-inset-top))] z-20 bg-[#FDFCFB]/90 backdrop-blur-sm px-4 py-3 border-b border-gray-100">
          <button 
             onClick={() => setIsFilterOpen(true)}
             className="w-full bg-white border border-gray-200 rounded-2xl p-4 flex items-center justify-between shadow-sm active:scale-98 transition-all"
