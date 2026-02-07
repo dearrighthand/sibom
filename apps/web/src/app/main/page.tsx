@@ -15,23 +15,37 @@ export default function HomeDashboard() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (Capacitor.isNativePlatform()) {
-      const adUnitId = process.env.NEXT_PUBLIC_ADMOB_AD_UNIT_ID!;
-      
-      AdMob.showBanner({
-        adId: adUnitId,
-        position: BannerAdPosition.BOTTOM_CENTER,
-        margin: 84, 
-        adSize: BannerAdSize.ADAPTIVE_BANNER, 
-      })
-      .catch((err) => console.error('AdMob Show Banner Failed', err));
-    }
+    let isMounted = true;
+
+    const initAdMob = async () => {
+      if (Capacitor.isNativePlatform()) {
+        try {
+          const adUnitId = process.env.NEXT_PUBLIC_ADMOB_AD_UNIT_ID!;
+          // Ensure any existing banner is removed before showing a new one
+          await AdMob.removeBanner().catch(() => {}); 
+          
+          if (!isMounted) return;
+
+          await AdMob.showBanner({
+            adId: adUnitId,
+            position: BannerAdPosition.BOTTOM_CENTER,
+            margin: 84, 
+            adSize: BannerAdSize.ADAPTIVE_BANNER, 
+          });
+        } catch (err) {
+          console.error('AdMob Show Banner Failed', err);
+        }
+      }
+    };
+
+    initAdMob();
 
     return () => {
-       if (Capacitor.isNativePlatform()) {
-         AdMob.hideBanner().catch((err) => console.error('AdMob Hide Banner Failed', err));
-         AdMob.removeBanner().catch((err) => console.error('AdMob Remove Banner Failed', err));
-       }
+      isMounted = false;
+      if (Capacitor.isNativePlatform()) {
+        AdMob.hideBanner().catch((err) => console.error('AdMob Hide Banner Failed', err));
+        AdMob.removeBanner().catch((err) => console.error('AdMob Remove Banner Failed', err));
+      }
     };
   }, []);
 

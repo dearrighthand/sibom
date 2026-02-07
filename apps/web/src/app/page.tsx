@@ -1,15 +1,23 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { MessageCircle, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { AdMob } from '@capacitor-community/admob';
+import { Capacitor } from '@capacitor/core';
 
 export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
+    // Ensure AdMob is hidden on the landing page
+    if (Capacitor.isNativePlatform()) {
+        AdMob.hideBanner().catch(() => {});
+        AdMob.removeBanner().catch(() => {});
+    }
+
     const userId = localStorage.getItem('userId');
     if (userId) {
       router.push('/main');

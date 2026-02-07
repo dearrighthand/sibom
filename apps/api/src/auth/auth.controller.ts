@@ -4,6 +4,7 @@ import {
   Patch,
   Body,
   ConflictException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
@@ -39,7 +40,7 @@ export class AuthController {
     // For proper pattern:
     const user = await this.authService.validateUser(req.email, req.password);
     if (!user) {
-      return { message: 'Invalid credentials' }; // Or throw Unauthorized
+      throw new UnauthorizedException('Invalid credentials');
     }
     return this.authService.login(user as import('@prisma/client').User);
   }
