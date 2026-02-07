@@ -8,6 +8,9 @@ import { FooterNavigation } from '@/components/layout/FooterNavigation';
 import { api } from '@/lib/api';
 import { useDialog } from '@/hooks/useDialog';
 
+import { AdMob, BannerAdSize, BannerAdPosition } from '@capacitor-community/admob';
+import { Capacitor } from '@capacitor/core';
+
 interface Profile {
   id: string;
   name: string;
@@ -25,6 +28,41 @@ export default function MainPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [userName, setUserName] = useState('');
   const { alert } = useDialog();
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const initAdMob = async () => {
+      if (Capacitor.isNativePlatform()) {
+        try {
+          const adUnitId = process.env.NEXT_PUBLIC_ADMOB_AD_UNIT_ID!;
+          // Ensure any existing banner is removed before showing a new one
+          await AdMob.removeBanner().catch(() => {});
+          
+          if (!isMounted) return;
+
+          await AdMob.showBanner({
+            adId: adUnitId,
+            position: BannerAdPosition.BOTTOM_CENTER,
+            margin: 0, 
+            adSize: BannerAdSize.ADAPTIVE_BANNER, 
+          });
+        } catch (err) {
+          console.error('AdMob Show Banner Failed', err);
+        }
+      }
+    };
+
+    initAdMob();
+
+    return () => {
+      isMounted = false;
+      if (Capacitor.isNativePlatform()) {
+        AdMob.hideBanner().catch((err) => console.error('AdMob Hide Banner Failed', err));
+        AdMob.removeBanner().catch((err) => console.error('AdMob Remove Banner Failed', err));
+      }
+    };
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -130,7 +168,7 @@ export default function MainPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FDFCFB] pb-36 overflow-hidden">
+    <div className="flex flex-col min-h-screen bg-[#FDFCFB] pb-24 overflow-hidden pt-[env(safe-area-inset-top)]">
       <header className="sticky top-0 z-50 flex h-14 w-full items-center justify-between bg-white px-4 shadow-sm">
         <div className="flex items-center gap-3">
             <button 
@@ -148,8 +186,6 @@ export default function MainPage() {
         userName={userName}
         showAiReason={true}
       />
-      
-      <FooterNavigation />
     </div>
   );
 }

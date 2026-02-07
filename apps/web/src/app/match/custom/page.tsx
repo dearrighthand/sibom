@@ -9,6 +9,9 @@ import { api } from '@/lib/api';
 import { useDialog } from '@/hooks/useDialog';
 import { SlidersHorizontal, ChevronLeft } from 'lucide-react';
 
+import { AdMob, BannerAdSize, BannerAdPosition } from '@capacitor-community/admob';
+import { Capacitor } from '@capacitor/core';
+
 interface Profile {
   id: string;
   name: string;
@@ -28,6 +31,41 @@ export default function CustomMatchPage() {
   const [userName, setUserName] = useState('');
   const [filters, setFilters] = useState<Record<string, unknown> | null>(null); // Store current filters
   const { alert } = useDialog();
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const initAdMob = async () => {
+      if (Capacitor.isNativePlatform()) {
+        try {
+          const adUnitId = process.env.NEXT_PUBLIC_ADMOB_AD_UNIT_ID!;
+          // Ensure any existing banner is removed before showing a new one
+          await AdMob.removeBanner().catch(() => {});
+          
+          if (!isMounted) return;
+
+          await AdMob.showBanner({
+            adId: adUnitId,
+            position: BannerAdPosition.BOTTOM_CENTER,
+            margin: 0, 
+            adSize: BannerAdSize.ADAPTIVE_BANNER, 
+          });
+        } catch (err) {
+          console.error('AdMob Show Banner Failed', err);
+        }
+      }
+    };
+
+    initAdMob();
+
+    return () => {
+      isMounted = false;
+      if (Capacitor.isNativePlatform()) {
+        AdMob.hideBanner().catch((err) => console.error('AdMob Hide Banner Failed', err));
+        AdMob.removeBanner().catch((err) => console.error('AdMob Remove Banner Failed', err));
+      }
+    };
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -115,7 +153,7 @@ export default function CustomMatchPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FDFCFB] pb-36 font-sans">
+    <div className="flex flex-col min-h-screen bg-[#FDFCFB] pb-24 font-sans pt-[env(safe-area-inset-top)]">
       <header className="sticky top-0 z-50 flex h-14 w-full items-center justify-between bg-white px-4 shadow-sm">
         <div className="flex items-center gap-3">
             <button 
@@ -180,8 +218,6 @@ export default function CustomMatchPage() {
             </div>
         )}
       </main>
-
-      <FooterNavigation />
 
       <BottomSheet 
         isOpen={isFilterOpen} 

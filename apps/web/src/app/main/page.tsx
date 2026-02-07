@@ -7,46 +7,12 @@ import { api } from '@/lib/api';
 import { Search, Heart, MessageCircle, ChevronRight, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
-import { AdMob, BannerAdSize, BannerAdPosition } from '@capacitor-community/admob';
-import { Capacitor } from '@capacitor/core';
-
 export default function HomeDashboard() {
   const [userName, setUserName] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    let isMounted = true;
-
-    const initAdMob = async () => {
-      if (Capacitor.isNativePlatform()) {
-        try {
-          const adUnitId = process.env.NEXT_PUBLIC_ADMOB_AD_UNIT_ID!;
-          // Ensure any existing banner is removed before showing a new one
-          await AdMob.removeBanner().catch(() => {}); 
-          
-          if (!isMounted) return;
-
-          await AdMob.showBanner({
-            adId: adUnitId,
-            position: BannerAdPosition.BOTTOM_CENTER,
-            margin: 80, 
-            adSize: BannerAdSize.ADAPTIVE_BANNER, 
-          });
-        } catch (err) {
-          console.error('AdMob Show Banner Failed', err);
-        }
-      }
-    };
-
-    initAdMob();
-
-    return () => {
-      isMounted = false;
-      if (Capacitor.isNativePlatform()) {
-        AdMob.hideBanner().catch((err) => console.error('AdMob Hide Banner Failed', err));
-        AdMob.removeBanner().catch((err) => console.error('AdMob Remove Banner Failed', err));
-      }
-    };
+    // AdMob logic removed
   }, []);
 
   useEffect(() => {
@@ -77,7 +43,7 @@ export default function HomeDashboard() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FDFCFB] pb-40">
+    <div className="flex flex-col min-h-screen bg-[#FDFCFB] pb-32">
       <TopNavigation />
       
       <main className="flex-1 px-4 py-6 space-y-8">
