@@ -29,7 +29,7 @@ export default function HomeDashboard() {
           await AdMob.showBanner({
             adId: adUnitId,
             position: BannerAdPosition.BOTTOM_CENTER,
-            margin: 84, 
+            margin: 120, 
             adSize: BannerAdSize.ADAPTIVE_BANNER, 
           });
         } catch (err) {

@@ -9,11 +9,13 @@ import { AdMob } from '@capacitor-community/admob';
 import { Capacitor } from '@capacitor/core';
 
 import { api } from '@/lib/api';
+import { useDialog } from '@/hooks/useDialog';
 
 // ... (imports)
 
 export default function LoginPage() {
   const router = useRouter();
+  const { alert: openAlert } = useDialog();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +44,7 @@ export default function LoginPage() {
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
       console.error('Login error:', error);
-      alert(error.response?.data?.message || '로그인에 실패했습니다.');
+      openAlert('아이디와 비밀번호를 확인해주세요');
     } finally {
       setIsLoading(false);
     }
@@ -72,7 +74,7 @@ export default function LoginPage() {
             const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
             const REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI || 'http://localhost:3000/auth/kakao/callback';
             if (!REST_API_KEY) {
-              alert('카카오 클라이언트 ID가 설정되지 않았습니다.');
+              openAlert('카카오 클라이언트 ID가 설정되지 않았습니다.');
               return;
             }
             const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
