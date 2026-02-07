@@ -39,6 +39,7 @@ model User {
   password  String?
   phone     String   @unique
   kakaoId   String?  @unique
+  deviceToken String?
   role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

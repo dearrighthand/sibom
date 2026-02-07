@@ -48,4 +48,11 @@ export class UsersService {
       data: { password },
     });
   }
+
+  async updateDeviceToken(id: string, token: string): Promise<User> {
+    return this.prisma.user.update({
+      where: { id },
+      data: { deviceToken: token },
+    });
+  }
 }
