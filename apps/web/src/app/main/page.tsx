@@ -7,9 +7,33 @@ import { api } from '@/lib/api';
 import { Search, Heart, MessageCircle, ChevronRight, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
+import { AdMob, BannerAdSize, BannerAdPosition } from '@capacitor-community/admob';
+import { Capacitor } from '@capacitor/core';
+
 export default function HomeDashboard() {
   const [userName, setUserName] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (Capacitor.isNativePlatform()) {
+      const adUnitId = process.env.NEXT_PUBLIC_ADMOB_AD_UNIT_ID!;
+      
+      AdMob.showBanner({
+        adId: adUnitId,
+        position: BannerAdPosition.BOTTOM_CENTER,
+        margin: 84, 
+        adSize: BannerAdSize.ADAPTIVE_BANNER, 
+      })
+      .catch((err) => console.error('AdMob Show Banner Failed', err));
+    }
+
+    return () => {
+       if (Capacitor.isNativePlatform()) {
+         AdMob.hideBanner().catch((err) => console.error('AdMob Hide Banner Failed', err));
+         AdMob.removeBanner().catch((err) => console.error('AdMob Remove Banner Failed', err));
+       }
+    };
+  }, []);
 
   useEffect(() => {
     async function fetchUser() {
