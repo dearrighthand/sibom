@@ -76,24 +76,16 @@ export function BottomSheet({ isOpen, onClose, onApply }: BottomSheetProps) {
         {/* Header */}
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-xl font-bold text-gray-900">관심사로 찾기</h2>
-          <div className="flex gap-2">
-            <button 
-              onClick={onClose}
-              className="rounded-full bg-gray-100 p-2 text-gray-500 hover:bg-gray-200"
-            >
-              <X className="h-5 w-5" />
-            </button>
-            <button
-              onClick={handleApply}
-              className="rounded-full bg-[#2D2D2D] px-6 py-2 text-sm font-bold text-white shadow-md active:scale-95"
-            >
-              적용
-            </button>
-          </div>
+          <button 
+            onClick={onClose}
+            className="rounded-full bg-gray-100 p-2 text-gray-500 hover:bg-gray-200"
+          >
+            <X className="h-5 w-5" />
+          </button>
         </div>
 
         {/* Content (Scrollable if needed) */}
-        <div className="flex max-h-[70vh] flex-col gap-8 overflow-y-auto pb-8">
+        <div className="flex max-h-[70vh] flex-col gap-8 overflow-y-auto pb-24">
           
           {/* Age Section */}
           <section>
@@ -160,6 +152,14 @@ export function BottomSheet({ isOpen, onClose, onApply }: BottomSheetProps) {
         </div>
 
         {/* Apply Button */}
+        <div className="absolute bottom-0 left-0 right-0 bg-white p-6 pt-2">
+          <button
+            onClick={handleApply}
+            className="w-full rounded-xl bg-[#2D2D2D] py-4 text-lg font-bold text-white shadow-lg transition-transform active:scale-95"
+          >
+            적용하기
+          </button>
+        </div>
 
       </div>
     </div>

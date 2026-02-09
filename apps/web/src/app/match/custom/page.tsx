@@ -67,6 +67,17 @@ export default function CustomMatchPage() {
     };
   }, []);
 
+  // Toggle AdMob banner based on filter visibility
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform()) return;
+
+    if (isFilterOpen) {
+      AdMob.hideBanner().catch((err) => console.error('AdMob Hide Failed', err));
+    } else {
+      AdMob.resumeBanner().catch((err) => console.error('AdMob Resume Failed', err));
+    }
+  }, [isFilterOpen]);
+
   useEffect(() => {
     fetchData();
   }, []);
