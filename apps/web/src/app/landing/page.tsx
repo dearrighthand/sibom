@@ -182,15 +182,15 @@ export default function LandingPage() {
             
             <div className="grid gap-6 md:grid-cols-3">
               <div className="rounded-xl bg-white/5 p-6">
-                <div className="mb-2 text-2xl font-bold text-white">무제한</div>
+                <div className="mb-2 text-2xl font-bold text-white">1일 9건</div>
                 <div className="text-sm text-gray-400">AI 매칭 추천</div>
               </div>
               <div className="rounded-xl bg-white/5 p-6">
-                <div className="mb-2 text-2xl font-bold text-white">무제한</div>
+                <div className="mb-2 text-2xl font-bold text-white">1일 3건</div>
                 <div className="text-sm text-gray-400">호감 보내기</div>
               </div>
               <div className="rounded-xl bg-white/5 p-6">
-                <div className="mb-2 text-2xl font-bold text-white">무제한</div>
+                <div className="mb-2 text-2xl font-bold text-white">1일 3건</div>
                 <div className="text-sm text-gray-400">AI 멘트 생성</div>
               </div>
             </div>
