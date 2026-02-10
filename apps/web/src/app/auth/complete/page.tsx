@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { X, ThumbsUp, ArrowRight } from 'lucide-react';
 import { useRegistrationStore } from '../../../stores/useRegistrationStore';
 import { api } from '@/lib/api';
+import { syncDeviceToken } from '@/lib/pushNotifications';
 
 export default function CompletePage() {
   const hasStarted = useRef(false);
@@ -54,6 +55,7 @@ export default function CompletePage() {
         if (data.user?.id) {
           localStorage.setItem('userId', data.user.id);
         }
+        await syncDeviceToken();
 
         // Capture data for display before resetting store
         setUserName(store.name || '');

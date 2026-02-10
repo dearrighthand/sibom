@@ -12,6 +12,7 @@ import { api } from '@/lib/api';
 import { useDialog } from '@/hooks/useDialog';
 
 // ... (imports)
+import { syncDeviceToken } from '@/lib/pushNotifications';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -35,11 +36,17 @@ export default function LoginPage() {
     try {
       const data = await api.post<{ access_token: string; user: { id: string } }>('/auth/login', { email, password });
 
-      // Store token and user info
-      localStorage.setItem('accessToken', data.access_token);
       if (data.user?.id) {
         localStorage.setItem('userId', data.user.id);
       }
+      
+      // Sync device token if available
+      try {
+        await syncDeviceToken();
+      } catch (e) {
+        console.error('Failed to sync device token', e);
+      }
+
       router.push('/main');
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };

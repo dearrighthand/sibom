@@ -4,6 +4,7 @@ import { useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { api } from '@/lib/api';
 import { useRegistrationStore } from '@/stores/useRegistrationStore';
+import { syncDeviceToken } from '@/lib/pushNotifications';
 
 function KakaoCallbackContent() {
   const router = useRouter();
@@ -35,6 +36,7 @@ function KakaoCallbackContent() {
           if (data.user?.id) {
             localStorage.setItem('userId', data.user.id);
           }
+          await syncDeviceToken();
           router.push('/main');
         } else {
           // Need registration

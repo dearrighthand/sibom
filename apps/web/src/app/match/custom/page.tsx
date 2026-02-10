@@ -216,18 +216,7 @@ export default function CustomMatchPage() {
                     title="조건에 맞는 인연"
                     description="설정한 조건에 딱 맞는 분들이에요!"
                  />
-                 {profiles.length === 0 && (
-                     <div className="flex flex-col items-center justify-center h-[50vh] text-center px-6">
-                         <p className="text-xl font-bold text-[#2D2D2D] mb-2">조건에 맞는 회원이 없습니다.</p>
-                         <p className="text-[#666666]">필터 설정을 변경하여<br/>더 많은 인연을 찾아보세요.</p>
-                         <button 
-                            onClick={() => setIsFilterOpen(true)}
-                            className="mt-6 px-6 py-3 bg-[#7D9D85] text-white rounded-full font-bold shadow-md active:scale-95 transition-transform"
-                         >
-                            필터 변경하기
-                         </button>
-                     </div>
-                 )}
+
             </div>
         )}
       </main>

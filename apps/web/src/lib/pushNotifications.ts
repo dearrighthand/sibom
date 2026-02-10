@@ -20,12 +20,12 @@ export const initPushNotifications = async () => {
   // 3. Listeners
   PushNotifications.addListener('registration', async (token) => {
     console.log('Push Registration Token:', token.value);
-    // Send token to backend
-    try {
-      await api.post('/users/device-token', { token: token.value, platform: 'android' });
-    } catch (e) {
-      console.error('Failed to save device token', e);
-    }
+    
+    // Always save token to local storage first
+    localStorage.setItem('fcm_device_token', token.value);
+
+    // Try to sync if logged in
+    await syncDeviceToken();
   });
 
   PushNotifications.addListener('registrationError', (error) => {
@@ -45,4 +45,18 @@ export const initPushNotifications = async () => {
         window.location.href = data.url;
     }
   });
+};
+
+export const syncDeviceToken = async () => {
+    const token = localStorage.getItem('fcm_device_token');
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (token && accessToken) {
+        try {
+            await api.post('/users/device-token', { token, platform: 'android' });
+            console.log('Device token synced successfully');
+        } catch (e) {
+            console.error('Failed to sync device token', e);
+        }
+    }
 };
