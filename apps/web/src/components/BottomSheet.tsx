@@ -42,7 +42,7 @@ export function BottomSheet({
       />
 
       {/* Sheet Content */}
-      <div className="relative w-full max-w-lg bg-white rounded-t-3xl shadow-2xl px-6 pt-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] animate-in slide-in-from-bottom duration-300 bg-white">
+      <div className="relative w-full max-w-lg bg-white rounded-t-3xl shadow-2xl px-6 pt-6 pb-12 animate-in slide-in-from-bottom duration-300 bg-white">
         {/* Drag Handle (Visual only) */}
         <div className="w-full flex justify-center mb-6">
           <div className="w-12 h-1.5 bg-[#E5E5E5] rounded-full" />

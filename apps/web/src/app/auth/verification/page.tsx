@@ -221,7 +221,7 @@ export default function IdentityVerificationPage() {
       </main>
 
       {/* Bottom Actions */}
-      <div className="fixed bottom-0 left-0 right-0 p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] bg-gradient-to-t from-white via-white to-transparent">
+      <div className="fixed bottom-0 left-0 right-0 p-6 pb-24 bg-gradient-to-t from-white via-white to-transparent">
         {processedImage ? (
           <button
             onClick={() => router.push('/auth/complete')} // Placeholder next step
