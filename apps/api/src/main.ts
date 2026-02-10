@@ -4,7 +4,14 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: true,
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'https://sibom-web.vercel.app',
+      'https://sibom-api.vercel.app',
+      'capacitor://localhost',
+      'http://localhost',
+    ],
     credentials: true,
   });
   await app.listen(process.env.PORT ?? 3001);
