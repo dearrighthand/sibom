@@ -177,7 +177,7 @@ export default function ProfileCreationPage() {
   const daysArray = Array.from({ length: currentDaysInPicker }, (_, i) => i + 1);
 
   return (
-    <div className="min-h-screen bg-[#FDFCFB] font-sans pb-32">
+    <div className="min-h-screen h-full bg-[#FDFCFB] font-sans pb-32">
       {/* Top Navigation */}
       <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-gray-200 px-6 pb-4 pt-[calc(1rem+env(safe-area-inset-top))] flex items-center justify-between shadow-sm">
         <Link
