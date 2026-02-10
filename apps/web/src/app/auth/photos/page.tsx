@@ -180,7 +180,7 @@ export default function PhotoPage() {
       </main>
 
       {/* Bottom Fixed Next Button */}
-      <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white via-white to-transparent">
+      <div className="fixed bottom-0 left-0 right-0 p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] bg-gradient-to-t from-white via-white to-transparent">
         <button
           onClick={handleSubmit}
           disabled={!preview || isUploading}
