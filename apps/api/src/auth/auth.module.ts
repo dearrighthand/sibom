@@ -8,6 +8,7 @@ import { AuthController } from './auth.controller';
 import { PhoneVerificationService } from './phone-verification.service';
 
 import { KakaoAuthService } from './kakao-auth.service';
+import { SmsModule } from '../sms/sms.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { KakaoAuthService } from './kakao-auth.service';
       secret: process.env.JWT_SECRET || 'secretKey',
       signOptions: { expiresIn: '60m' },
     }),
+    SmsModule,
   ],
   providers: [AuthService, JwtStrategy, PhoneVerificationService, KakaoAuthService],
   controllers: [AuthController],

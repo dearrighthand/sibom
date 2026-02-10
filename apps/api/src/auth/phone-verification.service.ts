@@ -6,10 +6,14 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { PhoneVerificationStatus } from '@prisma/client';
+import { SmsService } from '../sms/sms.service';
 
 @Injectable()
 export class PhoneVerificationService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private smsService: SmsService,
+  ) {}
 
   // 6자리 랜덤 숫자 생성
   private generateCode(): string {
@@ -34,8 +38,20 @@ export class PhoneVerificationService {
       });
       console.log(`[DEBUG] Saved to DB:`, result);
 
-      // TODO: 실제 SMS 발송 로직 연동 (e.g. solapi, twilio, aligo)
-      console.log(`[SMS] To: ${phone}, Code: ${code}`);
+      console.log(`[DEBUG] Saved to DB:`, result);
+
+      // 실제 SMS 발송
+      const sent = await this.smsService.sendSms(
+        phone,
+        `[시봄] 인증번호 [${code}]를 입력해주세요.`,
+      );
+
+      if (!sent) {
+        console.warn(`[SMS] Failed to send verification code to ${phone}`);
+        // 선택 사항: SMS 발송 실패 시 DB 레코드 삭제 또는 상태 변경 고려
+      } else {
+        console.log(`[SMS] Sent successfully to ${phone}`);
+      }
     } catch (error) {
       console.error('Failed to save verification code:', error);
       throw new InternalServerErrorException(

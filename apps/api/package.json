@@ -42,6 +42,7 @@
     "pg": "^8.17.2",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
+    "solapi": "^5.5.4",
     "uuid": "9"
   },
   "devDependencies": {

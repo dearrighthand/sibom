@@ -309,3 +309,16 @@ model Report {
   status     String   @default("PENDING") // PENDING, RESOLVED
   createdAt  DateTime @default(now())
 }
+
+model SmsLog {
+  id        String   @id @default(uuid())
+  to        String
+  from      String
+  content   String   @db.Text
+  status    String   // SUCCESS, FAILURE
+  messageId String?
+  resultCode String?
+  createdAt DateTime @default(now())
+
+  @@index([to, createdAt])
+}

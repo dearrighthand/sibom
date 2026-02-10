@@ -17,6 +17,7 @@ import { AppService } from './app.service';
 import { UploadsModule } from './uploads/uploads.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { SettingsModule } from './settings/settings.module';
+import { SmsModule } from './sms/sms.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { SettingsModule } from './settings/settings.module';
     UploadsModule,
     NotificationsModule,
     SettingsModule,
+    SmsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
