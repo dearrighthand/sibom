@@ -16,7 +16,8 @@ import { api } from '@/lib/api';
 
 // Mock Data for Date
 const CURRENT_YEAR = new Date().getFullYear();
-const YEARS = Array.from({ length: 100 }, (_, i) => CURRENT_YEAR - i);
+const MAX_BIRTH_YEAR = CURRENT_YEAR - 50;
+const YEARS = Array.from({ length: 80 }, (_, i) => MAX_BIRTH_YEAR - i);
 const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1);
 
 interface LocationItem {
@@ -28,7 +29,7 @@ const profileSchema = z.object({
   name: z.string().min(2, '이름을 2글자 이상 입력해주세요.'),
   email: z.string().email('올바른 이메일 형식을 입력해주세요.'),
   password: z.string().min(6, '비밀번호는 6자 이상 입력해주세요.'),
-  birthYear: z.number({ message: '연도를 선택해주세요.' }),
+  birthYear: z.number({ message: '연도를 선택해주세요.' }).max(MAX_BIRTH_YEAR, `만 50세 이상만 가입 가능합니다.`),
   birthMonth: z.number({ message: '월을 선택해주세요.' }),
   birthDay: z.number({ message: '일을 선택해주세요.' }),
   gender: z.enum(['male', 'female'] as const, { message: '성별을 선택해주세요.' }),
