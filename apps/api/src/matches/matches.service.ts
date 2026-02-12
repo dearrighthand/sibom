@@ -23,7 +23,7 @@ export class MatchesService {
     userId: string,
     ageMin?: number,
     ageMax?: number,
-    ageMax?: number,
+
     distance?: string,
     location?: string,
     interestCodes?: string[],
