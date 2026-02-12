@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 
-export function TopNavigation() {
+export function TopNavigation({ title }: { title?: string }) {
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
@@ -27,9 +27,13 @@ export function TopNavigation() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-sm pt-[env(safe-area-inset-top)]">
       <div className="flex h-16 w-full items-center justify-between px-4">
-        {/* Logo Area */}
+        {/* Logo or Title Area */}
         <Link href="/main" className="flex items-center">
-          <span className="text-2xl font-black tracking-tight text-[#FF8B7D]">SIBOM</span>
+          {title ? (
+            <span className="text-xl font-bold text-[#2D2D2D]">{title}</span>
+          ) : (
+            <span className="text-2xl font-black tracking-tight text-[#FF8B7D]">SIBOM</span>
+          )}
         </Link>
 
         {/* Right Actions */}

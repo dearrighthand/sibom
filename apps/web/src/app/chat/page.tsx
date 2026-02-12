@@ -66,12 +66,7 @@ export default function ChatListPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 pb-24">
-      <TopNavigation />
-      
-      {/* Title */}
-      <div className="bg-white px-6 py-4 border-b border-gray-200">
-          <h1 className="text-2xl font-bold text-[#2D2D2D]">대화</h1>
-      </div>
+      <TopNavigation title="대화중인 인연" />
 
       {/* List */}
       <div className="flex-1 overflow-y-auto">

@@ -120,12 +120,10 @@ export default function LikesPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 pb-24">
-      <TopNavigation />
+      <TopNavigation title="주고받은 호감" />
       
       {/* Page Title & Tabs */}
-      <div className="bg-white px-6 pt-2 pb-0 border-b border-gray-200">
-          <h1 className="text-2xl font-bold mb-4">호감</h1>
-          
+      <div className="bg-white px-6 pt-2 pb-0 border-b border-gray-200 sticky top-16 z-40">
           <div className="flex">
             <button
                 onClick={() => setActiveTab('received')}
@@ -187,7 +185,11 @@ export default function LikesPage() {
                 ))
             ) : (
                 <div className="flex flex-col items-center justify-center py-20 text-center">
-                     <p className="text-gray-500 text-lg">보낸 호감이 없습니다.</p>
+                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                        <span className="text-3xl">💌</span>
+                    </div>
+                    <p className="text-gray-500 text-lg">아직 보낸 호감이 없어요.</p>
+                    <p className="text-gray-400 text-sm mt-1">마음에 드는 분에게 호감을 표현해보세요!</p>
                 </div>
             )
         )}

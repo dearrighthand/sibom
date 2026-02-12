@@ -36,13 +36,13 @@ export function RecommendationList({
           <div className="flex h-[60vh] flex-col items-center justify-center p-6 text-center text-gray-500">
               {showAiReason ? (
                 <>
-                  <h3 className="text-xl font-bold mb-2">오늘의 추천 인연을 모두 만났어요!</h3>
-                  <p className="whitespace-pre-wrap">매일 6명의 새로운 인연이 찾아옵니다.<br/>내일 다시 방문해주세요.</p>
+                  <h3 className="text-xl font-bold mb-2">AI가 아직 딱 맞는 인연을 찾지 못했어요</h3>
+                  <p className="whitespace-pre-wrap">잠시 후에 다시 확인하시거나,<br/>관심사로 직접 인연을 찾아보세요!</p>
                 </>
               ) : (
                 <>
-                  <h3 className="text-xl font-bold mb-2">조회된 데이터가 없습니다.</h3>
-                  <p className="whitespace-pre-wrap">다른 조건으로 찾아보세요.</p>
+                  <h3 className="text-xl font-bold mb-2">선택하신 관심사에 맞는 인연을 찾지 못했어요.</h3>
+                  <p className="whitespace-pre-wrap">관심사를 바꿔보세요!</p>
                 </>
               )}
           </div>

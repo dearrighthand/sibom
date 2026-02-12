@@ -7,7 +7,9 @@ import { FooterNavigation } from '@/components/layout/FooterNavigation';
 import { BottomSheet } from '@/components/home/BottomSheet';
 import { api } from '@/lib/api';
 import { useDialog } from '@/hooks/useDialog';
-import { SlidersHorizontal, ChevronLeft } from 'lucide-react';
+import { TopNavigation } from '@/components/layout/TopNavigation';
+import { Sparkles, SlidersHorizontal } from 'lucide-react';
+import Link from 'next/link';
 
 import { AdMob, BannerAdSize, BannerAdPosition } from '@capacitor-community/admob';
 import { Capacitor } from '@capacitor/core';
@@ -95,24 +97,37 @@ export default function CustomMatchPage() {
          let query = `/matches/recommendations?userId=${userId}&skipAi=true`; // Explicitly skip AI
          
          // Apply Filters
-         if (currentFilters) {
-            if (currentFilters.ageMin) query += `&ageMin=${currentFilters.ageMin}`;
-            if (currentFilters.ageMax) query += `&ageMax=${currentFilters.ageMax}`;
-            if (currentFilters.distance) query += `&distance=${currentFilters.distance}`;
-            if (currentFilters.interestCodes && Array.isArray(currentFilters.interestCodes)) {
+         const activeFilters = currentFilters || filters;
+
+         if (activeFilters) {
+            if (activeFilters.ageMin) query += `&ageMin=${activeFilters.ageMin}`;
+            if (activeFilters.ageMax) query += `&ageMax=${activeFilters.ageMax}`;
+            if (activeFilters.location) query += `&location=${activeFilters.location}`;
+            // Preserve distance for backward compatibility if location is not set, though we moved to location string
+            if (activeFilters.distance) query += `&distance=${activeFilters.distance}`;
+
+            if (activeFilters.interestCodes && Array.isArray(activeFilters.interestCodes)) {
                 // Pass as comma separated
-                query += `&interestCodes=${currentFilters.interestCodes.join(',')}`;
+                query += `&interestCodes=${activeFilters.interestCodes.join(',')}`;
             }
          }
          
          // Parallel fetch
          const [recommendations, userProfile] = await Promise.all([
             api.get<Profile[]>(query),
-            api.get<{ name: string }>(`/profiles/${userId}`)
+            api.get<{ name: string; location: string; interests: string[] }>(`/profiles/${userId}`)
          ]);
          
          setProfiles(recommendations);
          setUserName(userProfile.name);
+
+         // Initialize filters with user profile if not set
+         if (!filters && !currentFilters) {
+             setFilters({
+                 location: userProfile.location,
+                 interestCodes: userProfile.interests
+             });
+         }
          
        } catch (err: unknown) {
          const error = err as { response?: { status: number } };
@@ -164,23 +179,14 @@ export default function CustomMatchPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FDFCFB] pb-24 font-sans">
-      <header className="sticky top-0 z-50 w-full bg-white shadow-sm pt-[env(safe-area-inset-top)]">
-        <div className="flex h-14 w-full items-center justify-between px-4">
-          <div className="flex items-center gap-3">
-              <button 
-                  onClick={() => router.back()}
-                  className="text-gray-700 hover:text-gray-900"
-              >
-                  <ChevronLeft className="h-6 w-6" />
-              </button>
-              <h1 className="text-lg font-bold text-[#2D2D2D]">관심사로 인연 찾기</h1>
-          </div>
-        </div>
-      </header>
+    <div className="flex flex-col min-h-screen bg-[#FDFCFB] pb-24 font-sans overflow-hidden">
+      <TopNavigation title="새로운 인연찾기" />
+      <div className="px-4 py-5 bg-[#FDFCFB]">
+        <h2 className="text-xl font-bold text-[#2D2D2D]">관심사로 찾은 인연</h2>
+      </div>
 
       {/* Filter Header - Always visible at top */}
-      <div className="sticky top-[calc(3.5rem+env(safe-area-inset-top))] z-20 bg-[#FDFCFB]/90 backdrop-blur-sm px-4 py-3 border-b border-gray-100">
+      <div className="sticky top-16 z-40 bg-[#FDFCFB]/90 backdrop-blur-sm px-4 py-3 border-b border-gray-100">
          <button 
             onClick={() => setIsFilterOpen(true)}
             className="w-full bg-white border border-gray-200 rounded-2xl p-4 flex items-center justify-between shadow-sm active:scale-98 transition-all"
@@ -200,7 +206,7 @@ export default function CustomMatchPage() {
          </button>
       </div>
 
-      <main className="flex-1"> 
+      <main className="flex-1 relative"> 
         {isLoading ? (
             <div className="flex flex-col h-[60vh] items-center justify-center space-y-4">
                 <div className="w-12 h-12 border-4 border-[#7D9D85] border-t-transparent rounded-full animate-spin"></div>
@@ -213,18 +219,29 @@ export default function CustomMatchPage() {
                     onAction={handleAction}
                     userName={userName}
                     showAiReason={false}
-                    title="조건에 맞는 인연"
-                    description="설정한 조건에 딱 맞는 분들이에요!"
                  />
-
             </div>
         )}
+
+        {/* Floating Button for AI Match */}
+        <div className="absolute bottom-6 left-0 right-0 px-6 z-10 flex justify-center pointer-events-none">
+             <Link href="/match" className="pointer-events-auto shadow-lg bg-white border border-[#FF8B7D]/20 text-[#2D2D2D] px-6 py-3 rounded-full flex items-center gap-2 font-bold hover:bg-gray-50 active:scale-95 transition-all">
+                <div className="w-8 h-8 rounded-full bg-[#FFF0EF] flex items-center justify-center text-[#FF8B7D]">
+                    <Sparkles className="w-4 h-4" />
+                </div>
+                <span>AI에 추천받기</span>
+             </Link>
+        </div>
       </main>
+
+      <FooterNavigation />
 
       <BottomSheet 
         isOpen={isFilterOpen} 
         onClose={() => setIsFilterOpen(false)}
         onApply={handleFilterApply}
+        initialLocation={filters?.location as string}
+        initialInterests={filters?.interestCodes as string[]}
       />
     </div>
   );

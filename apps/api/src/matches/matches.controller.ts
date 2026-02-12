@@ -11,6 +11,7 @@ export class MatchesController {
     @Query('ageMin') ageMin?: string,
     @Query('ageMax') ageMax?: string,
     @Query('distance') distance?: string,
+    @Query('location') location?: string,
     @Query('interestCodes') interestCodes?: string,
     @Query('skipAi') skipAi?: string,
   ) {
@@ -19,6 +20,7 @@ export class MatchesController {
       ageMin ? parseInt(ageMin) : undefined,
       ageMax ? parseInt(ageMax) : undefined,
       distance,
+      location,
       interestCodes ? interestCodes.split(',') : undefined,
       skipAi === 'true',
     );

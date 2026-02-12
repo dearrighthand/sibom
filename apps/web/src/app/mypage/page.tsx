@@ -119,11 +119,10 @@ export default function MyPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 pb-20">
-      <TopNavigation />
+      <TopNavigation title="내 프로필" />
 
       {/* Page Header (My Page specific) */}
-      <header className="bg-white px-4 py-3 sticky top-14 z-10 border-b border-gray-100 flex justify-between items-center">
-        <h1 className="text-lg font-bold text-gray-900">내 프로필</h1>
+      <header className="bg-white px-4 py-3 sticky top-16 z-40 border-b border-gray-100 flex justify-end items-center">
         {isEditing ? (
           <button 
             onClick={handleSave}

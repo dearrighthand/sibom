@@ -23,7 +23,9 @@ export class MatchesService {
     userId: string,
     ageMin?: number,
     ageMax?: number,
+    ageMax?: number,
     distance?: string,
+    location?: string,
     interestCodes?: string[],
     skipAi: boolean = false,
   ) {
@@ -43,6 +45,7 @@ export class MatchesService {
     const isFiltering =
       ageMin ||
       ageMax ||
+      (location) ||
       (distance && distance !== 'nationwide') ||
       (interestCodes && interestCodes.length > 0);
 
@@ -106,7 +109,9 @@ export class MatchesService {
       }
 
       // Location/Distance Filter
-      if (distance && distance !== 'nationwide') {
+      if (location) {
+        whereClause.location = { startsWith: location };
+      } else if (distance && distance !== 'nationwide') {
         // Treat as "Same Region" since we lack geo-coords
         whereClause.location = userProfile.location;
       }
@@ -143,6 +148,7 @@ export class MatchesService {
           ageMin,
           ageMax,
           distance,
+          location,
           interestCodes,
         },
       );
