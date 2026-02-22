@@ -55,4 +55,29 @@ export class UsersService {
       data: { deviceToken: token },
     });
   }
+
+  async savePasswordResetToken(email: string, token: string, expiresAt: Date) {
+    await this.prisma.passwordResetToken.deleteMany({
+      where: { email },
+    });
+    return this.prisma.passwordResetToken.create({
+      data: {
+        email,
+        token,
+        expiresAt,
+      },
+    });
+  }
+
+  async findPasswordResetToken(token: string) {
+    return this.prisma.passwordResetToken.findUnique({
+      where: { token },
+    });
+  }
+
+  async deletePasswordResetToken(token: string) {
+    return this.prisma.passwordResetToken.delete({
+      where: { token },
+    });
+  }
 }

@@ -1,4 +1,3 @@
-
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
@@ -55,8 +54,8 @@ export class SmsService {
     let resultCode: string | null = null;
 
     if (!this.senderNumber) {
-        this.logger.error('SMS_SENDER_NUMBER is not set');
-        return false;
+      this.logger.error('SMS_SENDER_NUMBER is not set');
+      return false;
     }
 
     try {

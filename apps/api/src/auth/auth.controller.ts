@@ -13,6 +13,8 @@ import { SendVerificationCodeDto } from './dto/send-verification-code.dto';
 import { VerifyCodeDto } from './dto/verify-code.dto';
 import { CheckEmailDto } from './dto/check-email.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 import { KakaoAuthService } from './kakao-auth.service';
 
@@ -85,6 +87,21 @@ export class AuthController {
   async changePassword(@Body() changePasswordDto: ChangePasswordDto) {
     await this.authService.changePassword(changePasswordDto);
     return { message: 'Password changed successfully' };
+  }
+
+  @Post('forgot-password')
+  async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
+    await this.authService.forgotPassword(forgotPasswordDto.email);
+    return { message: 'Password reset email sent if account exists' };
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
+    await this.authService.resetPassword(
+      resetPasswordDto.token,
+      resetPasswordDto.newPassword,
+    );
+    return { message: 'Password has been reset successfully' };
   }
 
   // Example protected route

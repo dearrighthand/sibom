@@ -12,7 +12,9 @@ export class KakaoAuthService {
           client_id: process.env.KAKAO_CLIENT_ID || '',
           redirect_uri: process.env.KAKAO_REDIRECT_URI || '',
           code,
-          ...(process.env.KAKAO_CLIENT_SECRET ? { client_secret: process.env.KAKAO_CLIENT_SECRET } : {}),
+          ...(process.env.KAKAO_CLIENT_SECRET
+            ? { client_secret: process.env.KAKAO_CLIENT_SECRET }
+            : {}),
         }).toString(),
         {
           headers: {
@@ -22,7 +24,10 @@ export class KakaoAuthService {
       );
       return response.data.access_token;
     } catch (error) {
-      console.error('Kakao token exchange failed:', error.response?.data || error.message);
+      console.error(
+        'Kakao token exchange failed:',
+        error.response?.data || error.message,
+      );
       throw new UnauthorizedException('Failed to get Kakao access token');
     }
   }

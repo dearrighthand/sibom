@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Match, Prisma } from '@prisma/client';
 import { AiService } from '../ai/ai.service'; // Import AiService
@@ -45,7 +49,7 @@ export class MatchesService {
     const isFiltering =
       ageMin ||
       ageMax ||
-      (location) ||
+      location ||
       (distance && distance !== 'nationwide') ||
       (interestCodes && interestCodes.length > 0);
 

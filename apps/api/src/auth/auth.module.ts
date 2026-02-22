@@ -9,6 +9,7 @@ import { PhoneVerificationService } from './phone-verification.service';
 
 import { KakaoAuthService } from './kakao-auth.service';
 import { SmsModule } from '../sms/sms.module';
+import { MailService } from '../mail/mail.service';
 
 @Module({
   imports: [
@@ -20,8 +21,14 @@ import { SmsModule } from '../sms/sms.module';
     }),
     SmsModule,
   ],
-  providers: [AuthService, JwtStrategy, PhoneVerificationService, KakaoAuthService],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    PhoneVerificationService,
+    KakaoAuthService,
+    MailService,
+  ],
   controllers: [AuthController],
-  exports: [AuthService],
+  exports: [AuthService, MailService],
 })
 export class AuthModule {}

@@ -7,12 +7,15 @@ import {
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { randomBytes } from 'crypto';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private mailService: MailService,
   ) {}
 
   async validateUser(
@@ -113,6 +116,41 @@ export class AuthService {
     return this.usersService.updatePassword(data.userId, hashedNewPassword);
   }
 
+  async forgotPassword(email: string) {
+    const user = await this.usersService.findOne(email);
+    if (!user) {
+      // Return success to avoid email enumeration
+      return;
+    }
+
+    const token = randomBytes(32).toString('hex');
+    const expiresAt = new Date(Date.now() + 3600000); // 1 hour expiration
+
+    await this.usersService.savePasswordResetToken(email, token, expiresAt);
+    await this.mailService.sendPasswordResetEmail(email, token);
+  }
+
+  async resetPassword(token: string, newPassword: string) {
+    const resetToken = await this.usersService.findPasswordResetToken(token);
+
+    if (!resetToken || resetToken.expiresAt < new Date()) {
+      throw new UnauthorizedException(
+        'Invalid or expired password reset token',
+      );
+    }
+
+    const user = await this.usersService.findOne(resetToken.email);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await this.usersService.updatePassword(user.id, hashedPassword);
+
+    // Clean up used token
+    await this.usersService.deletePasswordResetToken(token);
+  }
+
   async loginWithKakao(kakaoUser: any) {
     const { id, kakao_account } = kakaoUser;
     const email = kakao_account?.email;
@@ -124,7 +162,7 @@ export class AuthService {
     // If not found by kakaoId, try finding by email (if exists) and link it
     if (!user && email) {
       user = await this.usersService.findOne(email);
-      // If found by email, we could potentially link kakaoId here, 
+      // If found by email, we could potentially link kakaoId here,
       // but simpler for now is to treat as 'registered' and return login
       // However, linking is better. For now, let's just return if user exists.
     }

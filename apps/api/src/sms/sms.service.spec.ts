@@ -1,4 +1,3 @@
-
 import { Test, TestingModule } from '@nestjs/testing';
 import { SmsService } from './sms.service';
 import { ConfigService } from '@nestjs/config';
@@ -50,7 +49,7 @@ describe('SmsService', () => {
     service = module.get<SmsService>(SmsService);
     prismaService = module.get<PrismaService>(PrismaService);
     configService = module.get<ConfigService>(ConfigService);
-    
+
     // Clear mocks
     jest.clearAllMocks();
   });
@@ -62,7 +61,7 @@ describe('SmsService', () => {
   describe('sendSms', () => {
     it('should send SMS if under daily limit', async () => {
       // Mock daily limit check -> 0 count
-      (mockPrismaService.smsLog.count as jest.Mock).mockResolvedValue(0);
+      mockPrismaService.smsLog.count.mockResolvedValue(0);
 
       const result = await service.sendSms('01000000000', 'Test message');
 
@@ -82,7 +81,7 @@ describe('SmsService', () => {
 
     it('should not send SMS if daily limit reached', async () => {
       // Mock daily limit check -> 3 count
-      (mockPrismaService.smsLog.count as jest.Mock).mockResolvedValue(3);
+      mockPrismaService.smsLog.count.mockResolvedValue(3);
 
       const result = await service.sendSms('01000000000', 'Test message');
 
