@@ -18,11 +18,18 @@ const navItems: NavItem[] = [
   { href: '/mypage', label: 'MY', icon: User },
 ];
 
-export function FooterNavigation() {
+interface FooterNavigationProps {
+  bottomOffset?: number;
+}
+
+export function FooterNavigation({ bottomOffset = 0 }: FooterNavigationProps) {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-8 pt-3 pb-5 flex justify-between items-center z-50">
+    <nav
+      className="fixed left-0 right-0 bg-white border-t border-gray-200 px-8 pt-3 pb-5 flex justify-between items-center z-50"
+      style={{ bottom: bottomOffset }}
+    >
       {navItems.map((item) => {
         const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
         const Icon = item.icon;

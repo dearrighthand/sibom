@@ -8,9 +8,8 @@ import { FooterNavigation } from '@/components/layout/FooterNavigation';
 import { TopNavigation } from '@/components/layout/TopNavigation';
 import { api } from '@/lib/api';
 import { useDialog } from '@/hooks/useDialog';
+import { useAdMobBanner } from '@/hooks/useAdMobBanner';
 import Link from 'next/link';
-import { AdMob, BannerAdSize, BannerAdPosition } from '@capacitor-community/admob';
-import { Capacitor } from '@capacitor/core';
 
 interface Profile {
   id: string;
@@ -29,41 +28,7 @@ export default function MatchPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [userName, setUserName] = useState('');
   const { alert } = useDialog();
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const initAdMob = async () => {
-      if (Capacitor.isNativePlatform()) {
-        try {
-          const adUnitId = process.env.NEXT_PUBLIC_ADMOB_AD_UNIT_ID!;
-          // Ensure any existing banner is removed before showing a new one
-          await AdMob.removeBanner().catch(() => {});
-          
-          if (!isMounted) return;
-
-          await AdMob.showBanner({
-            adId: adUnitId,
-            position: BannerAdPosition.BOTTOM_CENTER,
-            margin: 0, 
-            adSize: BannerAdSize.ADAPTIVE_BANNER, 
-          });
-        } catch (err) {
-          console.error('AdMob Show Banner Failed', err);
-        }
-      }
-    };
-
-    initAdMob();
-
-    return () => {
-      isMounted = false;
-      if (Capacitor.isNativePlatform()) {
-        AdMob.hideBanner().catch((err) => console.error('AdMob Hide Banner Failed', err));
-        AdMob.removeBanner().catch((err) => console.error('AdMob Remove Banner Failed', err));
-      }
-    };
-  }, []);
+  const { bannerHeight } = useAdMobBanner();
 
   useEffect(() => {
     fetchData();
@@ -158,7 +123,7 @@ export default function MatchPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FDFCFB] pb-24 overflow-hidden">
+    <div className="flex flex-col min-h-screen bg-[#FDFCFB] overflow-hidden" style={{ paddingBottom: 96 + bannerHeight }}>
       <TopNavigation title="새로운 인연찾기" />
       <div className="px-4 py-5">
         <h2 className="text-xl font-bold text-[#2D2D2D]">AI가 추천한 인연</h2>
@@ -183,7 +148,7 @@ export default function MatchPage() {
         </div>
       </div>
       
-      <FooterNavigation />
+      <FooterNavigation bottomOffset={bannerHeight} />
     </div>
   );
 }

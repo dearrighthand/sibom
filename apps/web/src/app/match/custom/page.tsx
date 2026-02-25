@@ -7,12 +7,10 @@ import { FooterNavigation } from '@/components/layout/FooterNavigation';
 import { BottomSheet } from '@/components/home/BottomSheet';
 import { api } from '@/lib/api';
 import { useDialog } from '@/hooks/useDialog';
+import { useAdMobBanner } from '@/hooks/useAdMobBanner';
 import { TopNavigation } from '@/components/layout/TopNavigation';
 import { Sparkles, SlidersHorizontal } from 'lucide-react';
 import Link from 'next/link';
-
-import { AdMob, BannerAdSize, BannerAdPosition } from '@capacitor-community/admob';
-import { Capacitor } from '@capacitor/core';
 
 interface Profile {
   id: string;
@@ -33,52 +31,16 @@ export default function CustomMatchPage() {
   const [userName, setUserName] = useState('');
   const [filters, setFilters] = useState<Record<string, unknown> | null>(null); // Store current filters
   const { alert } = useDialog();
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const initAdMob = async () => {
-      if (Capacitor.isNativePlatform()) {
-        try {
-          const adUnitId = process.env.NEXT_PUBLIC_ADMOB_AD_UNIT_ID!;
-          // Ensure any existing banner is removed before showing a new one
-          await AdMob.removeBanner().catch(() => {});
-          
-          if (!isMounted) return;
-
-          await AdMob.showBanner({
-            adId: adUnitId,
-            position: BannerAdPosition.BOTTOM_CENTER,
-            margin: 0, 
-            adSize: BannerAdSize.ADAPTIVE_BANNER, 
-          });
-        } catch (err) {
-          console.error('AdMob Show Banner Failed', err);
-        }
-      }
-    };
-
-    initAdMob();
-
-    return () => {
-      isMounted = false;
-      if (Capacitor.isNativePlatform()) {
-        AdMob.hideBanner().catch((err) => console.error('AdMob Hide Banner Failed', err));
-        AdMob.removeBanner().catch((err) => console.error('AdMob Remove Banner Failed', err));
-      }
-    };
-  }, []);
+  const { bannerHeight, hideBanner, resumeBanner } = useAdMobBanner();
 
   // Toggle AdMob banner based on filter visibility
   useEffect(() => {
-    if (!Capacitor.isNativePlatform()) return;
-
     if (isFilterOpen) {
-      AdMob.hideBanner().catch((err) => console.error('AdMob Hide Failed', err));
+      hideBanner();
     } else {
-      AdMob.resumeBanner().catch((err) => console.error('AdMob Resume Failed', err));
+      resumeBanner();
     }
-  }, [isFilterOpen]);
+  }, [isFilterOpen, hideBanner, resumeBanner]);
 
   useEffect(() => {
     fetchData();
@@ -179,7 +141,7 @@ export default function CustomMatchPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FDFCFB] pb-24 font-sans overflow-hidden">
+    <div className="flex flex-col min-h-screen bg-[#FDFCFB] font-sans overflow-hidden" style={{ paddingBottom: 96 + bannerHeight }}>
       <TopNavigation title="새로운 인연찾기" />
       <div className="px-4 py-5 bg-[#FDFCFB]">
         <h2 className="text-xl font-bold text-[#2D2D2D]">관심사로 찾은 인연</h2>
@@ -234,7 +196,7 @@ export default function CustomMatchPage() {
         </div>
       </main>
 
-      <FooterNavigation />
+      <FooterNavigation bottomOffset={bannerHeight} />
 
       <BottomSheet 
         isOpen={isFilterOpen} 
