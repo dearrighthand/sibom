@@ -130,11 +130,8 @@ export default function CustomMatchPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FDFCFB] font-sans overflow-hidden pb-24">
+    <div className="flex flex-col min-h-screen bg-[#FDFCFB] font-sans overflow-hidden">
       <TopNavigation title="새로운 인연찾기" />
-      <div className="px-4 py-5 bg-[#FDFCFB]">
-        <h2 className="text-xl font-bold text-[#2D2D2D]">관심사로 찾은 인연</h2>
-      </div>
 
       {/* Filter Header - Always visible at top */}
       <div className="sticky top-16 z-40 bg-[#FDFCFB]/90 backdrop-blur-sm px-4 py-3 border-b border-gray-100">
@@ -157,7 +154,7 @@ export default function CustomMatchPage() {
          </button>
       </div>
 
-      <main className="flex-1 relative"> 
+      <main className="flex-1 relative pb-32"> 
         {isLoading ? (
             <div className="flex flex-col h-[60vh] items-center justify-center space-y-4">
                 <div className="w-12 h-12 border-4 border-[#7D9D85] border-t-transparent rounded-full animate-spin"></div>
@@ -175,7 +172,7 @@ export default function CustomMatchPage() {
         )}
 
         {/* Floating Button for AI Match */}
-        <div className="absolute bottom-6 left-0 right-0 px-6 z-10 flex justify-center pointer-events-none">
+        <div className="fixed left-0 right-0 px-6 z-10 flex justify-center pointer-events-none" style={{ bottom: 'calc(80px + env(safe-area-inset-bottom, 0px))' }}>
              <Link href="/match" className="pointer-events-auto shadow-lg bg-white border border-[#FF8B7D]/20 text-[#2D2D2D] px-6 py-3 rounded-full flex items-center gap-2 font-bold hover:bg-gray-50 active:scale-95 transition-all">
                 <div className="w-8 h-8 rounded-full bg-[#FFF0EF] flex items-center justify-center text-[#FF8B7D]">
                     <Sparkles className="w-4 h-4" />

@@ -121,13 +121,10 @@ export default function MatchPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FDFCFB] overflow-hidden pb-24">
+    <div className="flex flex-col min-h-screen bg-[#FDFCFB] overflow-hidden">
       <TopNavigation title="새로운 인연찾기" />
-      <div className="px-4 py-5">
-        <h2 className="text-xl font-bold text-[#2D2D2D]">AI가 추천한 인연</h2>
-      </div>
-      
-      <div className="flex-1 relative">
+
+      <div className="flex-1 relative pb-32">
         <RecommendationList 
             profiles={profiles} 
             onAction={handleAction}
@@ -136,7 +133,7 @@ export default function MatchPage() {
         />
         
         {/* Floating Button for Custom Search */}
-        <div className="absolute bottom-6 left-0 right-0 px-6 z-10 flex justify-center pointer-events-none">
+        <div className="fixed left-0 right-0 px-6 z-10 flex justify-center pointer-events-none" style={{ bottom: 'calc(80px + env(safe-area-inset-bottom, 0px))' }}>
              <Link href="/match/custom" className="pointer-events-auto shadow-lg bg-white border border-[#FF8B7D]/20 text-[#2D2D2D] px-6 py-3 rounded-full flex items-center gap-2 font-bold hover:bg-gray-50 active:scale-95 transition-all">
                 <div className="w-8 h-8 rounded-full bg-[#FFF0EF] flex items-center justify-center text-[#FF8B7D]">
                     <SlidersHorizontal className="w-4 h-4" />

@@ -25,9 +25,9 @@ export function TopNavigation({ title }: { title?: string }) {
   }, []);
 
   return (
-    <header 
-      className="sticky z-50 w-full bg-white shadow-sm"
-      style={{ top: 'env(safe-area-inset-top, 0px)' }}
+    <header
+      className="sticky top-0 z-50 w-full bg-white shadow-sm"
+      style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
     >
       <div className="flex h-16 w-full items-center justify-between px-4">
         {/* Logo or Title Area */}
