@@ -112,10 +112,6 @@ export default function PrivacyPage() {
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="border border-gray-300 px-4 py-2">AWS (Amazon Web Services)</td>
-                    <td className="border border-gray-300 px-4 py-2">클라우드 서버 호스팅</td>
-                  </tr>
-                  <tr>
                     <td className="border border-gray-300 px-4 py-2">Google (Gemini AI)</td>
                     <td className="border border-gray-300 px-4 py-2">AI 매칭 추천 서비스</td>
                   </tr>
@@ -162,8 +158,7 @@ export default function PrivacyPage() {
               <p className="font-semibold">개인정보 보호책임자</p>
               <ul className="mt-2 space-y-1">
                 <li>담당자: SIBOM 개인정보보호팀</li>
-                <li>이메일: privacy@sibom.kr</li>
-                <li>연락처: 02-XXXX-XXXX</li>
+                <li>이메일: dearrighthand@gmail.com</li>
               </ul>
             </div>
           </section>
