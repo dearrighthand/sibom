@@ -27,8 +27,8 @@ export function FooterNavigation({ bottomOffset = 0 }: FooterNavigationProps) {
 
   return (
     <nav
-      className="fixed left-0 right-0 bg-white border-t border-gray-200 px-8 pt-3 pb-5 flex justify-between items-center z-50"
-      style={{ bottom: bottomOffset }}
+      className="fixed left-0 right-0 bg-white border-t border-gray-200 px-8 pt-3 flex justify-between items-center z-50"
+      style={{ bottom: bottomOffset, paddingBottom: 'calc(20px + env(safe-area-inset-bottom, 0px))' }}
     >
       {navItems.map((item) => {
         const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);

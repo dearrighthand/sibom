@@ -27,7 +27,7 @@ function ScrollColumn({
 }) {
   const listRef = useRef<HTMLUListElement>(null);
   const isScrolling = useRef(false);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Sync Scroll Position with selectedValue changes
   useEffect(() => {
