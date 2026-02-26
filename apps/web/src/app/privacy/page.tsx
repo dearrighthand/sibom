@@ -134,6 +134,19 @@ export default function PrivacyPage() {
               <li>개인정보 처리 정지 요구</li>
             </ul>
             <p className="mt-4">권리 행사는 앱 내 '설정 &gt; 개인정보 관리' 메뉴 또는 고객센터를 통해 가능합니다.</p>
+
+            <div className="mt-4 rounded-lg bg-[#FFF5F3] border border-[#FF8B7D]/30 p-4">
+              <p className="mb-2 font-semibold text-gray-900">계정 및 데이터 삭제 요청</p>
+              <p className="mb-3 text-sm text-gray-700">
+                SIBOM 계정과 관련된 모든 개인정보를 삭제하고 싶으신 경우, 아래 페이지에서 삭제를 요청하실 수 있습니다.
+              </p>
+              <a
+                href="/delete-account"
+                className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-[#FF8B7D] hover:bg-gray-50 border border-[#FF8B7D]"
+              >
+                계정 삭제 요청하기 →
+              </a>
+            </div>
           </section>
 
           <section>
