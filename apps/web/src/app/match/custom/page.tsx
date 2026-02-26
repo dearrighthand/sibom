@@ -7,7 +7,6 @@ import { FooterNavigation } from '@/components/layout/FooterNavigation';
 import { BottomSheet } from '@/components/home/BottomSheet';
 import { api } from '@/lib/api';
 import { useDialog } from '@/hooks/useDialog';
-import { useAdMobBanner } from '@/hooks/useAdMobBanner';
 import { TopNavigation } from '@/components/layout/TopNavigation';
 import { Sparkles, SlidersHorizontal } from 'lucide-react';
 import Link from 'next/link';
@@ -31,16 +30,6 @@ export default function CustomMatchPage() {
   const [userName, setUserName] = useState('');
   const [filters, setFilters] = useState<Record<string, unknown> | null>(null); // Store current filters
   const { alert } = useDialog();
-  const { bannerHeight, hideBanner, resumeBanner } = useAdMobBanner();
-
-  // Toggle AdMob banner based on filter visibility
-  useEffect(() => {
-    if (isFilterOpen) {
-      hideBanner();
-    } else {
-      resumeBanner();
-    }
-  }, [isFilterOpen, hideBanner, resumeBanner]);
 
   useEffect(() => {
     fetchData();
@@ -141,7 +130,7 @@ export default function CustomMatchPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FDFCFB] font-sans overflow-hidden" style={{ paddingBottom: 96 + bannerHeight }}>
+    <div className="flex flex-col min-h-screen bg-[#FDFCFB] font-sans overflow-hidden pb-24">
       <TopNavigation title="새로운 인연찾기" />
       <div className="px-4 py-5 bg-[#FDFCFB]">
         <h2 className="text-xl font-bold text-[#2D2D2D]">관심사로 찾은 인연</h2>
@@ -196,7 +185,7 @@ export default function CustomMatchPage() {
         </div>
       </main>
 
-      <FooterNavigation bottomOffset={bannerHeight} />
+      <FooterNavigation />
 
       <BottomSheet 
         isOpen={isFilterOpen} 

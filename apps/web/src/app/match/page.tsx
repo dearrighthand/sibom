@@ -8,7 +8,6 @@ import { FooterNavigation } from '@/components/layout/FooterNavigation';
 import { TopNavigation } from '@/components/layout/TopNavigation';
 import { api } from '@/lib/api';
 import { useDialog } from '@/hooks/useDialog';
-import { useAdMobBanner } from '@/hooks/useAdMobBanner';
 import Link from 'next/link';
 
 interface Profile {
@@ -28,7 +27,6 @@ export default function MatchPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [userName, setUserName] = useState('');
   const { alert } = useDialog();
-  const { bannerHeight } = useAdMobBanner();
 
   useEffect(() => {
     fetchData();
@@ -123,7 +121,7 @@ export default function MatchPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FDFCFB] overflow-hidden" style={{ paddingBottom: 96 + bannerHeight }}>
+    <div className="flex flex-col min-h-screen bg-[#FDFCFB] overflow-hidden pb-24">
       <TopNavigation title="새로운 인연찾기" />
       <div className="px-4 py-5">
         <h2 className="text-xl font-bold text-[#2D2D2D]">AI가 추천한 인연</h2>
@@ -147,8 +145,8 @@ export default function MatchPage() {
              </Link>
         </div>
       </div>
-      
-      <FooterNavigation bottomOffset={bannerHeight} />
+
+      <FooterNavigation />
     </div>
   );
 }
