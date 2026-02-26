@@ -100,6 +100,23 @@ export default function Home() {
               로그인
             </Link>
           </div>
+
+          {/* Terms and Privacy Links */}
+          <div className="mt-6 flex justify-center gap-4 text-sm">
+            <Link
+              href="/terms"
+              className="text-gray-300 underline decoration-1 underline-offset-2 hover:text-white"
+            >
+              서비스 이용약관
+            </Link>
+            <span className="text-gray-400">|</span>
+            <Link
+              href="/privacy"
+              className="text-gray-300 underline decoration-1 underline-offset-2 hover:text-white"
+            >
+              개인정보처리방침
+            </Link>
+          </div>
         </div>
       </main>
     </div>
