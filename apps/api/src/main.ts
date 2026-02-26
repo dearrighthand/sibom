@@ -9,6 +9,8 @@ async function bootstrap() {
       'http://localhost:3001',
       'https://sibom-web.vercel.app',
       'https://sibom-api.vercel.app',
+      'https://sibom.kr',
+      'https://www.sibom.kr',
       'capacitor://localhost',
       'http://localhost',
     ],
