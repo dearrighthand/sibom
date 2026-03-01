@@ -12,6 +12,12 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
+    // Add cache busting to avoid WebView serving stale CORS headers
+    if (config.method?.toUpperCase() === 'GET') {
+      config.params = config.params || {};
+      config.params['_t'] = new Date().getTime();
+    }
+    
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('accessToken');
       if (token) {
