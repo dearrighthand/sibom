@@ -13,6 +13,7 @@ async function bootstrap() {
       'https://www.sibom.kr',
       'capacitor://localhost',
       'http://localhost',
+      'https://localhost',
     ],
     credentials: true,
   });
