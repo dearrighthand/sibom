@@ -59,7 +59,7 @@ function ResetPasswordForm() {
   return (
     <div className="flex min-h-screen flex-col bg-white">
       {/* Header */}
-      <header className="sticky top-0 z-10 flex items-center justify-between bg-white px-4 py-3 shadow-sm">
+      <header className="sticky top-0 z-10 flex items-center justify-between bg-white px-4 py-3 shadow-sm" style={{ paddingTop: 'calc(12px + var(--safe-area-inset-top, 0px))' }}>
         <button
           onClick={() => router.push('/login')}
           className="flex h-10 w-10 items-center justify-center rounded-full active:bg-gray-100"

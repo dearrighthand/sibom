@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIBOM Feature Graphic - PNG 다운로드</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #FF8B7D;
+      margin-bottom: 20px;
+    }
+    .preview {
+      margin: 20px 0;
+      border: 2px dashed #ddd;
+      padding: 20px;
+      border-radius: 8px;
+      background: #fafafa;
+      overflow: auto;
+    }
+    button {
+      background: #FF8B7D;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 10px 10px 10px 0;
+    }
+    button:hover {
+      background: #ff7a68;
+    }
+    .info {
+      background: #fff5f3;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+      border-left: 4px solid #FF8B7D;
+    }
+    .success {
+      background: #e8f5e9;
+      border-left: 4px solid #4caf50;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 SIBOM Feature Graphic</h1>
+
+    <div class="info">
+      <strong>📋 PNG 다운로드:</strong> 아래 버튼을 클릭하여 1024 x 500px PNG 파일을 다운로드하세요.
+    </div>
+
+    <button onclick="downloadPNG()">📥 PNG 다운로드 (1024x500px)</button>
+
+    <div class="preview" id="preview">
+      <svg width="1024" height="500" viewBox="0 0 1024 500" xmlns="http://www.w3.org/2000/svg" id="featureGraphic">
+        <!-- Background -->
+        <defs>
+          <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#FFF5F3;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#FFE5E0;stop-opacity:1" />
+          </linearGradient>
+
+          <!-- Phone shadow -->
+          <filter id="phoneShadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+            <feOffset dx="0" dy="4" result="offsetblur"/>
+            <feComponentTransfer>
+              <feFuncA type="linear" slope="0.2"/>
+            </feComponentTransfer>
+            <feMerge>
+              <feMergeNode/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
+        <rect width="1024" height="500" fill="url(#bgGradient)"/>
+
+        <!-- Left Section - Brand & Message -->
+        <g id="brand-section">
+          <!-- SIBOM Logo Text -->
+          <text x="80" y="140" font-family="Arial, sans-serif" font-size="72" font-weight="900" fill="#FF8B7D" letter-spacing="-2">
+            SIBOM
+          </text>
+
+          <!-- Tagline -->
+          <text x="80" y="190" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#2D2D2D">
+            50대 이상을 위한
+          </text>
+          <text x="80" y="230" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#2D2D2D">
+            AI 기반 매칭 서비스
+          </text>
+
+          <!-- Features -->
+          <g id="features">
+            <circle cx="90" cy="280" r="4" fill="#FF8B7D"/>
+            <text x="105" y="285" font-family="Arial, sans-serif" font-size="18" fill="#555">
+              AI 추천 매칭
+            </text>
+
+            <circle cx="90" cy="315" r="4" fill="#FF8B7D"/>
+            <text x="105" y="320" font-family="Arial, sans-serif" font-size="18" fill="#555">
+              관심사 기반 연결
+            </text>
+
+            <circle cx="90" cy="350" r="4" fill="#FF8B7D"/>
+            <text x="105" y="355" font-family="Arial, sans-serif" font-size="18" fill="#555">
+              안전한 프라이버시
+            </text>
+          </g>
+
+          <!-- CTA Text -->
+          <text x="80" y="420" font-family="Arial, sans-serif" font-size="20" font-weight="600" fill="#FF8B7D">
+            새로운 인연을 시작하세요
+          </text>
+        </g>
+
+        <!-- Right Section - Phone Mockups -->
+        <g id="phone-mockups" transform="translate(530, 50)">
+          <!-- Phone 1 - Main Screen -->
+          <g filter="url(#phoneShadow)">
+            <rect x="0" y="0" width="140" height="280" rx="20" fill="#1F1F1F"/>
+            <rect x="5" y="5" width="130" height="270" rx="16" fill="white"/>
+
+            <!-- Notch -->
+            <rect x="50" y="5" width="40" height="4" rx="2" fill="#1F1F1F"/>
+
+            <!-- Screen Content - Header -->
+            <rect x="5" y="20" width="130" height="40" fill="white"/>
+            <text x="70" y="42" font-family="Arial, sans-serif" font-size="12" font-weight="900" fill="#FF8B7D" text-anchor="middle">
+              SIBOM
+            </text>
+
+            <!-- Profile Card -->
+            <g transform="translate(15, 70)">
+              <rect x="0" y="0" width="110" height="150" rx="12" fill="#FFF5F3"/>
+
+              <!-- Profile Image Placeholder -->
+              <circle cx="55" cy="40" r="25" fill="#FFD4CC"/>
+              <text x="55" y="46" font-family="Arial, sans-serif" font-size="20" fill="#FF8B7D" text-anchor="middle">👤</text>
+
+              <!-- Name -->
+              <text x="55" y="80" font-family="Arial, sans-serif" font-size="10" font-weight="700" fill="#2D2D2D" text-anchor="middle">
+                김영희, 52세
+              </text>
+
+              <!-- Location -->
+              <text x="55" y="95" font-family="Arial, sans-serif" font-size="8" fill="#777" text-anchor="middle">
+                📍 서울 강남구
+              </text>
+
+              <!-- Interests -->
+              <g transform="translate(10, 105)">
+                <rect x="0" y="0" width="30" height="14" rx="7" fill="#FFE5E0"/>
+                <text x="15" y="10" font-family="Arial, sans-serif" font-size="7" fill="#FF8B7D" text-anchor="middle">등산</text>
+
+                <rect x="35" y="0" width="30" height="14" rx="7" fill="#FFE5E0"/>
+                <text x="50" y="10" font-family="Arial, sans-serif" font-size="7" fill="#FF8B7D" text-anchor="middle">음악</text>
+
+                <rect x="70" y="0" width="30" height="14" rx="7" fill="#FFE5E0"/>
+                <text x="85" y="10" font-family="Arial, sans-serif" font-size="7" fill="#FF8B7D" text-anchor="middle">여행</text>
+              </g>
+
+              <!-- Buttons -->
+              <g transform="translate(15, 130)">
+                <circle cx="20" cy="0" r="12" fill="white" stroke="#DDD" stroke-width="1.5"/>
+                <text x="20" y="4" font-family="Arial, sans-serif" font-size="14" fill="#999" text-anchor="middle">✕</text>
+
+                <circle cx="55" cy="0" r="15" fill="#FF8B7D"/>
+                <text x="55" y="5" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle">♥</text>
+
+                <circle cx="90" cy="0" r="12" fill="white" stroke="#DDD" stroke-width="1.5"/>
+                <text x="90" y="4" font-family="Arial, sans-serif" font-size="14" fill="#999" text-anchor="middle">⭐</text>
+              </g>
+            </g>
+
+            <!-- Bottom Nav -->
+            <g transform="translate(0, 245)">
+              <rect x="5" y="0" width="130" height="30" fill="white"/>
+              <text x="27" y="18" font-family="Arial, sans-serif" font-size="10" fill="#999">🏠</text>
+              <text x="52" y="18" font-family="Arial, sans-serif" font-size="10" fill="#FF8B7D">🔍</text>
+              <text x="77" y="18" font-family="Arial, sans-serif" font-size="10" fill="#999">♥</text>
+              <text x="102" y="18" font-family="Arial, sans-serif" font-size="10" fill="#999">💬</text>
+            </g>
+          </g>
+
+          <!-- Phone 2 - Chat Screen (slightly behind and to the right) -->
+          <g transform="translate(160, 30)" opacity="0.85" filter="url(#phoneShadow)">
+            <rect x="0" y="0" width="140" height="280" rx="20" fill="#1F1F1F"/>
+            <rect x="5" y="5" width="130" height="270" rx="16" fill="white"/>
+
+            <!-- Notch -->
+            <rect x="50" y="5" width="40" height="4" rx="2" fill="#1F1F1F"/>
+
+            <!-- Header -->
+            <rect x="5" y="20" width="130" height="40" fill="white"/>
+            <text x="70" y="42" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#2D2D2D" text-anchor="middle">
+              박철수
+            </text>
+
+            <!-- Chat Messages -->
+            <g transform="translate(15, 70)">
+              <!-- Received Message -->
+              <rect x="0" y="0" width="80" height="35" rx="12" fill="#F0F0F0"/>
+              <text x="40" y="14" font-family="Arial, sans-serif" font-size="8" fill="#333" text-anchor="middle">안녕하세요!</text>
+              <text x="40" y="26" font-family="Arial, sans-serif" font-size="8" fill="#333" text-anchor="middle">반갑습니다 😊</text>
+
+              <!-- Sent Message -->
+              <rect x="30" y="45" width="80" height="35" rx="12" fill="#FF8B7D"/>
+              <text x="70" y="59" font-family="Arial, sans-serif" font-size="8" fill="white" text-anchor="middle">네, 반갑습니다!</text>
+              <text x="70" y="71" font-family="Arial, sans-serif" font-size="8" fill="white" text-anchor="middle">등산 좋아하시나봐요?</text>
+
+              <!-- Received Message -->
+              <rect x="0" y="90" width="85" height="35" rx="12" fill="#F0F0F0"/>
+              <text x="42" y="104" font-family="Arial, sans-serif" font-size="8" fill="#333" text-anchor="middle">네! 주말마다</text>
+              <text x="42" y="116" font-family="Arial, sans-serif" font-size="8" fill="#333" text-anchor="middle">북한산 갑니다 ⛰️</text>
+            </g>
+
+            <!-- Input Area -->
+            <rect x="15" y="245" width="100" height="20" rx="10" fill="#F5F5F5"/>
+            <text x="65" y="258" font-family="Arial, sans-serif" font-size="8" fill="#999" text-anchor="middle">메시지 입력...</text>
+          </g>
+
+          <!-- Phone 3 - Profile Screen (furthest back) -->
+          <g transform="translate(320, 60)" opacity="0.7" filter="url(#phoneShadow)">
+            <rect x="0" y="0" width="140" height="280" rx="20" fill="#1F1F1F"/>
+            <rect x="5" y="5" width="130" height="270" rx="16" fill="white"/>
+
+            <!-- Notch -->
+            <rect x="50" y="5" width="40" height="4" rx="2" fill="#1F1F1F"/>
+
+            <!-- Header -->
+            <rect x="5" y="20" width="130" height="40" fill="white"/>
+            <text x="70" y="42" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#2D2D2D" text-anchor="middle">
+              MY
+            </text>
+
+            <!-- Profile Content -->
+            <g transform="translate(20, 70)">
+              <!-- Profile Image -->
+              <circle cx="50" cy="30" r="28" fill="#FFD4CC"/>
+              <text x="50" y="38" font-family="Arial, sans-serif" font-size="24" fill="#FF8B7D" text-anchor="middle">👤</text>
+
+              <!-- Name -->
+              <text x="50" y="75" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="#2D2D2D" text-anchor="middle">
+                홍길동
+              </text>
+
+              <!-- Stats -->
+              <g transform="translate(0, 90)">
+                <rect x="0" y="0" width="100" height="60" rx="8" fill="#FFF5F3"/>
+
+                <text x="50" y="20" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#FF8B7D" text-anchor="middle">
+                  12
+                </text>
+                <text x="50" y="32" font-family="Arial, sans-serif" font-size="8" fill="#777" text-anchor="middle">
+                  받은 좋아요
+                </text>
+
+                <text x="50" y="48" font-family="Arial, sans-serif" font-size="8" fill="#555" text-anchor="middle">
+                  프로필 완성도 85%
+                </text>
+              </g>
+            </g>
+          </g>
+        </g>
+
+        <!-- Decorative Elements -->
+        <circle cx="950" cy="80" r="30" fill="#FFD4CC" opacity="0.3"/>
+        <circle cx="920" cy="420" r="40" fill="#FF8B7D" opacity="0.2"/>
+        <circle cx="100" cy="450" r="20" fill="#FFE5E0" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <div id="result"></div>
+
+    <canvas id="canvas" style="display:none;"></canvas>
+  </div>
+
+  <script>
+    function downloadPNG() {
+      try {
+        // Get the SVG element
+        const svgElement = document.getElementById('featureGraphic');
+
+        // Create canvas
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas dimensions
+        canvas.width = 1024;
+        canvas.height = 500;
+
+        // Convert SVG to image
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+        const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+        const url = URL.createObjectURL(svgBlob);
+
+        const img = new Image();
+        img.onload = function() {
+          // Draw image on canvas
+          ctx.drawImage(img, 0, 0, 1024, 500);
+
+          // Convert to PNG and download
+          canvas.toBlob(function(blob) {
+            const pngUrl = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = 'sibom-feature-graphic.png';
+            link.href = pngUrl;
+            link.click();
+
+            // Show file size
+            const sizeMB = (blob.size / (1024 * 1024)).toFixed(2);
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = 'success';
+            resultDiv.innerHTML = `
+              <strong>✅ PNG 다운로드 완료!</strong><br>
+              파일명: sibom-feature-graphic.png<br>
+              크기: ${sizeMB} MB<br>
+              ${sizeMB < 15 ? '✓ Google Play 요구사항 충족 (15MB 이하)' : '⚠️ 15MB를 초과합니다.'}
+            `;
+
+            // Cleanup
+            URL.revokeObjectURL(url);
+            URL.revokeObjectURL(pngUrl);
+          }, 'image/png');
+        };
+
+        img.onerror = function() {
+          alert('❌ 이미지 변환 중 오류가 발생했습니다.');
+        };
+
+        img.src = url;
+      } catch (error) {
+        alert('❌ PNG 변환 실패: ' + error.message);
+      }
+    }
+  </script>
+</body>
+</html>

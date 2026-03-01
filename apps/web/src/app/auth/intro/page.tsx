@@ -68,7 +68,7 @@ export default function IntroPage() {
     return (
       <div className="min-h-screen bg-[#F5F5F5] font-sans flex flex-col animate-in slide-in-from-right duration-300">
         {/* Header */}
-        <div className="px-6 py-4 flex items-center justify-between bg-white border-b border-gray-100 shadow-sm sticky top-0 z-10">
+        <div className="px-6 py-4 flex items-center justify-between bg-white border-b border-gray-100 shadow-sm sticky top-0 z-10" style={{ paddingTop: 'calc(16px + var(--safe-area-inset-top, 0px))' }}>
           <h2 className="text-lg font-bold text-[#2D2D2D] flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-[#FF8B7D]" />
             자기소개 작성
@@ -162,7 +162,7 @@ export default function IntroPage() {
   return (
     <div className="min-h-screen h-full bg-[#FDFCFB] font-sans pb-32">
       {/* Top Navigation */}
-      <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-gray-200 px-6 pb-4 pt-4 flex items-center justify-between shadow-sm">
+      <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-gray-200 px-6 pb-4 flex items-center justify-between shadow-sm" style={{ paddingTop: 'calc(16px + var(--safe-area-inset-top, 0px))' }}>
         <Link
           href="/auth/profile"
           className="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors"

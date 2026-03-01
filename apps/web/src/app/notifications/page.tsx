@@ -55,7 +55,7 @@ export default function NotificationsPage() {
     if (notification.type === 'MATCH') {
       router.push('/likes');
     } else if (notification.type === 'MESSAGE' && notification.metadata?.matchId) {
-      router.push(`/chat/${notification.metadata.matchId}`);
+      router.push(`/chat/room?id=${notification.metadata.matchId}`);
     }
   };
 

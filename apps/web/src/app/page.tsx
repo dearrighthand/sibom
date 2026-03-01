@@ -39,7 +39,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />
       </div>
 
-      <main className="relative z-10 flex min-h-screen flex-col items-center justify-between px-6 py-12 text-white">
+      <main className="relative z-10 flex min-h-[100dvh] flex-col items-center justify-between px-6 py-12 text-white">
         {/* Header / Logo */}
         <div className="mt-8 flex flex-col items-center gap-2">
           <Image
@@ -102,7 +102,7 @@ export default function Home() {
           </div>
 
           {/* Terms and Privacy Links */}
-          <div className="mt-6 flex justify-center gap-4 text-sm">
+          <div className="mt-6 flex justify-center gap-4 text-sm" style={{ paddingBottom: 'calc(1.5rem + var(--safe-area-inset-bottom, 0px))' }}>
             <Link
               href="/terms"
               className="text-gray-300 underline decoration-1 underline-offset-2 hover:text-white"

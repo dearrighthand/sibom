@@ -205,7 +205,7 @@ export default function LikesPage() {
         onChatStart={() => {
             setIsSuccessModalOpen(false);
             if (matchedPartner?.matchId) {
-                window.location.href = `/chat/${matchedPartner.matchId}`; 
+                window.location.href = `/chat/room?id=${matchedPartner.matchId}`; 
             } else {
                 window.location.href = '/chat';
             }

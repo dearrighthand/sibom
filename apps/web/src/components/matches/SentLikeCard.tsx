@@ -57,7 +57,7 @@ export function SentLikeCard({ match }: SentLikeCardProps) {
              </div>
         ) : match.status === 'ACCEPTED' ? (
             <button 
-                onClick={() => window.location.href = `/chat/${match.matchId}`}
+                onClick={() => window.location.href = `/chat/room?id=${match.matchId}`}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#7D9D85] text-white text-sm font-bold shadow-sm hover:bg-[#6d8d75] transition-colors mt-1"
             >
                 <MessageCircle className="w-3.5 h-3.5" />

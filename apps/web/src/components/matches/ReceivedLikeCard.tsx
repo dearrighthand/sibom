@@ -86,7 +86,7 @@ export function ReceivedLikeCard({ match, onAccept, onReject }: ReceivedLikeCard
       <div className="flex gap-2 mt-1">
         {isAccepted ? (
           <button 
-            onClick={() => window.location.href = `/chat/${match.matchId}`}
+            onClick={() => window.location.href = `/chat/room?id=${match.matchId}`}
             className="flex-1 py-3 rounded-xl bg-[#7D9D85] text-white font-bold text-sm hover:bg-[#6d8d75] transition-colors shadow-md shadow-[#7D9D85]/20 flex items-center justify-center gap-2"
           >
             <MessageCircle className="w-4 h-4" />

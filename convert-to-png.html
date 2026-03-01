@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVG to PNG Converter</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #FF8B7D;
+      margin-bottom: 20px;
+    }
+    .preview {
+      margin: 20px 0;
+      border: 2px dashed #ddd;
+      padding: 20px;
+      border-radius: 8px;
+      background: #fafafa;
+      overflow: auto;
+    }
+    button {
+      background: #FF8B7D;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 10px 10px 10px 0;
+    }
+    button:hover {
+      background: #ff7a68;
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .info {
+      background: #fff5f3;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+      border-left: 4px solid #FF8B7D;
+    }
+    canvas {
+      max-width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 SIBOM Feature Graphic Converter</h1>
+
+    <div class="info">
+      <strong>📋 사용 방법:</strong>
+      <ol>
+        <li>"SVG 미리보기" 버튼을 클릭하여 그래픽을 확인하세요</li>
+        <li>"PNG로 다운로드" 버튼을 클릭하여 이미지를 저장하세요</li>
+        <li>파일 크기가 15MB 이하인지 확인하세요</li>
+      </ol>
+    </div>
+
+    <button onclick="loadSVG()">SVG 미리보기</button>
+    <button onclick="downloadPNG()" id="downloadBtn" disabled>PNG로 다운로드 (1024x500px)</button>
+
+    <div class="preview" id="preview">
+      <p style="color: #999; text-align: center;">SVG 미리보기 버튼을 클릭하세요</p>
+    </div>
+
+    <canvas id="canvas" style="display:none;"></canvas>
+  </div>
+
+  <script>
+    let svgLoaded = false;
+
+    async function loadSVG() {
+      try {
+        const response = await fetch('feature-graphic.svg');
+        const svgText = await response.text();
+
+        const preview = document.getElementById('preview');
+        preview.innerHTML = svgText;
+
+        svgLoaded = true;
+        document.getElementById('downloadBtn').disabled = false;
+
+        alert('✅ SVG가 로드되었습니다! 이제 PNG로 다운로드할 수 있습니다.');
+      } catch (error) {
+        alert('❌ SVG 파일을 로드할 수 없습니다: ' + error.message);
+      }
+    }
+
+    async function downloadPNG() {
+      if (!svgLoaded) {
+        alert('먼저 SVG를 로드해주세요!');
+        return;
+      }
+
+      try {
+        // Get the SVG element
+        const svgElement = document.querySelector('#preview svg');
+        if (!svgElement) {
+          throw new Error('SVG 요소를 찾을 수 없습니다');
+        }
+
+        // Create canvas
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas dimensions
+        canvas.width = 1024;
+        canvas.height = 500;
+
+        // Convert SVG to image
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+        const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+        const url = URL.createObjectURL(svgBlob);
+
+        const img = new Image();
+        img.onload = function() {
+          // Draw image on canvas
+          ctx.drawImage(img, 0, 0, 1024, 500);
+
+          // Convert to PNG and download
+          canvas.toBlob(function(blob) {
+            const pngUrl = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = 'sibom-feature-graphic.png';
+            link.href = pngUrl;
+            link.click();
+
+            // Show file size
+            const sizeMB = (blob.size / (1024 * 1024)).toFixed(2);
+            alert(`✅ PNG 다운로드 완료!\n파일 크기: ${sizeMB} MB\n\n${sizeMB < 15 ? '✓ 15MB 이하입니다.' : '⚠️ 15MB를 초과합니다.'}`);
+
+            // Cleanup
+            URL.revokeObjectURL(url);
+            URL.revokeObjectURL(pngUrl);
+          }, 'image/png');
+        };
+
+        img.onerror = function() {
+          alert('❌ 이미지 변환 중 오류가 발생했습니다.');
+        };
+
+        img.src = url;
+      } catch (error) {
+        alert('❌ PNG 변환 실패: ' + error.message);
+      }
+    }
+
+    // Auto-load SVG on page load
+    window.addEventListener('load', () => {
+      setTimeout(loadSVG, 500);
+    });
+  </script>
+</body>
+</html>
