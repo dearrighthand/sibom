@@ -239,7 +239,13 @@ function ChatRoomContent() {
   return (
     <div className="flex flex-col h-screen bg-[#F2F4F6]">
       {/* Header */}
-      <header className="bg-white px-4 py-3 flex items-center justify-between border-b border-gray-200 shrink-0">
+      <header 
+        className="bg-white px-4 flex items-center justify-between border-b border-gray-200 shrink-0"
+        style={{ 
+            paddingTop: 'calc(12px + var(--safe-area-inset-top, 0px))',
+            paddingBottom: '12px'
+        }}
+      >
           <button onClick={() => router.back()} className="p-2 -ml-2 text-gray-600">
               <ChevronLeft size={24} />
           </button>
@@ -302,7 +308,13 @@ function ChatRoomContent() {
       </div>
 
       {/* Input Area */}
-      <div className="bg-white px-4 py-3 border-t border-gray-200 shrink-0 safe-area-bottom">
+      <div 
+        className="bg-white px-4 border-t border-gray-200 shrink-0"
+        style={{ 
+            paddingTop: '12px',
+            paddingBottom: 'calc(12px + var(--safe-area-inset-bottom, 0px))' 
+        }}
+      >
           <div className="flex items-center gap-2">
               <button 
                 onClick={() => setIsAiOpen(true)}
