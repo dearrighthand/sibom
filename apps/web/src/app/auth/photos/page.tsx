@@ -8,6 +8,8 @@ import { useRouter } from 'next/navigation';
 import { useRegistrationStore } from '../../../stores/useRegistrationStore';
 import { api } from '@/lib/api';
 
+import imageCompression from 'browser-image-compression';
+
 export default function PhotoPage() {
   const router = useRouter();
   const { profileImage, setProfileImage } = useRegistrationStore();
@@ -29,10 +31,19 @@ export default function PhotoPage() {
       // Upload to server
       try {
         setIsUploading(true);
+        
+        // Compress image before upload to avoid Vercel 4.5MB limit (which causes CORS errors)
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1920,
+          useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
+        
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append('file', compressedFile, compressedFile.name);
 
-        const  data = await api.post<{ url: string }>('/uploads', formData, {
+        const data = await api.post<{ url: string }>('/uploads', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

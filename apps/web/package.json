@@ -26,6 +26,7 @@
     "@react-spring/web": "^10.0.3",
     "@sibom/shared": "workspace:*",
     "axios": "^1.13.4",
+    "browser-image-compression": "^2.0.2",
     "capacitor-plugin-safe-area": "^5.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
