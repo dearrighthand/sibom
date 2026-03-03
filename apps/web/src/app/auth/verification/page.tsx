@@ -122,7 +122,7 @@ export default function IdentityVerificationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFCFB] font-sans pb-32">
+    <div className="min-h-screen flex flex-col bg-[#FDFCFB] font-sans pb-8">
       <Script
         src="https://docs.opencv.org/4.8.0/opencv.js"
         onLoad={() => {
@@ -221,7 +221,7 @@ export default function IdentityVerificationPage() {
       </main>
 
       {/* Bottom Actions */}
-      <div className="fixed bottom-0 left-0 right-0 p-6 pb-24 bg-gradient-to-t from-white via-white to-transparent">
+      <div className="mt-auto p-6 w-full">
         {processedImage ? (
           <button
             onClick={() => router.push('/auth/complete')} // Placeholder next step

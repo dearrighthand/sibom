@@ -79,7 +79,7 @@ export default function IntroPage() {
         </div>
 
         {/* Content */}
-        <main className="flex-1 p-6 overflow-y-auto space-y-6 pb-40">
+        <main className="flex-1 p-6 overflow-y-auto space-y-6 pb-8">
           {chatHistory.map((msg, idx) => (
             <div
               key={idx}
@@ -135,7 +135,7 @@ export default function IntroPage() {
 
         {/* Bottom Actions */}
         {chatHistory.length > 0 && chatHistory[chatHistory.length - 1].role === 'ai' && (
-          <div className="fixed bottom-0 left-0 right-0 p-6 bg-transparent from-white/90 via-white/50 to-transparent pt-10 pb-8 flex flex-col gap-3">
+          <div className="mt-auto p-6 flex flex-col gap-3">
             <button
               onClick={() => handleUseRefined(chatHistory[chatHistory.length - 1].text)}
               className="w-full bg-[#FF8B7D] text-white rounded-full py-4 font-bold shadow-md hover:bg-[#FF7B6D] transition-all flex items-center justify-center gap-2"
@@ -160,7 +160,7 @@ export default function IntroPage() {
   }
 
   return (
-    <div className="min-h-screen h-full bg-[#FDFCFB] font-sans pb-32">
+    <div className="min-h-screen flex flex-col bg-[#FDFCFB] font-sans pb-8">
       {/* Top Navigation */}
       <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-gray-200 px-6 pb-4 flex items-center justify-between shadow-sm" style={{ paddingTop: 'calc(16px + var(--safe-area-inset-top, 0px))' }}>
         <Link
@@ -233,8 +233,8 @@ export default function IntroPage() {
         </p>
       </main>
 
-      {/* Bottom Fixed Next Button */}
-      <div className="fixed bottom-0 left-0 right-0 p-6 pb-24 bg-gradient-to-t from-white via-white to-transparent">
+      {/* Bottom Next Button */}
+      <div className="mt-auto p-6 w-full">
         <button
           onClick={handleSubmit}
           disabled={introText.length < 5}

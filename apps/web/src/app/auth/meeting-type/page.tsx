@@ -26,7 +26,7 @@ export default function MeetingTypePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFCFB] font-sans pb-32">
+    <div className="min-h-screen flex flex-col bg-[#FDFCFB] font-sans pb-8">
       {/* Top Navigation */}
       <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-gray-200 px-6 pb-4 flex items-center justify-between shadow-sm" style={{ paddingTop: 'calc(16px + var(--safe-area-inset-top, 0px))' }}>
         <Link
@@ -117,8 +117,8 @@ export default function MeetingTypePage() {
         </div>
       </main>
 
-      {/* Bottom Fixed Next Button */}
-      <div className="fixed bottom-0 left-0 right-0 p-6 pb-24 bg-gradient-to-t from-white via-white to-transparent">
+      {/* Bottom Next Button */}
+      <div className="mt-auto p-6 w-full">
         <button
           onClick={handleSubmit}
           disabled={!selectedType}
