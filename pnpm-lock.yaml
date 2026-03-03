@@ -199,6 +199,9 @@ importers:
       '@capacitor/android':
         specifier: ^8.0.2
         version: 8.0.2(@capacitor/core@8.0.2)
+      '@capacitor/app':
+        specifier: ^8.0.1
+        version: 8.0.1(@capacitor/core@8.0.2)
       '@capacitor/cli':
         specifier: ^8.0.2
         version: 8.0.2
@@ -217,6 +220,9 @@ importers:
       '@capacitor/status-bar':
         specifier: ^8.0.0
         version: 8.0.0(@capacitor/core@8.0.2)
+      '@capacitor/toast':
+        specifier: ^8.0.1
+        version: 8.0.1(@capacitor/core@8.0.2)
       '@hookform/resolvers':
         specifier: ^5.2.2
         version: 5.2.2(react-hook-form@7.71.1(react@19.2.3))
@@ -708,6 +714,11 @@ packages:
     peerDependencies:
       '@capacitor/core': ^8.0.0
 
+  '@capacitor/app@8.0.1':
+    resolution: {integrity: sha512-yeG3yyA0ETKqvgqexwHMBlmVOF13A1hRXzv/km0Ptv5TrNIZvZJK4MTI3uiqvnbHrzoJGP5DwWAjEXEfi90v3Q==}
+    peerDependencies:
+      '@capacitor/core': '>=8.0.0'
+
   '@capacitor/assets@3.0.5':
     resolution: {integrity: sha512-ohz/OUq61Y1Fc6aVSt0uDrUdeOA7oTH4pkWDbv/8I3UrPjH7oPkzYhShuDRUjekNp9RBi198VSFdt0CetpEOzw==}
     engines: {node: '>=10.3.0'}
@@ -743,6 +754,11 @@ packages:
 
   '@capacitor/status-bar@8.0.0':
     resolution: {integrity: sha512-aIj3bc7z8lfPgOen8HlrBrkfnxpFnh21OCx6jCUx4Mvv+B6eEkUQ49b32DOddgVfr+igRHLX2SYi7duqIsNDXg==}
+    peerDependencies:
+      '@capacitor/core': '>=8.0.0'
+
+  '@capacitor/toast@8.0.1':
+    resolution: {integrity: sha512-0uoyftoAeFjtOMiozBo7YXEo+zcpQCAxtBONSvrljJ05SKdlb1A8OFHaV/DZfIpGt+19kzUGaEaUemLdll4wUw==}
     peerDependencies:
       '@capacitor/core': '>=8.0.0'
 
@@ -7048,6 +7064,10 @@ snapshots:
     dependencies:
       '@capacitor/core': 8.0.2
 
+  '@capacitor/app@8.0.1(@capacitor/core@8.0.2)':
+    dependencies:
+      '@capacitor/core': 8.0.2
+
   '@capacitor/assets@3.0.5(@types/node@20.19.30)(typescript@5.9.3)':
     dependencies:
       '@capacitor/cli': 5.7.8
@@ -7134,6 +7154,10 @@ snapshots:
       '@capacitor/core': 8.0.2
 
   '@capacitor/status-bar@8.0.0(@capacitor/core@8.0.2)':
+    dependencies:
+      '@capacitor/core': 8.0.2
+
+  '@capacitor/toast@8.0.1(@capacitor/core@8.0.2)':
     dependencies:
       '@capacitor/core': 8.0.2
 
